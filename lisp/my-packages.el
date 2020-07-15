@@ -1,5 +1,3 @@
-(provide 'my-packages)
-
 (require 'package)
 (add-to-list 'package-archives
              ' ("melpa" . "https://melpa.org/packages/"))
@@ -18,3 +16,5 @@
 (dc-package evil-magit)
 (dc-package git-gutter)
 (dc-package gcmh)
+
+(provide 'my-packages)
