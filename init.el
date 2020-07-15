@@ -1,29 +1,11 @@
 (setq gc-cons-threshold most-positive-fixnum)
 
 (add-to-list 'load-path "~/projects/emacs-from-scratch.d/lisp")
-(require 'my-packages)
-
-;; use-package
-(eval-when-compile
-  (require 'use-package))
-
-;; packages
-(use-package gcmh
-  :config
-  (setq gcmh-idle-delay 5
-      gcmh-high-cons-threshold (* 16 1024 1024)))  ; 16mb
-
-(use-package evil
-  :config
-  (evil-mode 1))
-
-(use-package magit)
-(use-package evil-magit)
-(use-package git-gutter
-  :config
-  (global-git-gutter-mode t))
+(require 'my-packages) ;; declare packages
+(require 'config) ;; load and configure packages.
 
 (gcmh-mode)
+
 ;; To-dos:
 ;; Get rid of menu bar
 ;; Stop custom from doing things

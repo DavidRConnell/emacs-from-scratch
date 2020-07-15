@@ -1,3 +1,5 @@
+;;; Declare packages installed packages here.
+
 (require 'package)
 (add-to-list 'package-archives
              ' ("melpa" . "https://melpa.org/packages/"))
