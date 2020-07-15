@@ -17,3 +17,4 @@
 (dc-package magit)
 (dc-package evil-magit)
 (dc-package git-gutter)
+(dc-package gcmh)
