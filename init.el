@@ -11,8 +11,7 @@
 (use-package gcmh
   :config
   (setq gcmh-idle-delay 5
-      gcmh-high-cons-threshold (* 16 1024 1024)  ; 16mb
-      gcmh-verbose doom-debug-p))
+      gcmh-high-cons-threshold (* 16 1024 1024)))  ; 16mb
 
 (use-package evil
   :config
