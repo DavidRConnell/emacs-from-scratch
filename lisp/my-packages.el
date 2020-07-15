@@ -5,16 +5,16 @@
 (package-initialize)
 (package-refresh-contents)
 
-(defmacro dc-package (name)
+(defmacro my-add-package (name)
   "Install package NAME if it does hasn't already been installed"
   `(unless (package-installed-p ',name)
      (package-install ',name)))
 
-(dc-package use-package)
-(dc-package evil)
-(dc-package magit)
-(dc-package evil-magit)
-(dc-package git-gutter)
-(dc-package gcmh)
+(my-add-package use-package)
+(my-add-package evil)
+(my-add-package magit)
+(my-add-package evil-magit)
+(my-add-package git-gutter)
+(my-add-package gcmh)
 
 (provide 'my-packages)
