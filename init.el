@@ -1,4 +1,4 @@
-(add-to-list 'load-path "./lisp")
+(add-to-list 'load-path "~/projects/emacs-from-scratch.d/lisp")
 (require 'my-packages)
 
 ;; use-package
