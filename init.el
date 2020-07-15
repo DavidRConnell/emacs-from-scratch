@@ -1,4 +1,3 @@
-;; Package management
 (require 'package)
 (add-to-list 'package-archives
              ' ("melpa" . "https://melpa.org/packages/"))
@@ -6,12 +5,20 @@
 (package-initialize)
 (package-refresh-contents)
 
+;; use-package
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
+
 ;; evil
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 
-(require 'evil)
-(evil-mode 1)
+(use-package evil
+  :config
+  (evil-mode 1))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
