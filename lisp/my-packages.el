@@ -17,6 +17,7 @@
 (my-add-package magit)
 (my-add-package evil-magit)
 (my-add-package git-gutter)
+(my-add-package which-key)
 (my-add-package gcmh)
 
 (provide 'my-packages)

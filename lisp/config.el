@@ -20,4 +20,7 @@
   :config
   (global-git-gutter-mode t))
 
+(use-package which-key
+  :config (which-key-mode))
+
 (provide 'config)
