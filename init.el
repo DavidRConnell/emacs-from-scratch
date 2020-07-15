@@ -14,7 +14,7 @@
 (use-package evil-magit)
 (use-package git-gutter
   :config
-  (global-git-gutter-mode t)
+  (global-git-gutter-mode t))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
