@@ -1,6 +1,8 @@
 (setq gc-cons-threshold most-positive-fixnum)
 
-(add-to-list 'load-path "~/projects/emacs-from-scratch.d/lisp")
+(add-to-list 'load-path
+             (expand-file-name "lisp/" user-emacs-directory))
+
 (require 'my-packages) ;; declare packages
 (require 'config) ;; load and configure packages.
 
