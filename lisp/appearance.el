@@ -2,7 +2,7 @@
   (when (fboundp mode)
     (funcall mode -1)))
 
-(defun dc-set-theme (&optional type)
+(defun my-set-theme (&optional type)
   "Load a theme. Select a TYPE, light or dark."
   (interactive)
   (let ((light  'modus-operandi)
@@ -13,7 +13,7 @@
       (load-theme light t)
     (load-theme dark t))))
 
-(dc-set-theme 'light t)
+(my-set-theme 'light t)
 
 ;; Fonts
 ;; Mode line
