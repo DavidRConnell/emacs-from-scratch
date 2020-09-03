@@ -13,7 +13,7 @@
       (load-theme light t)
     (load-theme dark t))))
 
-(my-set-theme 'light t)
+(my-set-theme 'light)
 
 ;; Fonts
 ;; Mode line
