@@ -16,13 +16,9 @@ but not in config?"
      (package-install ',name)))
 
 (my-add-package use-package)
-(my-add-package evil)
-(my-add-package magit)
-(my-add-package evil-magit)
-(my-add-package git-gutter)
-(my-add-package which-key)
-(my-add-package modus-operandi-theme)
-(my-add-package modus-vivendi-theme)
+(eval-when-compile
+  (require 'use-package))
+
 ;; (my-add-package helpful)
 ;; (my-add-package elisp-demos)
 ;; (my-add-package elisp-def)
@@ -32,6 +28,5 @@ but not in config?"
 ;; (my-add-package lispyville)
 ;; (my-add-package overseer)
 ;; (my-add-package buttercup)
-(my-add-package gcmh)
 
 (provide 'packages)

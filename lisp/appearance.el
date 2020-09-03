@@ -2,6 +2,9 @@
   (when (fboundp mode)
     (funcall mode -1)))
 
+(my-add-package modus-operandi-theme)
+(my-add-package modus-vivendi-theme)
+
 (defvar my-light-theme 'modus-operandi
   "Default light theme.")
 (defvar my-dark-theme 'modus-vivendi

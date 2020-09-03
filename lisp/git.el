@@ -20,10 +20,17 @@
 ;;; Code:
 
 
-;; Magit
-;; evil magit
 ;; vc
 ;; time-machine
+(my-add-package magit)
+(my-add-package evil-magit)
+(my-add-package git-gutter)
+
+(use-package magit)
+(use-package evil-magit)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode t))
 
 (provide 'git)
 ;;; git.el ends here
