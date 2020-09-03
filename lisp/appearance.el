@@ -10,10 +10,10 @@
   (if (not type)
       (setq type (completing-read "Type: " '(light dark))))
   (if (eq type 'light)
-      (load-theme light)
-    (load-theme dark))))
+      (load-theme light t)
+    (load-theme dark t))))
 
-(dc-set-theme 'light)
+(dc-set-theme 'light t)
 
 ;; Fonts
 ;; Mode line
