@@ -3,8 +3,8 @@
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
-(require 'appearance)  ;; take care of general emacs stuff.
 (require 'packages)    ;; declare packages
+(require 'appearance)  ;; take care of general emacs stuff.
 (require 'config)      ;; load and configure packages.
 
 (gcmh-mode)
