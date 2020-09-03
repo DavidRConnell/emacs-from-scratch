@@ -2,16 +2,19 @@
   (when (fboundp mode)
     (funcall mode -1)))
 
+(defvar my-light-theme 'modus-operandi
+  "Default light theme.")
+(defvar my-dark-theme 'modus-vivendi
+  "Default dark theme.")
+
 (defun my-set-theme (&optional type)
   "Load a theme. Select a TYPE, light or dark."
   (interactive)
-  (let ((light  'modus-operandi)
-        (dark 'modus-vivendi))
   (if (not type)
       (setq type (completing-read "Type: " '(light dark))))
   (if (eq type 'light)
-      (load-theme light t)
-    (load-theme dark t))))
+      (load-theme my-light-theme t)
+    (load-theme my-dark-theme t)))
 
 (my-set-theme 'light)
 
