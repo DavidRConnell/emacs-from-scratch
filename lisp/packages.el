@@ -21,6 +21,8 @@ but not in config?"
 (my-add-package evil-magit)
 (my-add-package git-gutter)
 (my-add-package which-key)
+(my-add-package modus-operandi-theme)
+(my-add-package modus-vivendi-theme)
 ;; (my-add-package helpful)
 ;; (my-add-package elisp-demos)
 ;; (my-add-package elisp-def)
