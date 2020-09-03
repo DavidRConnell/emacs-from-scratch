@@ -4,6 +4,7 @@
 
 (defun dc-set-theme (&optional type)
   "Load a theme. Select a TYPE, light or dark."
+  (interactive)
   (let ((light  'modus-operandi)
         (dark 'modus-vivendi))
   (if (not type)
