@@ -3,13 +3,6 @@
 ;;   yas
 ;;   file-snippets or whatever it is. Let's make sure keeping good formed files.
 
-(my-add-package company)
-
-(my-add-package ivy)
-(my-add-package counsel)
-(my-add-package amx)
-(my-add-package ivy-posframe)
-
 (use-package ivy
   :config
   (setq ivy-mode 1)

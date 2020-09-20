@@ -22,10 +22,6 @@
 
 ;; vc
 ;; time-machine
-(my-add-package magit)
-(my-add-package evil-magit)
-(my-add-package git-gutter)
-
 (use-package magit)
 (use-package evil-magit)
 (use-package git-gutter

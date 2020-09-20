@@ -4,7 +4,6 @@
 ;;   sly/lisp editing set-up.
 ;;   undo-tree
 
-(my-add-package smartparens)
 (use-package smartparens)
 ;; (use-package helpful)
 ;; (use-package elisp-demos)

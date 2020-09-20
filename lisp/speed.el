@@ -1,7 +1,5 @@
 ;; speed up startup (it's already slow).
 
-(my-add-package gcmh) 
-
 (use-package gcmh
   :config
   (setq gcmh-idle-delay 5
