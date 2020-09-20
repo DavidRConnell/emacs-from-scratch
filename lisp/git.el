@@ -22,7 +22,11 @@
 
 ;; vc
 ;; time-machine
-(use-package magit)
+(use-package magit
+  :general
+  (general-nmap :prefix (concat dc-leader " g")
+		"s" #'magit-status))
+
 (use-package evil-magit)
 (use-package git-gutter
   :config
