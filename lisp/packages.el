@@ -17,14 +17,4 @@
 (eval-when-compile
   (require 'use-package))
 
-;; (my-add-package helpful)
-;; (my-add-package elisp-demos)
-;; (my-add-package elisp-def)
-;; (my-add-package macrostep)
-;; (my-add-package sly)
-;; (my-add-package lispy)
-;; (my-add-package lispyville)
-;; (my-add-package overseer)
-;; (my-add-package buttercup)
-
 (provide 'packages)
