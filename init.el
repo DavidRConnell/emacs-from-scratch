@@ -7,6 +7,7 @@
 (require 'appearance)  ;; take care of general emacs stuff.
 (require 'ui)
 (require 'git)
+(require 'development)
 (require 'completion)
 (require 'keybindings)
 (require 'speed)

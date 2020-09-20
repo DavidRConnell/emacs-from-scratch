@@ -3,3 +3,8 @@
 ;;   some sort of eval program
 ;;   sly/lisp editing set-up.
 ;;   undo-tree
+
+(my-add-package smartparens)
+(use-package smartparens)
+
+(provide 'development)
