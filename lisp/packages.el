@@ -1,21 +1,19 @@
 ;;; Declare packages installed packages here.
 
-(require 'package)
-(add-to-list 'package-archives
-             ' ("melpa" . "https://melpa.org/packages/"))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(package-initialize)
-(package-refresh-contents)
-
-(defmacro my-add-package (name)
-  "Install package NAME if it does hasn't already been installed.
-Is there a way to parse config to look for file names? Install those
-names if not installed and delete installed package that are installed
-but not in config?"
-  `(unless (package-installed-p ',name)
-     (package-install ',name)))
-
-(my-add-package use-package)
+(straight-use-package use-package)
 (eval-when-compile
   (require 'use-package))
 
