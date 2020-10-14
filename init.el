@@ -12,10 +12,5 @@
 (require 'completion)
 (require 'speed)
 
-;;; To-dos:
-;; Add org-mode for better to-do support.
-;; Finish setting up evil (see github)
-;; Packages:
-
 (provide 'init)
 ;;; init.el ends here
