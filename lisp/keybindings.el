@@ -7,13 +7,17 @@
   (defconst dc-leader "SPC")
   (defconst dc-local-leader ","))
 
+(winner-mode t)
 (use-package evil
   :general
   (general-nmap "J" #'evil-scroll-line-down
                 "K" #'evil-scroll-line-up
                 "H" #'evil-beginning-of-visual-line
                 "L" #'evil-end-of-line-or-visual-line
-                "gj" #'evil-join)
+                "gj" #'evil-join
+                :prefix "C-w"
+                "u" #'winner-undo
+                "C-r" #'winner-redo)
   :config
   (evil-mode 1))
 
