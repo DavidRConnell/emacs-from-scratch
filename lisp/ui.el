@@ -47,4 +47,7 @@
   :config
   (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
 
+(use-package rainbow-delimiters
+  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 (provide 'ui)
