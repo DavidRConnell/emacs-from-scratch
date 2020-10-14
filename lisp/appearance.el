@@ -1,7 +1,3 @@
-(dolist (mode '(tool-bar-mode blink-cursor-mode scroll-bar-mode))
-  (when (fboundp mode)
-    (funcall mode -1)))
-
 (use-package modus-operandi-theme)
 (use-package modus-vivendi-theme)
 
@@ -20,6 +16,8 @@
     (load-theme my-dark-theme t)))
 
 (my-set-theme 'light)
+
+(use-package delight)
 
 ;; Fonts
 ;; Mode line
