@@ -4,7 +4,14 @@
 ;;   sly/lisp editing set-up.
 ;;   undo-tree
 
-(use-package smartparens)
+(use-package smartparens
+  :config
+  (setq smartparens-strict-mode t)
+  (smartparens-global-mode)
+  (use-package evil-smartparens
+    :config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)))
+
+
 ;; (use-package helpful)
 ;; (use-package elisp-demos)
 ;; (use-package elisp-def)
