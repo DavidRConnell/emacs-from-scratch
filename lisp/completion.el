@@ -12,8 +12,9 @@
   (setq ivy-sort-max-size 7500)
   (require 'counsel nil t))
 
+(use-package amx
+  :config (amx-mode 1))
 
-(use-package amx)
 (use-package company)
 
 (provide 'completion)
