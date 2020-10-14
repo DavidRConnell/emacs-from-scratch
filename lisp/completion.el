@@ -15,6 +15,11 @@
 (use-package amx
   :config (amx-mode 1))
 
-(use-package company)
+(use-package company
+  :general
+  (general-imap "C-SPC" #'company-complete)
+  :config
+  (global-company-mode)
+  (use-package company-prescient))
 
 (provide 'completion)
