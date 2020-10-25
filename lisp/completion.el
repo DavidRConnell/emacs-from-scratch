@@ -36,10 +36,19 @@
   :config (amx-mode 1))
 
 (use-package company
+  :delight
   :general
   (general-imap "C-SPC" #'company-complete)
+  (:keymaps 'company-active-map
+	      "C-w" nil
+	      "C-n" #'company-select-next
+	      "C-p" #'company-select-previous
+	      "C-s" #'company-filter-candidates
+	      "C-i" #'company-complete
+	      "C-SPC" #'company-complete-common-or-cycle)
   :config
   (global-company-mode)
+  (setq company-idle-delay 0)
   (use-package company-prescient))
 
 (provide 'completion)
