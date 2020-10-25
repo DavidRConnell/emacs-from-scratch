@@ -21,5 +21,6 @@
 
 ;; Fonts
 ;; Mode line
+(blink-cursor-mode -1)
 
 (provide 'appearance)
