@@ -19,6 +19,7 @@
 ;;
 ;;; Code:
 
+(setq gc-cons-threshold most-positive-fixnum)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(font . "Hack Nerd Font Mono-14") default-frame-alist)

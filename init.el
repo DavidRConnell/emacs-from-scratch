@@ -1,5 +1,3 @@
-(setq gc-cons-threshold most-positive-fixnum)
-
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
