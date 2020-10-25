@@ -22,5 +22,6 @@
 ;; Fonts
 ;; Mode line
 (blink-cursor-mode -1)
+(global-display-fill-column-indicator-mode t)
 
 (provide 'appearance)
