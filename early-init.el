@@ -22,10 +22,10 @@
 (setq gc-cons-threshold most-positive-fixnum)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(menu-bar-lines . 0) default-frame-alist)
-(push '(font . "Hack Nerd Font Mono-14") default-frame-alist)
-
 (blink-cursor-mode -1)
 (scroll-bar-mode -1)
+(push '(font . "-*-Hack Nerd Font Mono-*-*-*-*-16-*-*-*-*-*-*-*")
+      default-frame-alist)
 
 (setq inhibit-startup-screen t)
 
