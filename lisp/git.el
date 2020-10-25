@@ -23,9 +23,12 @@
 ;; vc
 ;; time-machine
 (use-package magit
+  :commands magit-status
   :general
   (general-nmap :prefix (concat dc-leader " g")
-		"s" #'magit-status))
+    "s" #'magit-status)
+  :config
+  (advice-add 'magit-status :after #'delete-other-windows)
   (use-package evil-magit))
 
 (use-package git-gutter
