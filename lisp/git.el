@@ -19,21 +19,34 @@
 ;;
 ;;; Code:
 
-
-;; vc
-;; time-machine
 (use-package magit
-  :commands magit-status
+  :commands (magit-status magit-status-here)
   :general
-  (general-nmap :prefix (concat dc-leader " g")
-    "s" #'magit-status)
+  (my-leader-def
+   :infix "g"
+   "s" #'magit-status-here)
+  :init
+  (setq transient-history-file
+        (expand-file-name "transient/history.el" my-var-dir))
   :config
   (advice-add 'magit-status :after #'delete-other-windows)
   (use-package evil-magit))
 
 (use-package git-gutter
   :config
-  (global-git-gutter-mode t))
+  (global-git-gutter-mode t)
+  (use-package git-gutter-fringe)
+  (setq-local git-gutter:init-function      #'git-gutter-fr:init
+	      git-gutter:view-diff-function #'git-gutter-fr:view-diff-infos
+	      git-gutter:clear-function     #'git-gutter-fr:clear
+	      git-gutter:window-width -1)
+  (fringe-mode '4)
+  (define-fringe-bitmap 'git-gutter-fr:added [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224]
+    nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
+    nil nil 'bottom))
 
 (provide 'git)
 ;;; git.el ends here
