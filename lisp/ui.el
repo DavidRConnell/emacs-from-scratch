@@ -18,7 +18,6 @@
 	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 	avy-enter-times-out t
 	avy-timeout-seconds 1
-	aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 	avy-flyspell-correct-function #'flyspell-correct-at-point)
 
   (defun dc-avy-action-kill-move (pt)
@@ -47,7 +46,8 @@
   :general (general-nmap :prefix "C-w"
 	     "C-w" #'ace-window
 	     "C-c" #'ace-delete-window)
-  :config (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
+  :config (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
+		aw-scope 'frame))
 
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
