@@ -79,19 +79,34 @@
   :config (amx-mode 1))
 
 (use-package company
-  :delight
   :general
-  (general-imap "C-SPC" #'company-complete)
-  (:keymaps 'company-active-map
-	      "C-w" nil
-	      "C-n" #'company-select-next
-	      "C-p" #'company-select-previous
-	      "C-s" #'company-filter-candidates
-	      "C-i" #'company-complete
-	      "C-SPC" #'company-complete-common-or-cycle)
+  (general-imap
+    "C-SPC" #'company-complete
+    "C-n"   #'company-dabbrev
+    "C-f"   #'company-files
+    "C-s"   #'company-ispell)
+  (general-define-key
+   :keymaps 'company-active-map
+   "C-w" nil
+   "C-n" #'company-select-next
+   "C-p" #'company-select-previous
+   "C-h" #'company-show-doc-buffer
+   "C-s" #'company-filter-candidates
+   "C-i" #'company-complete-selection
+   "C-SPC" #'company-complete-common-or-cycle)
+  (general-define-key
+   :keymaps 'company-search-map
+   "C-n" #'company-select-next-or-abort
+   "C-p" #'company-select-previous-or-abort)
   :config
   (global-company-mode)
-  (setq company-idle-delay 0)
-  (use-package company-prescient))
+  (setq company-idle-delay 0
+	company-minimum-prefix-length 2)
+  (use-package company-quickhelp
+    :disabled
+    :hook (company-mode . company-quickhelp-mode))
+  (use-package company-prescient
+    :hook (company-mode . company-prescient-mode)))
+
 
 (provide 'completion)
