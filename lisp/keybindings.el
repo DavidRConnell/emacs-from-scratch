@@ -7,10 +7,12 @@
 (use-package general
   :config (general-evil-setup)
   (general-create-definer my-leader-def
-    :wrapping general-nvmap
+    :states '(normal visual motion)
+    :keymaps 'override
     :prefix "SPC")
   (general-create-definer my-local-leader-def
-    :wrapping general-nvmap
+    :states '(normal visual motion)
+    :keymaps 'override
     :prefix "C-SPC"))
 
 (winner-mode t)
