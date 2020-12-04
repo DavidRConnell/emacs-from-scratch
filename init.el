@@ -1,6 +1,7 @@
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
+(require 'variables)
 (require 'packages)    ;; declare packages
 (require 'keybindings)
 (require 'appearance)  ;; take care of general emacs stuff.

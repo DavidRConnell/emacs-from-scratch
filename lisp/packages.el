@@ -1,6 +1,6 @@
 ;;; Declare packages installed packages here.
 
-(setq straight-base-dir "~/.cache/emacs")
+(setq straight-base-dir my-cache-dir)
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
