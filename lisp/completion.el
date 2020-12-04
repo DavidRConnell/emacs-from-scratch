@@ -1,22 +1,65 @@
+;;; completion --- Setup completion types -*- lexical-binding: t -*-
 ;;   counsel/ivy
 ;;   company
 ;;   yas
 ;;   file-snippets or whatever it is. Let's make sure keeping good formed files.
+;;; Commentary:
+;;; Code:
 
 (use-package prescient
+  :init (setq prescient-save-file (expand-file-name
+                                   "prescient-save.el" my-var-dir))
   :config
   (prescient-persist-mode +1))
 
 (use-package selectrum
+  :general
+  (general-define-key
+   :keymaps 'global
+   "C-c C-r" #'selectrum-repeat)
+  (general-define-key
+   :keymaps 'selectrum-minibuffer-map
+   "C-w" #'evil-delete-backward-word)
   :config
-  (use-package selectrum-prescient)
+  (setq selectrum-num-candidates-displayed 10)
   (selectrum-mode +1)
-  (selectrum-prescient-mode +1))
+
+  (use-package selectrum-prescient
+    :after prescient
+    :config
+    (selectrum-prescient-mode +1))
+
+  (use-package consult
+    :straight '(consult :type git :host github :repo "minad/consult")
+    :general
+    ;; (general-define-key
+    ;;  :states '(normal visual motion)
+    ;;  "/" #'consult-line
+    ;;  "gn" #'consult-line-symbol-at-point)
+    (my-leader-def
+      "b" #'consult-buffer)
+    :config
+    (setf (alist-get 'execute-extended-command consult-annotate-alist)
+	  #'consult-annotate-command-full)))
 
 (use-package mini-frame
+  :init (setq mini-frame-show-parameters
+	      '((top . 0.33) (width . 0.7) (left . 0.5)))
   :config
   (mini-frame-mode +1)
-  (setq mini-frame-show-parameters '((top . 0.25) (width . 0.7) (left . 0.5))))
+  (define-advice fit-frame-to-buffer (:around (f &rest args) dont-skip-ws-for-mini-frame)
+    (cl-letf* ((orig (symbol-function #'window-text-pixel-size))
+	       ((symbol-function #'window-text-pixel-size)
+		(lambda (win from to &rest args)
+		  (apply orig
+			 (append (list win from
+				       (if (and (window-minibuffer-p win)
+						(frame-root-window-p win)
+						(eq t to))
+					   nil
+					 to))
+				 args)))))
+      (apply f args))))
 
 (use-package ctrlf
   :config
