@@ -34,7 +34,6 @@
   (unless (file-exists-p dir)
     (make-directory dir)))
 
-(defvar my-dotfiles-dir "~/projects/emacs-from-scratch.d/")
 (defvar my-notes-dir "~/notes/")
 (defvar my-zettle-dir (expand-file-name "zettle/" my-notes-dir))
 (defvar my-refs-notes-dir (expand-file-name "references/" my-zettle-dir))

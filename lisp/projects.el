@@ -11,7 +11,7 @@
   (my-leader-def
     "," #'projectile-run-vterm
     "." (lambda () (interactive)
-	  (projectile-find-file-in-directory my-dotfiles-dir)))
+	  (projectile-find-file-in-directory user-emacs-directory)))
   :init
   (projectile-mode +1)
   (setq projectile-completion-system 'default
