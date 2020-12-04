@@ -86,7 +86,7 @@
   :config (amx-mode 1))
 
 (use-package company
-  :general
+  :config
   (general-imap
     "C-SPC" #'company-complete
     "C-n"   #'company-dabbrev
@@ -105,7 +105,6 @@
    :keymaps 'company-search-map
    "C-n" #'company-select-next-or-abort
    "C-p" #'company-select-previous-or-abort)
-  :config
   (global-company-mode)
   (setq company-idle-delay 0
 	company-minimum-prefix-length 2)
