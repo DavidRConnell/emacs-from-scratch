@@ -62,6 +62,10 @@
       (apply f args))))
 
 (use-package ctrlf
+  :general (general-nmap
+	     "/" #'ctrlf-forward-fuzzy-regexp
+	     "?" #'ctrlf-backward-fuzzy-regexp
+	     "g*" #'ctrlf-forward-symbol-at-point)
   :config
   (ctrlf-mode +1))
 
