@@ -10,6 +10,7 @@
 (require 'projects)
 (require 'development)
 (require 'completion)
+(require 'settings)
 (require 'speed)
 
 (let ((inhibit-message t))
