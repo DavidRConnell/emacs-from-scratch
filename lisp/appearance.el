@@ -29,31 +29,35 @@
 (general-nmap :prefix "C-h" "t" #'my-toggle-theme)
 
 (defun my-mode-line-fill ()
-  "Do stuff"
+  "Return a string of white space to right align the rest of the mode line."
   (let* ((line-num-len (+ 4 1 3))
-	 (perc-len 6)
-	 (spaces (- (window-total-width)
-		 (+ 2 (length (buffer-name))
-		    (length (format "%s" mode-name))
-		    1 line-num-len 1 perc-len))))
+         (perc-len (length "bottom"))
+         (spaces (- (window-total-width)
+                    (+ 2 (length (buffer-name))
+                       (length (format "%s" mode-name))
+                       1 line-num-len 1 perc-len 2))))
     (make-string spaces ? )))
 
-(setq-default mode-line-format
-	      '((:eval
-		 (propertize "  %b" 'face
-				   (if (buffer-modified-p)
-				       'success
-				     'nil)))
-		(:eval (propertize (my-mode-line-fill)))
-		(:propertize "%m")
-		(:propertize " %4l:")
-		(:eval (propertize "%3c" 'face
-				   (if (>= (current-column) fill-column)
-				       'warning
-				     'nil)))
-		(:propertize " %p")))
+;; (setq-default mode-line-format
+;;               '((:eval
+;;                  (propertize "  %b" 'face
+;;                              (if (buffer-modified-p)
+;;                                  'success
+;;                                'nil)))
+;;                 (:eval (propertize (my-mode-line-fill)))
+;;                 (:propertize "%m")
+;;                 (:propertize " %4l:")
+;;                 (:eval (propertize "%3c" 'face
+;;                                    (if (>= (current-column) fill-column)
+;;                                        'warning
+;;                                      'nil)))
+;;                 (:propertize " %p")))
 
+(setq-default mode-line-format nil)
 (blink-cursor-mode -1)
 (global-display-fill-column-indicator-mode t)
+(show-paren-mode t)
+
+(require 'mode-line)
 
 (provide 'appearance)

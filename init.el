@@ -10,5 +10,9 @@
 (require 'completion)
 (require 'speed)
 
+(let ((inhibit-message t))
+  (message (format "Initialization time: %s"
+                 (emacs-init-time))))
+
 (provide 'init)
 ;;; init.el ends here
