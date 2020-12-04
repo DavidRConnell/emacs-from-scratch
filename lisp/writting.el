@@ -1,16 +1,10 @@
+;;; writting.el --- packages for writting
 ;;   spell-checker. Should work with magit.
-;;   grammar?
-;;   babel
-;;   ox
-;;   ox-hugo
-;;   ox-word
-;;   Set up new notes (org?) directory with zettle and reference subdirs.
-;;   Use referenece subdir for reference notes not actual papers.
-;;   Add elfeed org
 ;;   Deft
 ;;; Code:
 
 (use-package org
+  :straight org-plus-contrib
   :config
   (add-hook 'org-mode-hook #'org-indent-mode)
   (add-hook 'org-mode-hook #'turn-on-visual-line-mode)
@@ -34,6 +28,8 @@
    '((R . t)
      (python . t)))
 
+  (use-package ob-async)
+
   (use-package org-superstar
     :hook (org-mode . org-superstar-mode)
     :config
@@ -50,6 +46,60 @@
     :hook (org-mode . evil-org-mode)
     :config
     (add-hook 'evil-org-mode-hook #'evil-org-set-key-theme))
+
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    "t" #'org-todo)
+
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    :infix "l"
+    :which-key "links"
+    "i" #'org-id-store-link
+    "l" #'org-insert-link
+    "L" #'org-insert-all-links
+    "s" #'org-store-link
+    "S" #'org-insert-last-stored-link
+    "t" #'org-toggle-link-display)
+
+  (use-package ox-clip)
+
+  (use-package org-cliplink
+    :general
+    (my-local-leader-def
+      :keymaps 'org-mode-map
+      "c" #'org-cliplink))
+
+  (use-package ox-hugo
+    :after ox
+    :config
+    (setq org-hugo-use-code-for-kbd t
+	  org-blackfriday--org-element-string '((src-block . "Listing")
+						(table . "Table")
+						(figure . "Figure")))
+
+    (defun org-ref-cref-export (keyword desc format)
+    "cref link export function.
+See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
+    (cond
+     ((eq format 'latex) (format "\\cref{%s}" keyword))
+     ;; considering the fact that latex's the standard of math formulas, just use
+     ;;mathjax to render the html customize the variable
+     ;;'org-html-mathjax-template' and 'org-html-mathjax-options' referring to
+     ;;'autonumber'
+     ((or (eq format 'md) (eq format 'html))
+      (let (type)
+        (when (string-match "\\(.*\\):.*" keyword)
+          (setq type (match-string 1 keyword))
+          (cond
+           ((string= type "eq")
+            (format "eq \\ref{%s}" keyword)))))))))
+
+  (use-package ox
+    :straight nil
+    :config
+    (require 'ox-extra)
+    (ox-extras-activate '(ignore-headlines)))
 
   (use-package org-roam
     :init (setq org-roam-directory my-zettle-dir
@@ -149,8 +199,8 @@
   (use-package org-ref
     :general
     (general-imap
-     :keymaps 'org-mode-map
-     "C-]" #'org-ref-insert-link)
+      :keymaps 'org-mode-map
+      "C-]" #'org-ref-insert-link)
     (my-local-leader-def
       :keymaps 'org-mode-map
       :infix "e"
@@ -174,7 +224,11 @@
 			  (concat key ".pdf"))))
 	      (if (= 1 (length files))
 		  (car files)
-		(completing-read "Choose: " files))))))
+		(completing-read "Choose: " files)))))
+
+    ;; TODO: move into it's own package.
+    (load "~/.doom.d/extras/+ox-word.el"))
+
 
   (use-package bibtex
     :config
