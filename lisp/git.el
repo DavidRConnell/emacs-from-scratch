@@ -20,11 +20,12 @@
 ;;; Code:
 
 (use-package magit
-  :commands (magit-status magit-status-here)
   :general
   (my-leader-def
    :infix "g"
-   "s" #'magit-status-here)
+   "s" #'magit-status-here
+   "d" #'magit-diff-buffer-file
+   "r" #'git-gutter:revert-hunk)
   :init
   (setq transient-history-file
         (expand-file-name "transient/history.el" my-var-dir))

@@ -21,5 +21,22 @@
 
 ;; elfeed
 
+(use-package elfeed
+  :general
+  (my-leader-def
+    "e" #'elfeed)
+  (general-define-key
+   :keymaps 'elfeed-show-mode-map
+   "gr" #'elfeed-update)
+  :config
+  (setq elfeed-db-directory
+	(expand-file-name "elfeed/db/" my-cache-dir)
+	elfeed-enclusure-default-dir
+	(expand-file-name "elfeed/enclusures/" my-cache-dir)
+	elfeed-search-filter "@2-week-ago")
+  (use-package elfeed-org
+    :preface
+    (setq rmh-elfeed-org-files (list "~/org/elfeed.org"))))
+
 (provide 'rss)
 ;;; rss.el ends here
