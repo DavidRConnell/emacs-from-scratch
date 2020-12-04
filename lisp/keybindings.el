@@ -47,7 +47,7 @@
     :config (evil-collection-init))
 
   (use-package evil-nerd-commenter
-    :commands evilnc-comment-or-uncomment-lines
+    :commands (evilnc-comment-or-uncomment-lines evilnc-comment-operator)
     :general
     (general-nmap
       :prefix "g"
