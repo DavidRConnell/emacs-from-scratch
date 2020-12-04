@@ -2,24 +2,25 @@
   :config (which-key-mode))
 
 (use-package evil-easymotion
-  :general
-  (general-omap
-    "j" #'evilem-motion-next-line
-    "k" #'evilem-motion-previous-line))
+  :general (general-omap
+	     "j" #'evilem-motion-next-line
+	     "k" #'evilem-motion-previous-line))
 
 (use-package avy
-  :general
-  (general-nmap
-    "C-f" #'evil-avy-goto-char-in-line
-    "C-/" #'evil-avy-goto-char-timer)
+  :general (general-define-key
+	    :keymaps '(normal operator)
+	    "C-/" #'evil-avy-goto-char-timer
+	    "f" #'evil-avy-goto-char-in-line
+	    "t"
+	    #'(lambda () (interactive) (evil-avy-goto-char-in-line)))
   :config
-  (setq avy-keys-alist
-        '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s))))
-  (setq avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s))
-  (setq avy-enter-times-out t)
-  (setq avy-timeout-seconds 1)
-  (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s))
-  (setq avy-flyspell-correct-function #'flyspell-correct-at-point)
+  (setq avy-keys-alist '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s)))
+	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
+	avy-enter-times-out t
+	avy-timeout-seconds 1
+	aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
+	avy-flyspell-correct-function #'flyspell-correct-at-point)
+
   (defun dc-avy-action-kill-move (pt)
     "Kill sexp at PT and move there."
     (goto-char pt)
@@ -39,13 +40,14 @@
           (?i . avy-action-ispell)
           (?z . avy-action-zap-to-char))))
 
+(use-package evil-exchange
+  :general (general-nmap "gx" #'evil-exchange))
+
 (use-package ace-window
-  :general
-  (general-nmap
-    :prefix "C-w"
-    "C-w" #'ace-window)
-  :config
-  (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
+  :general (general-nmap :prefix "C-w"
+	     "C-w" #'ace-window
+	     "C-c" #'ace-delete-window)
+  :config (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
 
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
