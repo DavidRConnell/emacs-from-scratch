@@ -2,10 +2,13 @@
 ;;   evil
 
 (use-package general
-  :config
-  (general-evil-setup)
-  (defconst dc-leader "SPC")
-  (defconst dc-local-leader ","))
+  :config (general-evil-setup)
+  (general-create-definer my-leader-def
+    :wrapping general-nvmap
+    :prefix "SPC")
+  (general-create-definer my-local-leader-def
+    :wrapping general-nvmap
+    :prefix "C-SPC"))
 
 (winner-mode t)
 (use-package evil
