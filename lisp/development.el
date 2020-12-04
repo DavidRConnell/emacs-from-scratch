@@ -64,6 +64,40 @@
          . lispy-mode)
   :config (use-package lispyville :hook (lispy-mode-hook . lispyville-mode)))
 
+(use-package polymode
+  :after org
+  :config
+  (use-package poly-org
+    :hook (org-mode . poly-org-mode)))
+
+(use-package lsp-mode
+  :commands lsp-mode)
+
+(use-package ess
+  :mode ("\\.r\\'" . ess-r-mode)
+  :hook (ess-r-mode . lsp-mode)
+  :general
+  (general-define-key
+   :keymaps 'ess-r-mode-map
+   "C-c C-c" #'ess-eval-region-or-function-or-paragraph)
+  :config
+  (add-hook 'ess-r-mode-hook
+	    (lambda () (interactive)
+	      (setq-local company-backends '(company-R-args
+					     company-R-objects
+					     company-dabbrev-code))))
+  (setq ess-offset-continued 'straight
+	ess-nuke-trailing-whitespace-p t
+	ess-style 'DEFAULT
+	ess-history-directory (expand-file-name "ess-history/" my-cache-dir))
+  (use-package ess-R-data-view))
+
+(use-package python
+  :hook (python-mode . lsp-mode)
+  :config
+  (setq lsp-clients-python-library-directories
+	'("/usr/" "~/.local/python3.8/site-packages/")))
+
 ;; (use-package overseer)
 ;; (use-package buttercup)
 
