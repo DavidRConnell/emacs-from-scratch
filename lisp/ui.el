@@ -67,4 +67,14 @@
         undo-tree-history-directory-alist
         `(("." . ,(concat my-cache-dir "undo-tree-hist/")))))
 
+(use-package link-hint
+  :general
+  (general-nmap
+    "M-/" #'link-hint-open-link
+    "M-?" #'link-hint-copy-link))
+
+(use-package vterm
+  :general
+  (my-leader-def
+    "," #'vterm))
 (provide 'ui)
