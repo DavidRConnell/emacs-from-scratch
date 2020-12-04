@@ -9,6 +9,7 @@
 (require 'git)
 (require 'projects)
 (require 'development)
+(require 'writting)
 (require 'completion)
 (require 'settings)
 (require 'speed)
