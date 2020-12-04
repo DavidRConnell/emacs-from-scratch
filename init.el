@@ -11,6 +11,7 @@
 (require 'development)
 (require 'writting)
 (require 'completion)
+(require 'rss)
 (require 'settings)
 (require 'speed)
 

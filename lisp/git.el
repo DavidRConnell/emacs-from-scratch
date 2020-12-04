@@ -30,8 +30,7 @@
   (setq transient-history-file
         (expand-file-name "transient/history.el" my-var-dir))
   :config
-  (advice-add 'magit-status :after #'delete-other-windows)
-  (use-package evil-magit))
+  (advice-add 'magit-status :after #'delete-other-windows))
 
 (use-package git-gutter
   :config
