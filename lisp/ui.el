@@ -52,4 +52,19 @@
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package undo-tree
+  :hook ((prog-mode text-mode) . undo-tree-mode)
+  :general
+  (general-nmap
+    "U" #'undo-tree-visualize)
+  :config
+  (setq undo-tree-visualizer-diff t
+        undo-tree-auto-save-history t
+        undo-tree-enable-undo-in-region t
+        undo-limit 800000
+        undo-strong-limit 12000000
+        undo-outer-limit 120000000
+        undo-tree-history-directory-alist
+        `(("." . ,(concat my-cache-dir "undo-tree-hist/")))))
+
 (provide 'ui)

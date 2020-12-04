@@ -1,5 +1,8 @@
-;;   general   for binding keys also look into use-package's method might not be needed.
-;;   evil
+;;; package --- for general key bindings
+;;; Commentary:
+;; also look into use-package's method might not be needed.
+;; evil
+;;; Code
 
 (use-package general
   :config (general-evil-setup)
@@ -12,8 +15,10 @@
 
 (winner-mode t)
 (use-package evil
-  :init (setq evil-want-keybinding nil
-              evil-respect-visual-line-mode t)
+  :preface (setq evil-undo-system 'undo-tree)
+  :init
+  (setq evil-want-keybinding nil
+	evil-respect-visual-line-mode t)
   :general
   (general-nmap
     "J" #'evil-scroll-line-down
