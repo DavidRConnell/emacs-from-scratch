@@ -45,6 +45,8 @@
   (setq evil-echo-area-message nil
         evil-echo-state nil)
 
+  (setq evil-ex-search-vim-style-regexp t)
+
   (use-package evil-collection
     :config (evil-collection-init))
 
