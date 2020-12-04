@@ -32,15 +32,14 @@
   (use-package consult
     :straight '(consult :type git :host github :repo "minad/consult")
     :general
-    ;; (general-define-key
-    ;;  :states '(normal visual motion)
-    ;;  "/" #'consult-line
-    ;;  "gn" #'consult-line-symbol-at-point)
+    (general-define-key
+     :states '(normal visual motion)
+     :jump t
+     "/" #'consult-line
+     "gn" #'consult-line-symbol-at-point)
     (my-leader-def
-      "b" #'consult-buffer)
-    :config
-    (setf (alist-get 'execute-extended-command consult-annotate-alist)
-	  #'consult-annotate-command-full)))
+      :jump t
+      "b" #'consult-buffer)))
 
 (use-package mini-frame
   :init (setq mini-frame-show-parameters
@@ -62,6 +61,7 @@
       (apply f args))))
 
 (use-package ctrlf
+  :disabled
   :general (general-nmap
 	     "/" #'ctrlf-forward-fuzzy-regexp
 	     "?" #'ctrlf-backward-fuzzy-regexp
