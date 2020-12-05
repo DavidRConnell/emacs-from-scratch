@@ -21,7 +21,7 @@
   :init
   (setq evil-want-keybinding nil
 	evil-respect-visual-line-mode t)
-  :general
+  :config
   (general-nmap
     "J" #'evil-scroll-line-down
     "K" #'evil-scroll-line-up
@@ -40,7 +40,6 @@
   (general-omap
     "j" #'avy-goto-line-below
     "k" #'avy-goto-line-above)
-  :config
   (evil-mode 1)
   (setq evil-echo-area-message nil
         evil-echo-state nil)
