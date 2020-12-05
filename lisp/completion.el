@@ -13,14 +13,15 @@
   (prescient-persist-mode +1))
 
 (use-package selectrum
-  :general
+  :config
   (general-define-key
    :keymaps 'global
    "C-c C-r" #'selectrum-repeat)
   (general-define-key
    :keymaps 'selectrum-minibuffer-map
-   "C-w" #'evil-delete-backward-word)
-  :config
+   "C-w" #'evil-delete-backward-word
+   "C-u" #'evil-delete-back-to-indentation)
+
   (setq selectrum-num-candidates-displayed 10)
   (selectrum-mode +1)
 
