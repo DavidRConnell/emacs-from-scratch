@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package org
+  :commands org-mode
   :straight org-plus-contrib
   :config
   (add-hook 'org-mode-hook #'org-indent-mode)
