@@ -86,21 +86,21 @@
 						(figure . "Figure")))
 
     (defun org-ref-cref-export (keyword desc format)
-    "cref link export function.
+      "cref link export function.
 See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
-    (cond
-     ((eq format 'latex) (format "\\cref{%s}" keyword))
-     ;; considering the fact that latex's the standard of math formulas, just use
-     ;;mathjax to render the html customize the variable
-     ;;'org-html-mathjax-template' and 'org-html-mathjax-options' referring to
-     ;;'autonumber'
-     ((or (eq format 'md) (eq format 'html))
-      (let (type)
-        (when (string-match "\\(.*\\):.*" keyword)
-          (setq type (match-string 1 keyword))
-          (cond
-           ((string= type "eq")
-            (format "eq \\ref{%s}" keyword)))))))))
+      (cond
+       ((eq format 'latex) (format "\\cref{%s}" keyword))
+       ;; considering the fact that latex's the standard of math formulas, just use
+       ;;mathjax to render the html customize the variable
+       ;;'org-html-mathjax-template' and 'org-html-mathjax-options' referring to
+       ;;'autonumber'
+       ((or (eq format 'md) (eq format 'html))
+	(let (type)
+	  (when (string-match "\\(.*\\):.*" keyword)
+	    (setq type (match-string 1 keyword))
+	    (cond
+	     ((string= type "eq")
+	      (format "eq \\ref{%s}" keyword)))))))))
 
   (use-package ox
     :straight nil
@@ -110,14 +110,14 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 
   (use-package org-roam
     :init (setq org-roam-directory my-zettle-dir
-                org-roam-db-location (expand-file-name "org-roam-db"
-                                                       my-cache-dir))
+		org-roam-db-location (expand-file-name "org-roam-db"
+						       my-cache-dir))
     :hook (org-mode . org-roam-mode)
     :general
     (my-leader-def
-     :infix "z"
-     "g" #'org-roam-find-file
-     "x" #'org-roam-capture)
+      :infix "z"
+      "g" #'org-roam-find-file
+      "x" #'org-roam-capture)
     (my-local-leader-def
       :keymaps 'org-mode-map
       :infix "m"
@@ -136,6 +136,20 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 		     (not (eq 'visible (org-roam-buffer--visibility))))
 		    (with-current-buffer (window-buffer)
 		      (org-roam-buffer--get-create)))))
+
+    ;;; Need to find an appropriate hook
+    ;; (add-hook 'minibuffer-exit-hook
+    ;; 	      (defun my-toggle-org-roam-buffer ()
+    ;; 		(cond
+    ;; 		 ((and (eq 'visible (org-roam-buffer--visibility))
+    ;; 		       (not (org-roam-db-has-file-p
+    ;; 			     (buffer-file-name (window-buffer)))))
+    ;; 		  (org-roam-buffer-deactivate))
+    ;; 		 ((and (not (eq 'visible
+    ;; 				(org-roam-buffer--visibility)))
+    ;; 		       (org-roam-db-has-file-p
+    ;; 			(buffer-file-name (window-buffer))))
+    ;; 		  (org-roam-buffer-activate)))))
 
     (setq org-roam-graph-viewer "/usr/bin/qutebrowser"
 	  org-roam-completion-everywhere t
@@ -201,7 +215,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    org-roam-server-network-arrows nil
 	    org-roam-server-network-label-truncate t
 	    org-roam-server-network-label-truncate-length 60
-	    org-roam-server-network-label-wrap-length 20))))
+	    org-roam-server-network-label-wrap-length 20)))
 
   (use-package org-ref
     :config
@@ -270,11 +284,12 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       :general
       (my-leader-def
 	:infix "d"
-	"w" #'wordnut-search)))
-  ;; (use-package org-journal)
-  ;; (use-package org-drill)
-  ;; (use-package deft)
-  ;; (use-package ebib))
+	"w" #'wordnut-search))))
+
+;; (use-package org-journal)
+;; (use-package org-drill)
+;; (use-package deft)
+;; (use-package ebib))
 
 (provide 'writting)
 ;;; writting ends here
