@@ -6,6 +6,11 @@
 (use-package org
   :commands org-mode
   :straight org-plus-contrib
+  :general
+  (my-leader-def
+    :infix "z"
+    "g" #'org-roam-find-file
+    "x" #'org-roam-capture)
   :config
   (add-hook 'org-mode-hook #'org-indent-mode)
   (add-hook 'org-mode-hook #'turn-on-visual-line-mode)
