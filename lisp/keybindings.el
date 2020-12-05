@@ -22,6 +22,8 @@
   (setq evil-want-keybinding nil
 	evil-respect-visual-line-mode t)
   :config
+  (general-imap
+    "C-u" #'evil-delete-back-to-indentation)
   (general-nmap
     "J" #'evil-scroll-line-down
     "K" #'evil-scroll-line-up
@@ -36,7 +38,8 @@
     "b" #'switch-to-buffer
     "w" #'save-buffer
     "q" #'evil-delete-buffer
-    "o" #'find-file)
+    "o" #'find-file
+    ";" #'eval-expression)
   (general-omap
     "j" #'avy-goto-line-below
     "k" #'avy-goto-line-above)
