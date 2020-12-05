@@ -73,6 +73,16 @@
 	    (if gui
 		(propertize " "   'face 'nano-face-header-separator)))))
 
+(defun nano-modeline-org-roam-mode-p ()
+  (and  (bound-and-true-p org-roam-mode)
+	(org-roam-db-has-file-p (buffer-file-name (window-buffer)))))
+
+(defun nano-modeline-org-roam-mode ()
+  (nano-modeline-compose (nano-modeline-status)
+			 (org-roam-db--get-title (buffer-file-name
+						  (window-buffer)))
+			 "(Org-roam)"
+			 ""))
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-mu4e-dashboard-mode-p ()
   (bound-and-true-p mu4e-dashboard-mode))
@@ -369,7 +379,8 @@
 	   ((nano-modeline-docview-mode-p)         (nano-modeline-docview-mode))
 	   ((nano-modeline-completion-list-mode-p) (nano-modeline-completion-list-mode))
 	   ((nano-modeline-message-mode-p)          (nano-modeline-mssage-mode))
-           (t                                      (nano-modeline-default-mode)))))))
+	   ((nano-modeline-org-roam-mode-p) (nano-modeline-org-roam-mode))
+	   (t                                      (nano-modeline-default-mode)))))))
 
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-update-windows ()
