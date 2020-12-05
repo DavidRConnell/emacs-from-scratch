@@ -68,6 +68,7 @@
     :general
     (my-local-leader-def
       :keymaps 'org-mode-map
+      :infix "l"
       "c" #'org-cliplink))
 
   (use-package ox-hugo
