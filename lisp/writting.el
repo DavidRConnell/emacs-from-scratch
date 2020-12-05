@@ -199,7 +199,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    org-roam-server-network-label-wrap-length 20))))
 
   (use-package org-ref
-    :general
+    :config
     (general-imap
       :keymaps 'org-mode-map
       "C-]" #'org-ref-insert-link)
@@ -210,7 +210,6 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       "r" #'org-ref-insert-ref-link
       "b" #'org-ref-insert-bibliography-link
       "s" #'org-ref-insert-bibliographystyle-link)
-    :config
     (setq org-ref-default-bibliography (list my-refs-bib)
 	  org-ref-default-ref-type "cref"
 	  org-ref-bibliography-notes my-refs-notes-dir
