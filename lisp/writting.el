@@ -175,8 +175,10 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 
     (use-package org-roam-protocol
       :straight nil
-      :after org-protocol
-      :config (setq org-roam-capture-ref-templates
+      :config
+      (use-package org-protocol
+	:straight nil)
+      (setq org-roam-capture-ref-templates
 		    '(("r" "ref" plain #'org-roam-capture--get-point
 		       :file-name "%<%Y%m%d%H%M%S>"
 		       :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}\n"
