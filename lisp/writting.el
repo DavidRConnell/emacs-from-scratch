@@ -291,5 +291,17 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 ;; (use-package deft)
 ;; (use-package ebib))
 
+(use-package flyspell
+  :straight nil
+  :hook (text-mode . flyspell-mode)
+  :config
+  (setq ispell-program-name (executable-find "hunspell"))
+  (use-package flyspell-correct
+    :general
+    (general-nmap
+      "z=" #'flyspell-correct-wrapper)
+    :config
+    (use-package flyspell-correct-helm)))
+
 (provide 'writting)
 ;;; writting ends here
