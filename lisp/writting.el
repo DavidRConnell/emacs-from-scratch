@@ -14,6 +14,10 @@
     "x" #'org-roam-capture)
 
   :config
+  (general-imap
+    :keymaps 'org-mode-map
+    "C-i" #'org-do-demote
+    "C-S-i" #'org-do-promote)
   (add-hook 'org-mode-hook #'org-indent-mode)
   (add-hook 'org-mode-hook #'turn-on-visual-line-mode)
   (add-hook 'org-mode-hook
