@@ -191,7 +191,8 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	:keymaps 'org-mode-map
 	:infix "m"
 	"i" #'orb-insert-non-ref
-	"r" #'orb-insert)
+	"r" #'orb-insert
+	"n" #'orb-note-actions)
       :config
       (setq orb-templates
 	    '(("r" "ref" plain #'org-roam-capture--get-point
