@@ -8,9 +8,11 @@
   :straight org-plus-contrib
   :general
   (my-leader-def
-    :infix "z"
+    :infix "t"
+    "l" #'org-store-link
     "g" #'org-roam-find-file
     "x" #'org-roam-capture)
+
   :config
   (add-hook 'org-mode-hook #'org-indent-mode)
   (add-hook 'org-mode-hook #'turn-on-visual-line-mode)
@@ -115,7 +117,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     :hook (org-mode . org-roam-mode)
     :general
     (my-leader-def
-      :infix "z"
+      :infix "t"
       "g" #'org-roam-find-file
       "x" #'org-roam-capture)
     (my-local-leader-def
