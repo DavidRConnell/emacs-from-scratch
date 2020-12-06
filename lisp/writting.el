@@ -226,75 +226,80 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    org-roam-server-network-label-truncate-length 60
 	    org-roam-server-network-label-wrap-length 20)))
 
-  (use-package org-ref
-    :config
-    (general-imap
-      :keymaps 'org-mode-map
-      "C-]" #'org-ref-insert-link)
-    (my-local-leader-def
-      :keymaps 'org-mode-map
-      :infix "e"
-      "c" #'org-ref-insert-link
-      "r" #'org-ref-insert-ref-link
-      "b" #'org-ref-insert-bibliography-link
-      "s" #'org-ref-insert-bibliographystyle-link)
-    (setq org-ref-default-bibliography (list my-refs-bib)
-	  org-ref-default-ref-type "cref"
-	  org-ref-bibliography-notes my-refs-notes-dir
-	  org-ref-notes-function (lambda (key)
-				   (interactive)
-				   (org-ref-notes-function-many-files
-				    key))
-	  org-ref-pdf-directory my-refs-pdfs-dir
-	  org-ref-get-pdf-filename-function
-	  (lambda (key)
-	    (let ((files (directory-files-recursively
-			  org-ref-pdf-directory
-			  (concat key ".pdf"))))
-	      (if (= 1 (length files))
-		  (car files)
-		(completing-read "Choose: " files)))))
+  ;; TODO: move into it's own package.
+  (load "~/.doom.d/extras/+ox-word.el")
 
-    ;; TODO: move into it's own package.
-    (load "~/.doom.d/extras/+ox-word.el"))
+  (use-package sdcv-mode
+    :straight '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv")
+    :general
+    (my-leader-def
+      :infix "d"
+      "d" #'sdcv-search))
 
+  (use-package wiki-summary
+    :general
+    (my-leader-def
+      :infix "d"
+      "k" #'wiki-summary))
 
-  (use-package bibtex
-    :config
-    (require 'find-lisp)
-    (setq bibtex-completion-bibliography my-refs-bib)
-    (setq bibtex-completion-additional-search-fields '(keywords))
-    (setq bibtex-completion-library-path
-	  (cl-remove-if-not
-	   (lambda (f) (find-lisp-file-predicate-is-directory
-			f
-			my-refs-pdfs-dir))
-	   (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
-    (setq bibtex-completion-notes-path my-refs-notes-dir)
-    (setq bibtex-completion-pdf-open-function
-	  (lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
-    (setq bibtex-completion-notes-template-multiple-files
-	  "${title}\n#+AUTHOR: ${author-or-editor}\ncite:${=key=}")
+  (use-package wordnut
+    :general
+    (my-leader-def
+      :infix "d"
+      "w" #'wordnut-search)))
 
-    (use-package sdcv-mode
-      :straight '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv")
-      :general
-      (my-leader-def
-	:infix "d"
-	"d" #'sdcv-search))
+(use-package org-ref
+  :commands org-mode
+  :general
+  (general-imap
+    :keymaps 'org-mode-map
+    "C-]" #'org-ref-insert-link)
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    :infix "e"
+    "c" #'org-ref-insert-link
+    "r" #'org-ref-insert-ref-link
+    "b" #'org-ref-insert-bibliography-link
+    "s" #'org-ref-insert-bibliographystyle-link)
+  (my-leader-def
+    :infix "t"
+    "r" #'org-ref-insert-link)
 
-    (use-package wiki-summary
-      :general
-      (my-leader-def
-	:infix "d"
-	"k" #'wiki-summary))
+  :config
+  (setq org-ref-default-bibliography (list my-refs-bib)
+	org-ref-default-ref-type "cref"
+	org-ref-bibliography-notes my-refs-notes-dir
+	org-ref-notes-function (lambda (key)
+				 (interactive)
+				 (org-ref-notes-function-many-files
+				  key))
+	org-ref-pdf-directory my-refs-pdfs-dir
+	org-ref-get-pdf-filename-function
+	(lambda (key)
+	  (let ((files (directory-files-recursively
+			org-ref-pdf-directory
+			(concat key ".pdf"))))
+	    (if (= 1 (length files))
+		(car files)
+	      (completing-read "Choose: " files))))))
 
-    (use-package wordnut
-      :general
-      (my-leader-def
-	:infix "d"
-	"w" #'wordnut-search))))
-
+(use-package bibtex
+  :after org-ref
+  :config
+  (require 'find-lisp)
+  (setq bibtex-completion-bibliography my-refs-bib)
+  (setq bibtex-completion-additional-search-fields '(keywords))
+  (setq bibtex-completion-library-path
+	(cl-remove-if-not
+	 (lambda (f) (find-lisp-file-predicate-is-directory
+		      f
+		      my-refs-pdfs-dir))
+	 (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
+  (setq bibtex-completion-notes-path my-refs-notes-dir)
+  (setq bibtex-completion-pdf-open-function
+	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
+  (setq bibtex-completion-notes-template-multiple-files
+	"${title}\n#+AUTHOR: ${author-or-editor}\ncite:${=key=}"))
 ;; (use-package org-journal)
 ;; (use-package org-drill)
 ;; (use-package deft)
