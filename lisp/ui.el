@@ -10,9 +10,12 @@
   :general (general-define-key
 	    :keymaps '(normal operator)
 	    "C-/" #'evil-avy-goto-char-timer
-	    "f" #'evil-avy-goto-char-in-line
-	    "t"
-	    #'(lambda () (interactive) (evil-avy-goto-char-in-line)))
+	    "f" #'evil-my-avy-goto-char-forward-in-line
+	    "F" #'evil-my-avy-goto-char-backward-in-line
+	    "t" #'(lambda () (interactive)
+		    (evil-my-avy-goto-char-forward-in-line))
+	    "T" #'(lambda () (interactive)
+		    (evil-my-avy-goto-char-backward-in-line)))
   :config
   (setq avy-keys-alist '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s)))
 	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
@@ -20,7 +23,28 @@
 	avy-timeout-seconds 1
 	avy-flyspell-correct-function #'flyspell-correct-at-point)
 
-  (defun dc-avy-action-kill-move (pt)
+  (defun my-avy-goto-char-forward-in-line (char)
+    "Jump to the currently visible CHAR in the current line."
+    (interactive (list (read-char "char: " t)))
+    (avy-with avy-goto-char
+      (avy-jump
+       (regexp-quote (string char))
+       :beg (point)
+       :end (line-end-position))))
+
+  (defun my-avy-goto-char-backward-in-line (char)
+    "Jump to the currently visible CHAR in the current line."
+    (interactive (list (read-char "char: " t)))
+    (avy-with avy-goto-char
+      (avy-jump
+       (regexp-quote (string char))
+       :beg (line-beginning-position)
+       :end (point))))
+
+  (evil-define-avy-motion my-avy-goto-char-forward-in-line inclusive)
+  (evil-define-avy-motion my-avy-goto-char-backward-in-line inclusive)
+
+  (defun my-avy-action-kill-move (pt)
     "Kill sexp at PT and move there."
     (goto-char pt)
     (avy-forward-item)
