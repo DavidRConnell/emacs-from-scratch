@@ -40,10 +40,9 @@
     "q" #'evil-delete-buffer
     "o" #'find-file
     ";" #'eval-expression)
-  (general-omap
-    "j" #'avy-goto-line-below
-    "k" #'avy-goto-line-above)
+
   (evil-mode 1)
+
   (setq evil-echo-area-message nil
         evil-echo-state nil)
 
