@@ -24,7 +24,7 @@
   :config
   (general-imap
     "C-u" #'evil-delete-back-to-indentation)
-  (general-nmap
+  (general-nvmap
     "J" #'evil-scroll-line-down
     "K" #'evil-scroll-line-up
     "H" #'evil-beginning-of-visual-line
