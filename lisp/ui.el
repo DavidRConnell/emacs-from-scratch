@@ -73,6 +73,22 @@
   :config (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 		aw-scope 'frame))
 
+(use-package evil-args
+  :general
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "a" #'evil-inner-arg)
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "a" #'evil-outer-arg))
+
+(use-package evil-lion
+  :general
+  (general-nvmap
+    :prefix "g"
+    "l" #'evil-lion-left
+    "L" #'evil-lion-right))
+
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
