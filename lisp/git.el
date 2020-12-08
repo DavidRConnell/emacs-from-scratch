@@ -50,5 +50,17 @@
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
     nil nil 'bottom))
 
+(use-package git-timemachine
+  :general
+  (my-leader-def
+    :infix "g"
+    "t" #'git-timemachine)
+  :config
+  (general-define-key
+   :keymaps 'git-timemachine-mode-map
+   "C-j" #'git-timemachine-show-previous-revision
+   "C-k" #'git-timemachine-show-next-revision
+   "C-r" #'git-timemachine-show-revision))
+
 (provide 'git)
 ;;; git.el ends here
