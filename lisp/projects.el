@@ -9,6 +9,7 @@
     :infix "p"
     "o" #'projectile-switch-project)
   (my-leader-def
+    "SPC" #'projectile-find-file
     "," #'projectile-run-vterm
     "." (lambda () (interactive)
 	  (projectile-find-file-in-directory user-emacs-directory)))
