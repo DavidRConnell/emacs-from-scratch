@@ -46,6 +46,7 @@
       "M-b" #'consult-buffer-other-frame)))
 
 (use-package mini-frame
+  :disabled
   :init (setq mini-frame-show-parameters
 	      '((top . 0.33) (width . 0.7) (left . 0.5)))
   :config
@@ -74,6 +75,13 @@
   (use-package ivy-prescient
     :config
     (ivy-prescient-mode 1))
+
+  (use-package ivy-posframe
+  :config
+  (setq ivy-posframe-display-functions-alist
+	'((t .  ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-parameters '((internal-border . 2)))
+  (ivy-posframe-mode 1))
 
   (use-package ivy-avy
     :general
