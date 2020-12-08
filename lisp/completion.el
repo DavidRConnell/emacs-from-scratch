@@ -13,6 +13,7 @@
   (prescient-persist-mode +1))
 
 (use-package selectrum
+  :disabled
   :config
   (general-define-key
    :keymaps 'global
@@ -48,20 +49,7 @@
   :init (setq mini-frame-show-parameters
 	      '((top . 0.33) (width . 0.7) (left . 0.5)))
   :config
-  (mini-frame-mode +1)
-  (define-advice fit-frame-to-buffer (:around (f &rest args) dont-skip-ws-for-mini-frame)
-    (cl-letf* ((orig (symbol-function #'window-text-pixel-size))
-	       ((symbol-function #'window-text-pixel-size)
-		(lambda (win from to &rest args)
-		  (apply orig
-			 (append (list win from
-				       (if (and (window-minibuffer-p win)
-						(frame-root-window-p win)
-						(eq t to))
-					   nil
-					 to))
-				 args)))))
-      (apply f args))))
+  (mini-frame-mode +1))
 
 (use-package ctrlf
   :disabled
@@ -73,14 +61,42 @@
   (ctrlf-mode +1))
 
 (use-package ivy
-  :disabled
   :config
-  (use-package ivy-posframe
-    :hook (ivy-mode . ivy-posframe-mode))
-  (use-package counsel)
-  (setq ivy-mode 1)
-  (setq ivy-sort-max-size 7500)
-  (require 'counsel nil t))
+  (ivy-mode 1)
+  (general-define-key
+   :keymaps 'global
+   "C-c C-r" #'ivy-resume)
+  (general-define-key
+   :keymaps 'ivy-minibuffer-map
+   "C-i" #'ivy-dispatching-call
+   "C-w" #'ivy-backward-kill-word)
+
+  (use-package counsel
+    :config
+    (counsel-mode 1))
+
+  (use-package ivy-avy
+    :general
+    (general-define-key
+     :keymaps 'ivy-minibuffer-map
+     "C-s" #'ivy-avy))
+
+  (use-package ivy-rich
+    :config
+    (ivy-rich 1))
+
+  (use-package swiper
+    :general
+    (general-nmap
+      "/" #'swiper-isearch
+      "?" #'swiper-isearch-backward
+      "gn" #'swiper-isearch-thing-at-point)
+    :config
+    (general-define-key
+     :keymaps 'swiper-map
+     "C-s" #'swiper-avy))
+
+  (setq ivy-sort-max-size 7500))
 
 (use-package amx
   :commands amx
