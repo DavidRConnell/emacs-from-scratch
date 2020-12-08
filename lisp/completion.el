@@ -125,6 +125,31 @@
     (general-imap
       "C-\\" #'company-math-symbols-unicode)))
 
+(use-package yasnippet
+  :hook ((text-mode prog-mode snippet-mode) .
+	 yas-minor-mode-on)
+  :general
+  (general-imap
+    "C-e" #'company-yasnippet)
+  :config
+  ;; (use-package yasnippet-snippets)
+
+  (use-package doom-snippets
+    :straight '(doom-snippets :host github :repo "hlissner/doom-snippets")
+    :config
+    (setq doom-snippets-dir (expand-file-name
+			     "straight/repos/doom-snippets/"
+			     my-cache-dir))
+    (yas-reload-all))
+
+  (general-define-key
+   :keymaps 'yas-keymap
+   "C-SPC" #'yas-next-field-or-maybe-expand)
+  (defun my-add-yasnippet-backend ()
+    (add-to-list 'company-backends #'company-yasnippet 'append))
+
+  (add-hook 'yas-minor-mode-hook #'my-add-yasnippet-backend))
+
 
 
 (provide 'completion)
