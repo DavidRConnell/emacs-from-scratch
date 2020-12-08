@@ -40,7 +40,9 @@
      "gn" #'consult-line-symbol-at-point)
     (my-leader-def
       :jump t
-      "b" #'consult-buffer)))
+      "b" #'consult-buffer
+      "C-b" #'consult-buffer-other-window
+      "M-b" #'consult-buffer-other-frame)))
 
 (use-package mini-frame
   :init (setq mini-frame-show-parameters
