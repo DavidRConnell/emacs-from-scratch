@@ -16,7 +16,16 @@
   :init
   (projectile-mode +1)
   (setq projectile-completion-system 'default
-	projectile-cache-file (expand-file-name "projects/" my-cache-dir))
+	projectile-cache-file (expand-file-name "projects/" my-cache-dir)))
+
+(use-package counsel-projectile
+  :after (projectile ivy counsel)
+  :config
+  (counsel-projectile-mode 1)
+  (my-leader-def
+    :infix "p"
+    "g" #'counsel-projectile-rg))
+
   :config
   (use-package ripgrep
     :general
