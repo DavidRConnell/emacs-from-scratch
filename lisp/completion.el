@@ -71,9 +71,9 @@
    "C-i" #'ivy-dispatching-call
    "C-w" #'ivy-backward-kill-word)
 
-  (use-package counsel
+  (use-package ivy-prescient
     :config
-    (counsel-mode 1))
+    (ivy-prescient-mode 1))
 
   (use-package ivy-avy
     :general
@@ -84,6 +84,10 @@
   (use-package ivy-rich
     :config
     (ivy-rich 1))
+
+  (use-package counsel
+    :config
+    (counsel-mode 1))
 
   (use-package swiper
     :general
