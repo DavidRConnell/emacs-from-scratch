@@ -144,7 +144,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 		    (with-current-buffer (window-buffer)
 		      (org-roam-buffer--get-create)))))
 
-    ;;; Need to find an appropriate hook
+;;; Need to find an appropriate hook
     ;; (add-hook 'minibuffer-exit-hook
     ;; 	      (defun my-toggle-org-roam-buffer ()
     ;; 		(cond
@@ -378,7 +378,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     (general-nmap
       "z=" #'flyspell-correct-wrapper)
     :config
-    (use-package flyspell-correct-helm)))
+    (use-package flyspell-correct-ivy)))
 
 (provide 'writting)
 ;;; writting ends here
