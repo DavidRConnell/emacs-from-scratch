@@ -1,5 +1,6 @@
 (use-package modus-operandi-theme)
-(use-package modus-vivendi-theme)
+(use-package modus-vivendi-theme
+  :defer)
 
 (defvar my-light-theme 'modus-operandi "Default light theme.")
 (defvar my-dark-theme 'modus-vivendi "Default dark theme.")
