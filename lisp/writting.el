@@ -262,8 +262,9 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     "b" #'org-ref-insert-bibliography-link
     "s" #'org-ref-insert-bibliographystyle-link)
   (my-leader-def
-    :infix "t"
-    "r" #'org-ref-insert-link)
+    :infix "r"
+    "f" #'org-ref-insert-link
+    "m" (lambda () (interactive) (find-file my-refs-bib)))
 
   :config
   (setq org-ref-default-bibliography (list my-refs-bib)
