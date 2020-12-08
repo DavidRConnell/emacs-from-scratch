@@ -83,7 +83,7 @@
 
   (use-package ivy-rich
     :config
-    (ivy-rich 1))
+    (ivy-rich-mode 1))
 
   (use-package counsel
     :config
