@@ -102,16 +102,11 @@
   :commands amx
   :init
   (setq amx-save-file (expand-file-name "amx-items" my-var-dir)
-	amx-backend 'selectrum)
+	amx-backend 'ivy)
   :config (amx-mode 1))
 
 (use-package company
   :config
-  (general-imap
-    "C-SPC" #'company-complete
-    "C-n"   #'company-dabbrev
-    "C-f"   #'company-files
-    "C-s"   #'company-ispell)
   (general-define-key
    :keymaps 'company-active-map
    "C-w" nil
