@@ -115,8 +115,16 @@
   (use-package company-quickhelp
     :disabled
     :hook (company-mode . company-quickhelp-mode))
+  (use-package company-box
+    :hook (company-mode . company-box-mode)
+    :config (setq company-box-scrollbar nil))
   (use-package company-prescient
-    :hook (company-mode . company-prescient-mode)))
+    :hook (company-mode . company-prescient-mode))
+  (use-package company-math
+    :general
+    (general-imap
+      "C-\\" #'company-math-symbols-unicode)))
+
 
 
 (provide 'completion)
