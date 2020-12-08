@@ -60,9 +60,19 @@
 ;; (use-package sly)
 
 (use-package lispy
-  :hook ((emacs-lisp-mode lisp-mode-hook)
+  :hook ((emacs-lisp-mode lisp-mode)
          . lispy-mode)
-  :config (use-package lispyville :hook (lispy-mode-hook . lispyville-mode)))
+  :config
+  (use-package
+    lispyville :hook (lispy-mode . lispyville-mode)
+    :config
+    (lispyville-set-key-theme
+     '(operators
+       c-w
+       slurp/barf-lispy
+       commentary
+       prettify
+       c-u))))
 
 (use-package polymode
   :after org
