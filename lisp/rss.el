@@ -25,18 +25,26 @@
   :general
   (my-leader-def
     "e" #'elfeed)
-  (general-define-key
-   :keymaps 'elfeed-show-mode-map
-   "gr" #'elfeed-update)
+
   :config
+  (general-define-key
+   :keymaps 'elfeed-search-mode-map
+   ;; "r" #'elfeed-update
+   "&" #'elfeed-search-browse-url)
+
   (setq elfeed-db-directory
 	(expand-file-name "elfeed/db/" my-cache-dir)
 	elfeed-enclusure-default-dir
 	(expand-file-name "elfeed/enclusures/" my-cache-dir)
 	elfeed-search-filter "@2-week-ago")
+
+  (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
+
   (use-package elfeed-org
-    :preface
-    (setq rmh-elfeed-org-files (list "~/org/elfeed.org"))))
+    :init
+    (setq rmh-elfeed-org-files (list "~/org/elfeed.org"))
+    :config
+    (elfeed-org)))
 
 (provide 'rss)
 ;;; rss.el ends here
