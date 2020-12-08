@@ -302,6 +302,67 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
   (setq bibtex-completion-notes-template-multiple-files
 	"${title}\n#+AUTHOR: ${author-or-editor}\ncite:${=key=}"))
+
+(use-package ebib
+  :general
+  (my-leader-def
+    :infix "r"
+    "e" (defun my-ebib-open-master ()
+	  (interactive)
+	  (ebib my-refs-bib)))
+  :config
+  (setq ebib-notes-directory my-refs-notes-dir
+        ebib-reading-list-file (concat my-refs-notes-dir "readinglist.org")
+        ebib-default-directory my-refs-notes-dir
+        ebib-keywords-file (concat my-refs-notes-dir ".keywords.txt")
+        ebib-notes-show-note-method nil
+        ebib-file-associations '(("pdf" . "xdg-open")))
+
+  (setq ebib-file-search-dirs
+        (cl-remove-if-not
+         (lambda (f) (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
+         (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
+
+  (general-define-key
+   :keymaps 'ebib-index-mode-map
+   "/" #'swiper-isearch)
+
+  (defun my-ebib-create-org-title (key db)
+    (replace-regexp-in-string "[\t\n ]+"
+                              " "
+                              (or (ebib-get-field-value
+                                   "title" key db 'noerror 'unbraced 'xref)
+                                  "(No Title)")))
+
+  (defun my-ebib-create-org-author (key db)
+    (replace-regexp-in-string "[\t\n ]+ "
+                              " "
+                              (or (ebib-get-field-value
+                                   "author" key db 'noerror 'unbraced 'xref)
+                                  (ebib-get-field-value
+                                   "editor" key db 'noerror 'unbraced 'xref)
+                                  "(No Author)")))
+
+  (defun my-ebib-create-org-identifier (key _)
+    key)
+
+  (setq ebib-notes-template-specifiers
+        '((?K . ebib-create-org-identifier)
+          (?k . my-ebib-create-org-identifier)
+          (?T . ebib-create-org-title)
+          (?t . my-ebib-create-org-title)
+          (?A . my-ebib-create-org-author)
+          (?L . ebib-create-org-link)
+          (?F . ebib-create-org-file-link)
+          (?D . ebib-create-org-doi-link)
+          (?U . ebib-create-org-url-link)
+          (?M . ebib-reading-list-todo-marker)))
+
+  (setq ebib-reading-list-template-specifiers ebib-notes-template-specifiers)
+
+  (setq ebib-reading-list-template "* %M [[file:%k.org][%t]]\n:PROPERTIES:\n:AUTHOR: %A\n:END:\ncite:%k\n\n")
+  (setq ebib-notes-template "#+TITLE: %t\n#+AUTHOR: %A\ncite:%k\n\n>|<"))
+
 ;; (use-package org-journal)
 ;; (use-package org-drill)
 ;; (use-package deft)
