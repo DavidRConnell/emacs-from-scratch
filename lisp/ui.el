@@ -12,24 +12,43 @@
    "C-j" #'evilem-motion-next-line
    "C-k" #'evilem-motion-previous-line))
 
-(use-package evil-snipe
-  :general (general-define-key
-	    :keymaps '(normal visual operator)
-	    "f" #'evil-snip-f
-	    "F" #'evil-snipe-F
-	    "t" #'evil-snipe-t
-	    "T" #'evil-snipe-T))
-
 (use-package avy
   :general (general-define-key
 	    :keymaps '(normal visual motion operator)
-	    "C-s" #'evil-avy-goto-char-timer)
+	    "C-s" #'evil-avy-goto-char-timer
+	    "f" #'evil-my-avy-goto-char-forward-in-line
+	    "F" #'evil-my-avy-goto-char-backward-in-line
+	    "t" #'(lambda () (interactive)
+		    (evil-my-avy-goto-char-forward-in-line))
+	    "T" #'(lambda () (interactive)
+		    (evil-my-avy-goto-char-backward-in-line)))
   :config
   (setq avy-keys-alist '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s)))
 	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 	avy-enter-times-out t
-	avy-timeout-seconds 1
+	avy-timeout-seconds 0.3
 	avy-flyspell-correct-function #'flyspell-correct-at-point)
+
+  (defun my-avy-goto-char-forward-in-line (char)
+    "Jump to the currently visible CHAR in the current line."
+    (interactive (list (read-char "char: " t)))
+    (avy-with avy-goto-char
+      (avy-jump
+       (regexp-quote (string char))
+       :beg (point)
+       :end (line-end-position))))
+
+  (defun my-avy-goto-char-backward-in-line (char)
+    "Jump to the currently visible CHAR in the current line."
+    (interactive (list (read-char "char: " t)))
+    (avy-with avy-goto-char
+      (avy-jump
+       (regexp-quote (string char))
+       :beg (line-beginning-position)
+       :end (point))))
+
+  (evil-define-avy-motion my-avy-goto-char-forward-in-line inclusive)
+  (evil-define-avy-motion my-avy-goto-char-backward-in-line inclusive)
 
   (defun my-avy-action-kill-move (pt)
     "Kill sexp at PT and move there."
@@ -41,7 +60,7 @@
     (evil-insert-state))
 
   (setq avy-dispatch-alist
-        '((?c . dc-avy-action-kill-move)
+        '((?c . my-avy-action-kill-move)
           (?d . avy-action-kill-stay)
           (?g . avy-action-teleport)
           (?m . avy-action-mark)
