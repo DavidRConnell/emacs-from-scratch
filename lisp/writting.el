@@ -38,7 +38,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((R . t)
-     (python . t)))
+     (python . t)
+     (emacs-lisp . t)))
 
   (use-package ob-async)
 
