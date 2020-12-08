@@ -6,43 +6,24 @@
 	     "j" #'evilem-motion-next-line
 	     "k" #'evilem-motion-previous-line))
 
+(use-package evil-snipe
+  :general (general-define-key
+	    :keymaps '(normal visual operator)
+	    "f" #'evil-snip-f
+	    "F" #'evil-snipe-F
+	    "t" #'evil-snipe-t
+	    "T" #'evil-snipe-T))
+
 (use-package avy
   :general (general-define-key
-	    :keymaps '(normal operator)
-	    "C-/" #'evil-avy-goto-char-timer
-	    "f" #'evil-my-avy-goto-char-forward-in-line
-	    "F" #'evil-my-avy-goto-char-backward-in-line
-	    "t" #'(lambda () (interactive)
-		    (evil-my-avy-goto-char-forward-in-line))
-	    "T" #'(lambda () (interactive)
-		    (evil-my-avy-goto-char-backward-in-line)))
+	    :keymaps '(normal visual motion operator)
+	    "C-s" #'evil-avy-goto-char-timer)
   :config
   (setq avy-keys-alist '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s)))
 	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 	avy-enter-times-out t
 	avy-timeout-seconds 1
 	avy-flyspell-correct-function #'flyspell-correct-at-point)
-
-  (defun my-avy-goto-char-forward-in-line (char)
-    "Jump to the currently visible CHAR in the current line."
-    (interactive (list (read-char "char: " t)))
-    (avy-with avy-goto-char
-      (avy-jump
-       (regexp-quote (string char))
-       :beg (point)
-       :end (line-end-position))))
-
-  (defun my-avy-goto-char-backward-in-line (char)
-    "Jump to the currently visible CHAR in the current line."
-    (interactive (list (read-char "char: " t)))
-    (avy-with avy-goto-char
-      (avy-jump
-       (regexp-quote (string char))
-       :beg (line-beginning-position)
-       :end (point))))
-
-  (evil-define-avy-motion my-avy-goto-char-forward-in-line inclusive)
-  (evil-define-avy-motion my-avy-goto-char-backward-in-line inclusive)
 
   (defun my-avy-action-kill-move (pt)
     "Kill sexp at PT and move there."
