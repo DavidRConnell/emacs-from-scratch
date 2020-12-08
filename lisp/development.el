@@ -75,17 +75,38 @@
 
 (use-package ess
   :mode ("\\.r\\'" . ess-r-mode)
-  :general
   :hook (ess-r-mode . lsp-deferred)
+  :config
   (general-define-key
    :keymaps 'ess-r-mode-map
-   "C-c C-c" #'ess-eval-region-or-function-or-paragraph)
-  :config
+   :prefix "C-c"
+   "C-c" #'ess-eval-region-or-function-or-paragraph
+   "C-a" (lambda () (interactive)
+	   (insert "<- "))
+   "C-p" (lambda () (interactive)
+	   (end-of-line)
+	   (insert " %>%")
+	   (evil-normal-state)))
+
   (add-hook 'ess-r-mode-hook
 	    (lambda () (interactive)
 	      (setq-local company-backends '(company-R-args
 					     company-R-objects
 					     company-dabbrev-code))))
+  (advice-add #'ess-eval-region-or-function-or-paragraph
+	      :before #'evil-set-jump)
+
+  (advice-add #'ess-eval-region
+	      :after #'my--goto-bottom-of-r-repl)
+
+  (defun my--goto-bottom-of-r-repl (&optional _ _ _ _ _ _ _)
+    "Scroll to the bottom of the repl after runnning a function.
+This ensures the results are visual."
+    (if (eq major-mode 'ess-r-mode)
+	(let ((win (get-buffer-window (current-buffer))))
+	  (ess-switch-to-end-of-ESS)
+	  (select-window win))))
+
   (setq ess-offset-continued 'straight
 	ess-nuke-trailing-whitespace-p t
 	ess-style 'DEFAULT
