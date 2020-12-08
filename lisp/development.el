@@ -154,6 +154,15 @@ This ensures the results are visual."
 
   (setq python-indent-guess-indent-offset-verbose nil))
 
+(use-package pdf-tools
+  :straight nil
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :config
+  (general-define-key
+   :keymaps 'pdf-view-mode-map
+   "r" #'org-ref-pdf-to-bibtex)
+  (use-package saveplace-pdf-view))
+
 ;; (use-package overseer)
 ;; (use-package buttercup)
 
