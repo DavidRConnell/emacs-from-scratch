@@ -89,7 +89,7 @@
   (setq ess-offset-continued 'straight
 	ess-nuke-trailing-whitespace-p t
 	ess-style 'DEFAULT
-	ess-history-directory (expand-file-name "ess-history/" my-cache-dir))
+	ess-history-directory (expand-file-name "ess-history/" my-var-dir))
   (use-package ess-R-data-view))
 
 (use-package python
