@@ -83,6 +83,7 @@
   (require 'counsel nil t))
 
 (use-package amx
+  :commands amx
   :init
   (setq amx-save-file (expand-file-name "amx-items" my-var-dir)
 	amx-backend 'selectrum)
