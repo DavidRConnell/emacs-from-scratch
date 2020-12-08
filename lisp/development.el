@@ -71,12 +71,12 @@
     :hook (org-mode . poly-org-mode)))
 
 (use-package lsp-mode
-  :commands lsp-mode)
+  :commands lsp-mode lsp-deferred)
 
 (use-package ess
   :mode ("\\.r\\'" . ess-r-mode)
-  :hook (ess-r-mode . lsp-mode)
   :general
+  :hook (ess-r-mode . lsp-deferred)
   (general-define-key
    :keymaps 'ess-r-mode-map
    "C-c C-c" #'ess-eval-region-or-function-or-paragraph)
@@ -93,7 +93,7 @@
   (use-package ess-R-data-view))
 
 (use-package python
-  :hook (python-mode . lsp-mode)
+  :hook (python-mode . lsp-deferred)
   :config
   (setq lsp-clients-python-library-directories
 	'("/usr/" "~/.local/python3.8/site-packages/")))
