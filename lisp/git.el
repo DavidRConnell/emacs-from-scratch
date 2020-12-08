@@ -25,7 +25,9 @@
    :infix "g"
    "s" #'magit-status-here
    "d" #'magit-diff-buffer-file
-   "r" #'git-gutter:revert-hunk)
+   "r" #'git-gutter:revert-hunk
+   "a" #'git-gutter:stage-hunk
+   "c" #'magit-commit)
   :init
   (setq transient-history-file
         (expand-file-name "transient/history.el" my-var-dir))
