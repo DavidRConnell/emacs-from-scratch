@@ -2,9 +2,15 @@
   :config (which-key-mode))
 
 (use-package evil-easymotion
-  :general (general-omap
-	     "j" #'evilem-motion-next-line
-	     "k" #'evilem-motion-previous-line))
+  :general
+  (general-define-key
+   :keymaps '(visual operator)
+    "j" #'evilem-motion-next-line
+    "k" #'evilem-motion-previous-line)
+  (general-define-key
+   :keymaps '(normal motion)
+   "C-j" #'evilem-motion-next-line
+   "C-k" #'evilem-motion-previous-line))
 
 (use-package evil-snipe
   :general (general-define-key
