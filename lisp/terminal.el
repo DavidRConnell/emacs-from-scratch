@@ -19,7 +19,15 @@
 ;;
 ;;; Code:
 
-;;   vterm
+(use-package vterm
+  :straight nil
+  :general
+  (my-leader-def
+    "," #'vterm)
+  (general-imap
+    :keymaps 'vterm-mode-map
+    "C-SPC" #'vterm-send-tab
+    "C-y" #'vterm-yank))
 
 (provide 'terminal)
 ;;; terminal.el ends here

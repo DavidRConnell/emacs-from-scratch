@@ -100,8 +100,4 @@
     "C-/" #'link-hint-open-link
     "M-/" #'link-hint-copy-link))
 
-(use-package vterm
-  :general
-  (my-leader-def
-    "," #'vterm))
 (provide 'ui)
