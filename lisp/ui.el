@@ -4,12 +4,12 @@
 (use-package evil-easymotion
   :general
   (general-define-key
-   :states '(visual operator)
+   :states '(operator)
    :keymaps 'override
     "j" #'evilem-motion-next-line
     "k" #'evilem-motion-previous-line)
   (general-define-key
-   :keymaps '(normal motion)
+   :keymaps '(normal motion visual)
    "C-j" #'evilem-motion-next-line
    "C-k" #'evilem-motion-previous-line))
 
