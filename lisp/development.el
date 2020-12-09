@@ -126,33 +126,31 @@ This ensures the results are visual."
 (use-package python
   :hook (python-mode . lsp-deferred)
   :config
-  (let ((version-str (shell-command-to-string
-		      (concat python-shell-interpreter
-			      " --version")))
-	(major-version)
-	(minor-version)
-	(py-package-dir))
+  (defun my-set-python-library-directories ()
+    "Determine library directories for lsp based on python shell interpreter."
+    (let ((version-str (shell-command-to-string
+			(concat python-shell-interpreter
+				" --version")))
+	  (major-version)
+	  (minor-version)
+	  (py-package-dir))
 
-    (string-match
-     "\\([0-9]\\)\\.\\([0-9]\\)"
-     version-str)
+      (string-match
+       "\\([0-9]\\)\\.\\([0-9]\\)"
+       version-str)
 
-    (setq major-version (match-string 1 version-str)
-	  minor-version (match-string 2 version-str)
-	  py-package-dir (format "python%s.%s/site-packages/"
-				 major-version
-				 minor-version))
+      (setq major-version (match-string 1 version-str)
+	    minor-version (match-string 2 version-str)
+	    py-package-dir (format "python%s.%s/site-packages/"
+				   major-version
+				   minor-version))
 
-    (setq lsp-clients-python-library-directories
-	  `(,(expand-file-name py-package-dir "/usr/lib/")
-	    ,(expand-file-name py-package-dir "~/.local/"))))
+      (setq lsp-clients-python-library-directories
+	    `(,(expand-file-name py-package-dir "/usr/lib/")
+	      ,(expand-file-name py-package-dir "~/.local/")))))
 
-  (add-hook python-mode-hook (lambda ()
-			       (setq-local company-backends
-					   '(company-capf
-					     company-dabbrev))))
+  (my-set-python-library-directories)
 
-  (setq python-indent-guess-indent-offset-verbose nil))
 
 (use-package pdf-tools
   :straight nil
