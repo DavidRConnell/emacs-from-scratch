@@ -151,6 +151,40 @@ This ensures the results are visual."
 
   (my-set-python-library-directories)
 
+  (add-hook 'python-mode-hook (lambda ()
+				(setq-local company-backends
+					    '(company-capf
+					      company-dabbrev))))
+
+  (setq python-indent-guess-indent-offset-verbose nil
+	org-babel-python-command python-shell-interpreter)
+
+  (defun my-python-help (thing)
+    "Open a help buffer for python THING."
+
+    (interactive
+     (list (let ((thing-candidate (python-eldoc--get-symbol-at-point)))
+       (read-string (concat
+		     "Help on: "
+		     (if thing-candidate
+			 (concat " (" thing-candidate ")")
+		       "")
+		     ": ")
+                    nil
+                    nil
+                    thing-candidate))))
+    (let* ((buff-name (format "*Python help for: %s*" thing))
+	   (buff (get-buffer-create buff-name)))
+      (with-current-buffer buff
+	(insert
+	 (python-shell-send-string-no-output (concat "help(" thing ")")))
+	(python-mode))
+      (switch-to-buffer-other-window buff)))
+
+  (general-nmap
+    :keymaps 'python-mode-map
+    :prefix "g"
+    "K" #'my-python-help)
 
   (use-package blacken
     :hook (python-mode . blacken-mode)))
