@@ -109,9 +109,9 @@
   (advice-add #'ess-eval-region
 	      :after #'my--goto-bottom-of-r-repl)
 
-  (defun my--goto-bottom-of-r-repl (&optional _ _ _ _ _ _ _)
+  (defun my--goto-bottom-of-r-repl (&rest _)
     "Scroll to the bottom of the repl after runnning a function.
-This ensures the results are visual."
+This ensures the results are visible."
     (if (eq major-mode 'ess-r-mode)
 	(let ((win (get-buffer-window (current-buffer))))
 	  (ess-switch-to-end-of-ESS)
