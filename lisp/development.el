@@ -152,6 +152,9 @@ This ensures the results are visual."
   (my-set-python-library-directories)
 
 
+  (use-package blacken
+    :hook (python-mode . blacken-mode)))
+
 (use-package pdf-tools
   :straight nil
   :mode ("\\.pdf\\'" . pdf-view-mode)
