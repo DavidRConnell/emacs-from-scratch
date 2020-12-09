@@ -307,9 +307,23 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   :general
   (my-leader-def
     :infix "r"
-    "e" (defun my-ebib-open-master ()
+    "e" (defun my-ebib-open-with-file ()
+	  "Open with bib file in PWD if exists otherwise use master.
+
+If there is more than one local bib file ask."
 	  (interactive)
-	  (ebib my-refs-bib)))
+	  (let* ((potential-bibs (org-ref-find-bibliography))
+		 (local-bib-file
+		  (cond
+		   ((not potential-bibs)
+		    nil)
+		   ((= (length potential-bibs) 1)
+		    (first potential-bibs))
+		   ((> (length potential-bibs) 1)
+		    (completing-read "Select bib" potential-bibs)))))
+	    (if local-bib-file
+		(ebib (expand-file-name local-bib-file))
+	      (ebib my-refs-bib))))))
   :config
   (setq ebib-notes-directory my-refs-notes-dir
         ebib-reading-list-file (concat my-refs-notes-dir "readinglist.org")
