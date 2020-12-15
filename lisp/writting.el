@@ -379,8 +379,24 @@ If there is more than one local bib file ask."
 
 ;; (use-package org-journal)
 ;; (use-package org-drill)
-;; (use-package deft)
-;; (use-package ebib))
+
+(use-package deft
+  :after org-roam
+  :general
+  (my-leader-def
+    :infix "n"
+    "d" #'deft)
+  :config
+  (setq deft-extensions '("org")
+	deft-new-file-format "%Y%m%d%H%M%S"
+	deft-use-filter-string-for-filename nil
+	deft-directory org-roam-directory)
+  (general-imap
+    :keymaps 'deft-mode-map
+    "C-o" #'deft-open-file-other-window
+    "C-w" #'deft-filter-decrement-word
+    "C-n" #'next-line
+    "C-p" #'previous-line))
 
 (use-package flyspell
   :straight nil
