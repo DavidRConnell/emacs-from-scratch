@@ -402,7 +402,8 @@ If there is more than one local bib file ask."
   :straight nil
   :hook (text-mode . flyspell-mode)
   :config
-  (setq ispell-program-name (executable-find "hunspell"))
+  (setq ispell-program-name (executable-find "aspell")
+	ispell-personal-dictionary "~/.aspell.en.pws")
   (use-package flyspell-correct
     :general
     (general-nmap
