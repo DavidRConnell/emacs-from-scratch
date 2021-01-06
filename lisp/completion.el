@@ -65,11 +65,11 @@
   :config
   (ivy-mode 1)
   (general-define-key
-   :keymaps 'global
+   :keymaps 'override
    "C-c C-r" #'ivy-resume)
   (general-define-key
    :keymaps 'ivy-minibuffer-map
-   "C-i" #'ivy-dispatching-call
+   "C-i" #'ivy-dispatching-done
    "C-w" #'ivy-backward-kill-word)
 
   (use-package ivy-prescient
@@ -95,6 +95,8 @@
 
   (use-package counsel
     :config
+    (my-leader-def
+      "O" #'counsel-recentf)
     (counsel-mode 1))
 
   (use-package swiper
@@ -128,6 +130,13 @@
    "C-s" #'company-filter-candidates
    "C-i" #'company-complete-selection
    "C-SPC" #'company-complete-common-or-cycle)
+
+  (general-imap
+    "C-SPC" #'company-complete
+    "C-n" #'company-dabbrev
+    "C-f" #'company-files
+    "C-s" #'company-ispell)
+
   (general-define-key
    :keymaps 'company-search-map
    "C-n" #'company-select-next-or-abort
