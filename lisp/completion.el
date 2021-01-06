@@ -141,17 +141,28 @@
    :keymaps 'company-search-map
    "C-n" #'company-select-next-or-abort
    "C-p" #'company-select-previous-or-abort)
-  (global-company-mode)
-  (setq company-idle-delay 0
-	company-minimum-prefix-length 2)
+
+  (global-company-mode 1)
+
+  (add-hook 'text-mode-hook (defun my-set-text-mode-backends ()
+			      (setq-local company-backends
+					  '(company-dabbrev))))
+
+  (setq company-idle-delay 0.2
+	company-minimum-prefix-length 2
+	company-selection-wrap-around t)
+
   (use-package company-quickhelp
     :disabled
     :hook (company-mode . company-quickhelp-mode))
+
   (use-package company-box
     :hook (company-mode . company-box-mode)
     :config (setq company-box-scrollbar nil))
+
   (use-package company-prescient
     :hook (company-mode . company-prescient-mode))
+
   (use-package company-math
     :general
     (general-imap
