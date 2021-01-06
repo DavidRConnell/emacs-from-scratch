@@ -1,3 +1,7 @@
+;;; ui --- Improve emacs user-interface. -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (use-package which-key
   :config (which-key-mode))
 

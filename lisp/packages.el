@@ -1,4 +1,4 @@
-;;; Declare packages installed packages here.
+;;; Declare packages installed packages here. -*- lexical-binding: t; -*-
 
 (setq straight-base-dir my-cache-dir)
 (defvar bootstrap-version)

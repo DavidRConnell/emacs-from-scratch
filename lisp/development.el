@@ -1,4 +1,4 @@
-;;; development --- Setup development enviornment.
+;;; development --- Setup development enviornment. -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;   elisp development tools.  Watch JWiegley's videos
 ;;   some sort of eval program

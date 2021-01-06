@@ -1,3 +1,7 @@
+;;; appearance.el --- Tweak the appearance of emacs -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
 (use-package modus-operandi-theme)
 (use-package modus-vivendi-theme
   :defer)

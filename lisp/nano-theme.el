@@ -1,6 +1,7 @@
+;;; -*- lexical-binding: t; -*-
 ;; ---------------------------------------------------------------------
 ;; GNU Emacs / N Λ N O - Emacs made simple
-;; Copyright (C) 2020 - N Λ N O developers 
+;; Copyright (C) 2020 - N Λ N O developers
 ;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;; ---------------------------------------------------------------------
-;; 
+;;
 ;; This file defines the 6 basic nano faces:
 ;;
 ;; - nano-face-critical  - nano-face-popout   - nano-face-salient
@@ -36,7 +37,7 @@
    :underline  'unspecified :overline   'unspecified
    :box        'unspecified :inherit    style))
 
-;; A theme is fully defined by these six faces 
+;; A theme is fully defined by these six faces
 (defgroup nano nil
   "Faces for the nano emacs theme")
 

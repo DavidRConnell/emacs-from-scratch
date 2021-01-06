@@ -1,4 +1,4 @@
-;;; package --- for general key bindings
+;;; keybindings --- for general key bindings -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;; also look into use-package's method might not be needed.
 ;; evil

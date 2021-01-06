@@ -1,4 +1,4 @@
-;;; writting.el --- packages for writting
+;;; writting.el --- packages for writting -*- lexical-binding: t; -*-
 ;;   spell-checker. Should work with magit.
 ;;   Deft
 ;;; Code:

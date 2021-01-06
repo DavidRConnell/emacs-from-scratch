@@ -1,3 +1,4 @@
+;;; projects --- For managing your projects -*- lexical-binding: t; -*-
 ;;   projectile
 ;;   persp?
 ;;   Does this need to be separate from workspaces?
