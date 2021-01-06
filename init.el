@@ -10,6 +10,7 @@
 (require 'projects)
 (require 'development)
 (require 'writting)
+(require 'terminal)
 (require 'completion)
 (require 'rss)
 (require 'settings)

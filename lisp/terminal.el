@@ -19,11 +19,18 @@
 ;;
 ;;; Code:
 
+(defun my-term (&optional working-directory)
+  "Open a new alacritty window in `default-directory' or WORKING-DIRECTORY."
+
+  (interactive)
+  (if working-directory
+      (start-process "alacritty" nil "alacritty"
+		     (concat  "--working-directory=" working-directory))
+    (start-process "alacritty" nil "alacritty")))
+
 (use-package vterm
-  :straight nil
-  :general
-  (my-leader-def
-    "," #'vterm)
+  :disabled
+  :config
   (general-imap
     :keymaps 'vterm-mode-map
     "C-SPC" #'vterm-send-tab

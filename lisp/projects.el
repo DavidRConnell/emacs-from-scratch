@@ -10,8 +10,18 @@
     "o" #'projectile-switch-project)
   (my-leader-def
     "SPC" #'projectile-find-file
-    "," #'projectile-run-vterm
-    "." (lambda () (interactive)
+    "," (defun my-open-term-in-project-or-dir ()
+	  "If in a projectile recognized directory open term in project root.
+Otherwise open in `default-directory'."
+
+	  (interactive)
+	  (if (projectile-project-p)
+	      (my-term (projectile-project-root))
+	    (my-term)))
+
+    "." (defun my-find-dot-file ()
+	  "Find a file in `user-emacs-directory'."
+	  (interactive)
 	  (projectile-find-file-in-directory user-emacs-directory)))
   :init
   (projectile-mode +1)
