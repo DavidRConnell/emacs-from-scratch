@@ -44,5 +44,18 @@ Otherwise open in `default-directory'."
       :infix "p"
       "g" #'projectile-ripgrep)))
 
+(use-package workgroups2
+  :init
+  (setq wg-session-file (expand-file-name "workgroups" my-var-dir))
+  :general
+  (my-leader-def
+    :infix "p"
+    "p" #'wg-switch-to-workgroup
+    "w" #'wg-open-workgroup
+    "c" #'wg-create-workgroup)
+  :config
+  (defun wg-change-modeline ())
+  (workgroups-mode 1))
+
 (provide 'projects)
 ;;; projects.el ends here
