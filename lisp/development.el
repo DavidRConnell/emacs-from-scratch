@@ -11,17 +11,19 @@
 (use-package smartparens
   :config
   (setq smartparens-strict-mode t)
-  (smartparens-global-mode)
+  (smartparens-global-mode 1)
   (require 'smartparens-config)
+
   (use-package evil-smartparens
-    :delight :config
+    :config
     (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)))
 
-(use-package flycheck :hook (prog-mode . flycheck-mode)
-             :config
-             (setq flycheck-indication-mode 'right-fringe)
-             (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
-               [16 48 112 240 112 48 16] nil nil 'center))
+(use-package flycheck
+  :hook (prog-mode . flycheck-mode)
+  :config
+  (setq flycheck-indication-mode 'right-fringe)
+  (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
+    [16 48 112 240 112 48 16] nil nil 'center))
 
 (use-package emr
   :general (general-nmap "M-SPC" #'emr-show-refactor-menu))
