@@ -175,14 +175,12 @@
   (general-imap
     "C-e" #'company-yasnippet)
   :config
-  ;; (use-package yasnippet-snippets)
-
   (use-package doom-snippets
-    :straight '(doom-snippets :host github :repo "hlissner/doom-snippets")
+    :straight nil
+    :load-path "~/.cache/emacs/doom-snippets/"
     :config
-    (setq doom-snippets-dir (expand-file-name
-			     "straight/repos/doom-snippets/"
-			     my-cache-dir))
+    (setq doom-snippets-dir
+	  (expand-file-name "doom-snippets/" my-cache-dir))
     (yas-reload-all))
 
   (general-define-key
