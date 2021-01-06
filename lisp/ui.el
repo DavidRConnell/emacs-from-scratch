@@ -103,8 +103,18 @@
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package undo-fu
+  :preface (setq evil-undo-system 'undo-fu)
+  :general
+  (general-nvmap
+    "u" #'undo-fu-only-undo
+    "C-r" #'undo-fu-only-redo))
+
 (use-package undo-tree
+  :disabled
   :hook ((prog-mode text-mode) . undo-tree-mode)
+  :preface
+  (setq evil-undo-system 'undo-tree)
   :general
   (general-nmap
     "U" #'undo-tree-visualize)

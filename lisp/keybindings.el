@@ -19,10 +19,8 @@
 
 (winner-mode t)
 (use-package evil
-  :preface (setq evil-undo-system 'undo-tree)
   :init
-  (setq evil-want-keybinding nil
-	evil-respect-visual-line-mode t)
+  (setq evil-want-keybinding nil)
   :config
   (general-imap
     "C-u" #'evil-delete-back-to-indentation)
