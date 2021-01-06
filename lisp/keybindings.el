@@ -15,6 +15,8 @@
     :keymaps 'override
     :prefix "C-SPC"))
 
+(fset #'yes-or-no-p #'y-or-n-p)
+
 (winner-mode t)
 (use-package evil
   :preface (setq evil-undo-system 'undo-tree)
