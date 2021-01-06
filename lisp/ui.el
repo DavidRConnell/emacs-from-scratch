@@ -144,4 +144,12 @@
   :config
   (setq highlight-indent-guides-method 'character))
 
+(use-package dumb-jump
+  :general
+  (general-nmap
+    :prefix "g"
+    "D" #'xref-find-definitions)
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 (provide 'ui)
