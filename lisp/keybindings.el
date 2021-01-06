@@ -31,16 +31,25 @@
     "K" #'evil-scroll-line-up
     "H" #'evil-beginning-of-visual-line
     "L" #'evil-end-of-line-or-visual-line
-    "gj" #'evil-join)
+    "gj" #'evil-join
+    "j" #'evil-next-visual-line
+    "k" #'evil-previous-visual-line
+    "C-m" #'evil-goto-mark
+    "C-q" #'evil-execute-macro)
   (general-nmap
     :prefix "C-w"
     "u" #'winner-undo
     "C-r" #'winner-redo)
+  (general-nmap
+    :keymaps 'emacs-lisp-mode-map
+    :prefix "C-c"
+    "C-b" #'eval-buffer)
   (my-leader-def
     "b" #'switch-to-buffer
     "w" #'save-buffer
     "q" #'evil-delete-buffer
     "o" #'find-file
+    "l" #'imenu
     ";" #'eval-expression)
 
   (evil-mode 1)
