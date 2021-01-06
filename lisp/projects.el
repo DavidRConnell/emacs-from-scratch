@@ -57,5 +57,15 @@ Otherwise open in `default-directory'."
   (defun wg-change-modeline ())
   (workgroups-mode 1))
 
+(use-package golden-ratio
+  :disable
+  :config
+  (add-to-list 'golden-ratio-extra-commands 'ace-window)
+  (golden-ratio-mode 1))
+
+(use-package golden
+  :straight (golden :type git :repo "https://git.sr.ht/~wklew/golden")
+  :config (global-golden-mode 1))
+
 (provide 'projects)
 ;;; projects.el ends here
