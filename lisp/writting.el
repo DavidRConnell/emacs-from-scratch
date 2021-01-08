@@ -353,6 +353,11 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 		(car files)
 	      (completing-read "Choose: " files))))))
 
+(use-package helm
+  :general
+  (my-leader-def
+    ";" #'helm-eval-expression-with-eldoc))
+
 (use-package bibtex
   :after org-ref
   :config
