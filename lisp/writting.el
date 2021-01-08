@@ -361,15 +361,16 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (setq bibtex-completion-additional-search-fields '(keywords))
   (setq bibtex-completion-library-path
 	(cl-remove-if-not
-	 (lambda (f) (find-lisp-file-predicate-is-directory
-		      f
-		      my-refs-pdfs-dir))
-	 (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
-  (setq bibtex-completion-notes-path my-refs-notes-dir)
-  (setq bibtex-completion-pdf-open-function
-	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
-  (setq bibtex-completion-notes-template-multiple-files
-	"${title}\n#+AUTHOR: ${author-or-editor}\ncite:${=key=}"))
+	 (lambda (f)
+	   (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
+	 (directory-files-recursively my-refs-pdfs-dir "." 'dirs))
+
+	bibtex-completion-notes-path my-refs-notes-dir
+	bibtex-completion-pdf-open-function
+	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath))
+
+	bibtex-completion-notes-template-multiple-files
+	"#+TITLE: ${title}\n#+AUTHOR: ${author-or-editor}\n#+ROAM_KEY: cite:${=key=}")
 
   (general-nmap
     :keymaps 'bibtex-mode-map
