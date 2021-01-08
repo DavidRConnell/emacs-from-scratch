@@ -71,13 +71,29 @@
 	    ("[X]" . 9745))))
 
   (use-package evil-org
+    :straight '(evil-org :host github :repo "hlissner/evil-org-mode")
     :hook (org-mode . evil-org-mode)
+    :init
+    (defvar evil-org-retain-visual-state-on-shift t)
+    (defvar evil-org-special-o/O '(table-row))
+    (defvar evil-org-use-additional-insert t)
     :config
-    (add-hook 'evil-org-mode-hook #'evil-org-set-key-theme))
+    (add-hook 'evil-org-mode-hook #'evil-normalize-keymaps)
+    (evil-org-set-key-theme)
+
+    (require 'org-tweaks)
+    (general-define-key
+     :states '(normal insert)
+     :keymap 'org-mode-map
+     [C-return] #'+org/insert-item-below
+     [C-S-return] #'+org/insert-item-above
+     [C-M-return] #'org-insert-subheading))
 
   (my-local-leader-def
     :keymaps 'org-mode-map
-    "t" #'org-todo)
+    "t" #'org-todo
+    "h" #'org-toggle-heading
+    "i" #'org-toggle-item)
 
   (my-local-leader-def
     :keymaps 'org-mode-map
