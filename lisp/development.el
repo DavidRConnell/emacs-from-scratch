@@ -196,7 +196,9 @@ This ensures the results are visible."
       (with-current-buffer buff
 	(insert
 	 (python-shell-send-string-no-output (concat "help(" thing ")")))
-	(python-mode))
+	(python-mode)
+	(flycheck-mode -1)
+	(goto-line 1))
       (switch-to-buffer-other-window buff)))
 
   (general-nmap
