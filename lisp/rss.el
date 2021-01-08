@@ -39,6 +39,7 @@
 	elfeed-search-filter "@2-week-ago")
 
   (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
+  (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
 
   (use-package elfeed-org
     :init
