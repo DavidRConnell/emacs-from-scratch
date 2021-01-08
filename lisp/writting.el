@@ -306,7 +306,9 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     :general
     (my-leader-def
       :infix "d"
-      "w" #'wordnut-search)))
+      "w" #'wordnut-search)
+    :config
+    (add-hook 'wordnut-mode-hook #'org-mode)))
 
 (use-package org-ref
   :commands org-mode
