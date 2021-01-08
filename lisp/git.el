@@ -47,13 +47,12 @@
 	      git-gutter:clear-function     #'git-gutter-fr:clear
 	      git-gutter:window-width -1)
   (fringe-mode '4)
-  (define-fringe-bitmap 'git-gutter-fr:added [224]
+  (define-fringe-bitmap 'git-gutter-fr:added [128]
     nil nil '(center repeated))
-  (define-fringe-bitmap 'git-gutter-fr:modified [224]
+  (define-fringe-bitmap 'git-gutter-fr:modified [128]
     nil nil '(center repeated))
   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
     nil nil 'bottom))
-
 (use-package git-timemachine
   :general
   (my-leader-def
