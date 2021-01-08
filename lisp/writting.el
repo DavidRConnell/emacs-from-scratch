@@ -143,6 +143,11 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (use-package ox
     :straight nil
     :config
+    (setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
     (require 'ox-extra)
     (ox-extras-activate '(ignore-headlines)))
 
