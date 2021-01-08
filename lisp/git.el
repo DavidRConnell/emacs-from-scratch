@@ -32,7 +32,11 @@
   (setq transient-history-file
         (expand-file-name "transient/history.el" my-var-dir))
   :config
-  (advice-add 'magit-status :after #'delete-other-windows))
+  (advice-add 'magit-status :after #'delete-other-windows)
+  (general-define-key
+   :keymaps 'git-rebase-mode-map
+   "C-j" #'git-rebase-move-line-down
+   "C-k" #'git-rebase-move-line-up))
 
 (use-package git-gutter
   :config
