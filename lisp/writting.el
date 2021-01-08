@@ -36,8 +36,15 @@
 	org-hide-emphasis-markers t
 	org-catch-invisible-edits 'smart)
 
+  (setq org-tag-alist '(("ignore")
+			("noexport")))
+
   (setq org-confirm-babel-evaluate nil
 	org-link-elisp-confirm-function nil)
+
+  (general-define-key
+   :keymaps 'org-mode-map
+   "C-c C-q" #'counsel-org-tag)
 
   (general-define-key
    :keymaps 'org-src-mode-map
