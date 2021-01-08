@@ -54,6 +54,7 @@
    'org-babel-load-languages
    '((R . t)
      (python . t)
+     (shell . t)
      (emacs-lisp . t)))
 
   (use-package ob-async)
