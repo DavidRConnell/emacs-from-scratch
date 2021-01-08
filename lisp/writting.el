@@ -285,7 +285,9 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    org-roam-server-network-label-wrap-length 20)))
 
   ;; TODO: move into it's own package.
-  (load "~/.doom.d/extras/+ox-word.el")
+  (use-package +ox-word
+    :straight nil
+    :load-path "~/.doom.d/extras/")
 
   (use-package sdcv-mode
     :straight '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv")
