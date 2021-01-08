@@ -370,6 +370,11 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (setq bibtex-completion-notes-template-multiple-files
 	"${title}\n#+AUTHOR: ${author-or-editor}\ncite:${=key=}"))
 
+  (general-nmap
+    :keymaps 'bibtex-mode-map
+    :prefix "C-c"
+    "C-c" #'org-ref-clean-bibtex-entry))
+
 (use-package ebib
   :general
   (my-leader-def
