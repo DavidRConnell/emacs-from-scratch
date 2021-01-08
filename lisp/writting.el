@@ -8,7 +8,7 @@
   :straight org-plus-contrib
   :general
   (my-leader-def
-    :infix "t"
+    :infix "n"
     "l" #'org-store-link
     "g" #'org-roam-find-file
     "x" #'org-roam-capture)
@@ -122,8 +122,8 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     :hook (org-mode . org-roam-mode)
     :general
     (my-leader-def
-      :infix "t"
       "g" #'org-roam-find-file
+      :infix "n"
       "x" #'org-roam-capture)
     (my-local-leader-def
       :keymaps 'org-mode-map
