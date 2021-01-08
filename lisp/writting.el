@@ -4,13 +4,21 @@
 ;;; Code:
 
 (use-package org
+  :defer 2
   :commands org-mode
-  :straight org-plus-contrib
+  :straight '(org-mode :host github
+           :repo "emacs-straight/org-mode"
+           :files ("*.el" "lisp/*.el" "contrib/lisp/*.el")
+           :build (with-temp-file (expand-file-name "org-version.el"
+						    (straight--repos-dir "org-mode"))
+                    (insert "(fset 'org-release (lambda () \"9.5\"))\n"
+                            "(fset 'org-git-version #'ignore)\n"
+                            "(provide 'org-version)\n")))
   :general
   (my-leader-def
     :infix "n"
     "l" #'org-store-link
-    "g" #'org-roam-find-file
+    "f" #'my-org-roam-find-file
     "x" #'org-roam-capture)
 
   :config
@@ -122,14 +130,15 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     :hook (org-mode . org-roam-mode)
     :general
     (my-leader-def
-      "g" #'org-roam-find-file
       :infix "n"
+      "f" #'my-org-roam-find-file
       "x" #'org-roam-capture)
     (my-local-leader-def
       :keymaps 'org-mode-map
       :infix "m"
       "x" #'org-roam-capture
-      "f" #'org-roam-find-file
+      "b" #'org-roam-switch-to-buffer
+      "f" #'my-org-roam-find-file
       "i" #'org-roam-insert
       "I" #'org-roam-insert-immediate
       "m" #'org-roam)
@@ -144,8 +153,28 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 		    (with-current-buffer (window-buffer)
 		      (org-roam-buffer--get-create)))))
 
+    (defun my-org-roam-find-file-action (x)
+      "From https://github.com/abo-abo/oremacs/blob/15e6a33d314121ea0b3f1659dbc3ee8181dce854/modes/ora-org-roam.el"
+      (if (consp x)
+	  (let ((file-path (plist-get (cdr x) :path)))
+	    (org-roam--find-file file-path))
+	(let* ((title-with-tags x)
+	       (org-roam-capture--info
+		`((title . ,title-with-tags)
+		  (slug . ,(funcall org-roam-title-to-slug-function title-with-tags))))
+	       (org-roam-capture--context 'title))
+	  (setq org-roam-capture-additional-template-props (list :finalize 'find-file))
+	  (org-roam-capture--capture))))
+
+    (defun my-org-roam-find-file ()
+      (interactive)
+      (unless org-roam-mode (org-roam-mode))
+      (ivy-read "File: " (org-roam--get-title-path-completions)
+		:action #'my-org-roam-find-file-action
+		:caller 'my-org-roam-find-file))
+
 ;;; Need to find an appropriate hook
-    ;; (add-hook 'minibuffer-exit-hook
+    ;; (add-hook 'change-major-mode-hook
     ;; 	      (defun my-toggle-org-roam-buffer ()
     ;; 		(cond
     ;; 		 ((and (eq 'visible (org-roam-buffer--visibility))
