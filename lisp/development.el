@@ -100,6 +100,22 @@
 	   (insert " %>%")
 	   (evil-normal-state)))
 
+  (add-hook 'ess-help-mode-hook #'evil-motion-state)
+
+  (general-nmap
+   :keymaps 'ess-r-mode-map
+   :prefix "g"
+   "K" #'ess-help
+   "V" #'ess-display-vignettes
+   "o" #'ess-display-help-apropos)
+
+  (general-nmap
+   :keymaps 'ess-help-mode-map
+   "q" #'kill-current-buffer
+   "gK" #'ess-help
+   "gV" #'ess-display-vignettes
+   "go" #'ess-display-help-apropos)
+
   (add-hook 'ess-r-mode-hook
 	    (lambda () (interactive)
 	      (setq-local company-backends '(company-R-args
