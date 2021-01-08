@@ -322,11 +322,15 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     "c" #'org-ref-insert-link
     "r" #'org-ref-insert-ref-link
     "b" #'org-ref-insert-bibliography-link
-    "s" #'org-ref-insert-bibliographystyle-link)
+    "s" #'org-ref-insert-bibliographystyle-link
+    "n" #'org-ref-open-notes-at-point
+    "p" #'org-ref-open-pdf-at-point
+    "u" #'org-ref-open-url-at-point)
   (my-leader-def
     :infix "r"
-    "f" #'org-ref-insert-link
-    "m" (lambda () (interactive) (find-file my-refs-bib)))
+    "c" #'helm-bibtex
+    "m" (defun my-open-master-bib
+	    () (interactive) (find-file my-refs-bib)))
 
   :config
   (setq org-ref-default-bibliography (list my-refs-bib)
