@@ -335,6 +335,8 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   :config
   (setq org-ref-default-bibliography (list my-refs-bib)
 	org-ref-default-ref-type "cref"
+	org-ref-show-broken-links t
+	org-latex-prefer-user-labels t
 	org-ref-bibliography-notes my-refs-notes-dir
 	org-ref-notes-function (lambda (key)
 				 (interactive)
