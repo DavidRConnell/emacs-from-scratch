@@ -109,7 +109,7 @@
    "V" #'ess-display-vignettes
    "o" #'ess-display-help-apropos)
 
-  (general-nmap
+  (general-mmap
    :keymaps 'ess-help-mode-map
    "q" #'kill-current-buffer
    "gK" #'ess-help

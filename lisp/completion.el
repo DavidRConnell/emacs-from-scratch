@@ -101,7 +101,7 @@
 
   (use-package swiper
     :general
-    (general-nmap
+    (general-nmmap
       "/" #'swiper-isearch
       "?" #'swiper-isearch-backward
       "gn" #'swiper-isearch-thing-at-point)

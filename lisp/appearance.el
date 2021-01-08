@@ -31,7 +31,7 @@
     (my-set-theme 'light)))
 
 (my-set-theme 'light)
-(general-nmap :prefix "C-h" "t" #'my-toggle-theme)
+(general-nmmap :prefix "C-h" "t" #'my-toggle-theme)
 
 (setq-default mode-line-format nil)
 (blink-cursor-mode -1)

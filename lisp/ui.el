@@ -83,7 +83,7 @@
   :general (general-nmap "gx" #'evil-exchange))
 
 (use-package ace-window
-  :general (general-nmap :prefix "C-w"
+  :general (general-nmmap :prefix "C-w"
 	     "C-w" #'ace-window
 	     "C-c" #'ace-delete-window)
   :config (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
@@ -135,7 +135,7 @@
 
 (use-package link-hint
   :general
-  (general-nmap
+  (general-nmmap
     "C-/" #'link-hint-open-link
     "M-/" #'link-hint-copy-link))
 
@@ -146,7 +146,7 @@
 
 (use-package dumb-jump
   :general
-  (general-nmap
+  (general-nmmap
     :prefix "g"
     "D" #'xref-find-definitions)
   :config

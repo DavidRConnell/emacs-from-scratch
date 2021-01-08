@@ -13,7 +13,11 @@
   (general-create-definer my-local-leader-def
     :states '(normal visual motion)
     :keymaps 'override
-    :prefix "C-SPC"))
+    :prefix "C-SPC")
+  (general-create-definer general-nmmap
+    :states '(normal motion))
+  (general-create-definer general-nmvmap
+    :states '(normal motion visual)))
 
 (fset #'yes-or-no-p #'y-or-n-p)
 
@@ -24,7 +28,7 @@
   :config
   (general-imap
     "C-u" #'evil-delete-back-to-indentation)
-  (general-nvmap
+  (general-nmvmap
     "J" #'evil-scroll-line-down
     "K" #'evil-scroll-line-up
     "H" #'evil-beginning-of-visual-line
@@ -34,7 +38,7 @@
     "k" #'evil-previous-visual-line
     "C-m" #'evil-goto-mark
     "C-q" #'evil-execute-macro)
-  (general-nmap
+  (general-nmmap
     :prefix "C-w"
     "u" #'winner-undo
     "C-r" #'winner-redo)
