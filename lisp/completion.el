@@ -173,7 +173,7 @@
 	 yas-minor-mode-on)
   :general
   (general-imap
-    "C-e" #'company-yasnippet)
+    "C-e" #'yas-expand)
   :config
   (use-package doom-snippets
     :straight nil
