@@ -15,6 +15,7 @@
 (require 'development)
 (require 'debugging)
 (require 'writting)
+(require 'mail)
 (require 'terminal)
 (require 'completion)
 (require 'rss)
