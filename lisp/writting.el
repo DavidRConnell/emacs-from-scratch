@@ -357,9 +357,9 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   :after org-ref
   :config
   (require 'find-lisp)
-  (setq bibtex-completion-bibliography my-refs-bib)
-  (setq bibtex-completion-additional-search-fields '(keywords))
-  (setq bibtex-completion-library-path
+  (setq bibtex-completion-bibliography my-refs-bib
+	bibtex-completion-additional-search-fields '(keywords)
+	bibtex-completion-library-path
 	(cl-remove-if-not
 	 (lambda (f)
 	   (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
@@ -397,19 +397,20 @@ If there is more than one local bib file ask."
 		    (completing-read "Select bib" potential-bibs)))))
 	    (if local-bib-file
 		(ebib (expand-file-name local-bib-file))
-	      (ebib my-refs-bib))))))
+	      (ebib my-refs-bib)))))
   :config
   (setq ebib-notes-directory my-refs-notes-dir
-        ebib-reading-list-file (concat my-refs-notes-dir "readinglist.org")
-        ebib-default-directory my-refs-notes-dir
-        ebib-keywords-file (concat my-refs-notes-dir ".keywords.txt")
-        ebib-notes-show-note-method nil
-        ebib-file-associations '(("pdf" . "xdg-open")))
+	ebib-reading-list-file (concat my-refs-notes-dir "readinglist.org")
+	ebib-default-directory my-refs-notes-dir
+	ebib-keywords-file (concat my-refs-notes-dir ".keywords.txt")
+	ebib-notes-show-note-method nil
+	ebib-file-associations '(("pdf" . "xdg-open")))
 
+  (require 'find-lisp)
   (setq ebib-file-search-dirs
-        (cl-remove-if-not
-         (lambda (f) (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
-         (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
+	(cl-remove-if-not
+	 (lambda (f) (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
+	 (directory-files-recursively my-refs-pdfs-dir "." 'dirs)))
 
   (general-define-key
    :keymaps 'ebib-index-mode-map
@@ -417,34 +418,34 @@ If there is more than one local bib file ask."
 
   (defun my-ebib-create-org-title (key db)
     (replace-regexp-in-string "[\t\n ]+"
-                              " "
-                              (or (ebib-get-field-value
-                                   "title" key db 'noerror 'unbraced 'xref)
-                                  "(No Title)")))
+			      " "
+			      (or (ebib-get-field-value
+				   "title" key db 'noerror 'unbraced 'xref)
+				  "(No Title)")))
 
   (defun my-ebib-create-org-author (key db)
     (replace-regexp-in-string "[\t\n ]+ "
-                              " "
-                              (or (ebib-get-field-value
-                                   "author" key db 'noerror 'unbraced 'xref)
-                                  (ebib-get-field-value
-                                   "editor" key db 'noerror 'unbraced 'xref)
-                                  "(No Author)")))
+			      " "
+			      (or (ebib-get-field-value
+				   "author" key db 'noerror 'unbraced 'xref)
+				  (ebib-get-field-value
+				   "editor" key db 'noerror 'unbraced 'xref)
+				  "(No Author)")))
 
   (defun my-ebib-create-org-identifier (key _)
     key)
 
   (setq ebib-notes-template-specifiers
-        '((?K . ebib-create-org-identifier)
-          (?k . my-ebib-create-org-identifier)
-          (?T . ebib-create-org-title)
-          (?t . my-ebib-create-org-title)
-          (?A . my-ebib-create-org-author)
-          (?L . ebib-create-org-link)
-          (?F . ebib-create-org-file-link)
-          (?D . ebib-create-org-doi-link)
-          (?U . ebib-create-org-url-link)
-          (?M . ebib-reading-list-todo-marker)))
+	'((?K . ebib-create-org-identifier)
+	  (?k . my-ebib-create-org-identifier)
+	  (?T . ebib-create-org-title)
+	  (?t . my-ebib-create-org-title)
+	  (?A . my-ebib-create-org-author)
+	  (?L . ebib-create-org-link)
+	  (?F . ebib-create-org-file-link)
+	  (?D . ebib-create-org-doi-link)
+	  (?U . ebib-create-org-url-link)
+	  (?M . ebib-reading-list-todo-marker)))
 
   (setq ebib-reading-list-template-specifiers ebib-notes-template-specifiers)
 
