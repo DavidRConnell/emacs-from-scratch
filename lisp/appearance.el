@@ -38,6 +38,9 @@
 (global-display-fill-column-indicator-mode t)
 (show-paren-mode t)
 
+(use-package visual-fill-column
+  :hook (visual-line-mode . visual-fill-column-mode))
+
 (require 'mode-line)
 
 (provide 'appearance)
