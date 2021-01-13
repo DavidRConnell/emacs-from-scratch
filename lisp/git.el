@@ -25,6 +25,7 @@
    :infix "g"
    "s" #'magit-status-here
    "d" #'magit-diff-buffer-file
+   "b" #'magit-branch
    "r" #'git-gutter:revert-hunk
    "a" #'git-gutter:stage-hunk
    "c" #'magit-commit)
