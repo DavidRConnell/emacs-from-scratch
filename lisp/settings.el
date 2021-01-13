@@ -21,6 +21,7 @@
 
 (setq backup-directory-alist
       `((".*" . ,(expand-file-name "backup/" my-var-dir))))
+
 (setq auto-save-file-name-transforms
       `((".*"
 	 ,(expand-file-name "auto-save/\\1" my-var-dir) t)))

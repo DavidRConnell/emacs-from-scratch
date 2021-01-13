@@ -60,14 +60,16 @@
 ;;   :config (add-hook 'emacs-lisp-mode-hook #'flycheck-elsa-setup)))
 
 (use-package helpful
-  :general (general-nmap :prefix "C-h"
-                         "o" #'helpful-symbol
-                         "k" #'helpful-key
-                         "f" #'helpful-callable
-                         "v" #'helpful-variable))
-
 ;; (use-package elisp-demos)
 ;; (use-package macrostep)
+  :general
+  (general-nmap
+    :prefix "C-h"
+    "o" #'helpful-symbol
+    "k" #'helpful-key
+    "f" #'helpful-callable
+    "v" #'helpful-variable))
+
 ;; (use-package sly)
 
 (use-package lispy

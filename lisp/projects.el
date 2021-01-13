@@ -24,10 +24,11 @@ Otherwise open in `default-directory'."
 	  "Find a file in `user-emacs-directory'."
 	  (interactive)
 	  (projectile-find-file-in-directory user-emacs-directory)))
-  :init
-  (projectile-mode +1)
+  :config
   (setq projectile-completion-system 'default
-	projectile-cache-file (expand-file-name "projects/" my-cache-dir)))
+	projectile-cache-file (expand-file-name "projects/" my-cache-dir))
+
+  (projectile-mode +1))
 
 (use-package counsel-projectile
   :after (projectile ivy counsel)

@@ -28,8 +28,6 @@
         (min-width  . 40) '(width      . 81)
         (vertical-scroll-bars . nil)
         (internal-border-width . 24)
-        (left-fringe    . 0)
-        (right-fringe   . 0)
         (tool-bar-lines . 0)
         (menu-bar-lines . 0)))
 
@@ -46,6 +44,7 @@
       inhibit-startup-echo-area-message t
       initial-scratch-message nil)
 
+(scroll-bar-mode 0)
 (tool-bar-mode 0)
 (tooltip-mode 0)
 (global-hl-line-mode 1)

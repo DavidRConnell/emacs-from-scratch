@@ -233,7 +233,7 @@ background color that is barely perceptible."
                     :height 0.75
                     :foreground (face-foreground 'nano-face-faded)
                     :background (face-background 'nano-face-default)
-                    :overline nil 
+                    :overline nil
                     :underline nil
 		    :inherit nil
                     :box nil)
@@ -259,12 +259,12 @@ background color that is barely perceptible."
 ;;                       :underline nil
 ;;                       :box nil
 ;; 		              :inherit nil))
-  
+
 ;; (set-face-attribute 'internal-border nil
 ;;                     :background (face-foreground 'nano-face-default))
 (set-face-attribute 'internal-border nil
                     :background (face-background 'nano-face-default))
-           
+
 (if (display-graphic-p)
     (set-face-attribute 'bold nil :weight 'regular)
   (set-face-attribute 'bold nil :weight 'bold))
@@ -472,7 +472,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'flyspell-duplicate                     'nano-face-popout)
   (set-face 'flyspell-incorrect                     'nano-face-popout))
 
-;; Ido 
+;; Ido
 (with-eval-after-load 'ido
   (set-face 'ido-first-match                       'nano-face-salient)
   (set-face 'ido-only-match                          'nano-face-faded)
@@ -517,7 +517,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face-attribute 'term-color-red nil
                       :foreground "#EF5350"   ;; material color red L400
                       :background "#FFCDD2")  ;; material color red L100
-  (set-face-attribute 'term-color-yellow nil 
+  (set-face-attribute 'term-color-yellow nil
                       :foreground "#FFEE58"   ;; material color yellow L400
                       :background "#FFF9C4")) ;; material color yellow L100
 
