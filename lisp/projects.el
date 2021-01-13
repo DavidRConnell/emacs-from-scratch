@@ -40,11 +40,6 @@ Otherwise open in `default-directory'."
     "b" #'counsel-projectile-switch-to-buffer))
 
   :config
-  (use-package ripgrep
-    :general
-    (my-leader-def
-      :infix "p"
-      "g" #'projectile-ripgrep)))
 
 (use-package workgroups2
   :init
@@ -58,12 +53,6 @@ Otherwise open in `default-directory'."
   :config
   (defun wg-change-modeline ())
   (workgroups-mode 1))
-
-(use-package golden-ratio
-  :disable
-  :config
-  (add-to-list 'golden-ratio-extra-commands 'ace-window)
-  (golden-ratio-mode 1))
 
 (use-package golden
   :straight (golden :type git :repo "https://git.sr.ht/~wklew/golden")
