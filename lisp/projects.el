@@ -36,7 +36,8 @@ Otherwise open in `default-directory'."
   (counsel-projectile-mode 1)
   (my-leader-def
     :infix "p"
-    "g" #'counsel-projectile-rg))
+    "g" #'counsel-projectile-rg
+    "b" #'counsel-projectile-switch-to-buffer))
 
   :config
   (use-package ripgrep
