@@ -26,10 +26,19 @@
     [16 48 112 240 112 48 16] nil nil 'center))
 
 (use-package emr
-  :general (general-nmap "M-SPC" #'emr-show-refactor-menu))
+  :general
+  (general-nmap
+    "M-SPC" #'emr-show-refactor-menu)
+  :config
+  (my-local-leader-def
+    :infix "r"
+    :keymaps 'emacs-lisp-mode-map
+    "v" #'emr-el-extract-variable
+    "f" #'emr-el-extract-function))
 
 (use-package elisp-def
   :hook (emacs-lisp-mode . elisp-def-mode))
+
 ;; :general (:keymaps 'elisp-def-mode-map "gd"))
 
 ;; (use-package elfmt
