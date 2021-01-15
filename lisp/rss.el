@@ -32,11 +32,7 @@
    ;; "r" #'elfeed-update
    "&" #'elfeed-search-browse-url)
 
-  (setq elfeed-db-directory
-	(expand-file-name "elfeed/db/" my-cache-dir)
-	elfeed-enclusure-default-dir
-	(expand-file-name "elfeed/enclusures/" my-cache-dir)
-	elfeed-search-filter "@2-week-ago")
+  (setq elfeed-search-filter "@2-week-ago")
 
   (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
   (add-hook 'elfeed-show-mode-hook #'visual-line-mode)

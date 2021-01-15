@@ -7,6 +7,7 @@
 
 (require 'variables)
 (require 'packages)    ;; declare packages
+(require 'tidy-files)
 (require 'keybindings)
 (require 'appearance)  ;; take care of general emacs stuff.
 (require 'ui)
@@ -19,7 +20,6 @@
 (require 'terminal)
 (require 'completion)
 (require 'rss)
-(require 'settings)
 (require 'speed)
 
 (let ((inhibit-message t))

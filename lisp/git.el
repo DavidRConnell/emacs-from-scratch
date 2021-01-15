@@ -29,9 +29,6 @@
    "r" #'git-gutter:revert-hunk
    "a" #'git-gutter:stage-hunk
    "c" #'magit-commit)
-  :init
-  (setq transient-history-file
-        (expand-file-name "transient/history.el" my-var-dir))
   :config
   (advice-add 'magit-status :after #'delete-other-windows)
   (general-define-key

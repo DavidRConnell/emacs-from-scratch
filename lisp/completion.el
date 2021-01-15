@@ -7,8 +7,6 @@
 ;;; Code:
 
 (use-package prescient
-  :init (setq prescient-save-file (expand-file-name
-                                   "prescient-save.el" my-var-dir))
   :config
   (prescient-persist-mode +1))
 
@@ -115,8 +113,7 @@
 (use-package amx
   :commands amx
   :init
-  (setq amx-save-file (expand-file-name "amx-items" my-var-dir)
-	amx-backend 'ivy)
+  (setq amx-backend 'ivy)
   :config (amx-mode 1))
 
 (use-package company

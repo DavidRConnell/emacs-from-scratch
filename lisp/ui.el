@@ -4,7 +4,6 @@
 
 (save-place-mode 1)
 
-(setq recentf-save-file (expand-file-name "recentf" my-var-dir))
 (recentf-mode 1)
 
 (use-package which-key
