@@ -193,15 +193,15 @@ This ensures the results are visible."
 
     (interactive
      (list (let ((thing-candidate (python-eldoc--get-symbol-at-point)))
-       (read-string (concat
-		     "Help on: "
-		     (if thing-candidate
-			 (concat " (" thing-candidate ")")
-		       "")
-		     ": ")
-                    nil
-                    nil
-                    thing-candidate))))
+	     (read-string (concat
+			   "Help on"
+			   (if thing-candidate
+			       (concat " (" thing-candidate ")")
+			     "")
+			   ": ")
+			  nil
+			  nil
+			  thing-candidate))))
     (let* ((buff-name (format "*Python help for: %s*" thing))
 	   (buff (get-buffer-create buff-name)))
       (with-current-buffer buff
