@@ -55,7 +55,7 @@
   :general
   (my-leader-def
     :infix "g"
-    "t" #'git-timemachine)
+    "t" #'git-timemachine-toggle)
   :config
   (general-define-key
    :keymaps 'git-timemachine-mode-map
