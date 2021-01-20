@@ -59,8 +59,8 @@
   :config
   (general-define-key
    :keymaps 'git-timemachine-mode-map
-   "C-j" #'git-timemachine-show-previous-revision
-   "C-k" #'git-timemachine-show-next-revision
+   "C-k" #'git-timemachine-show-previous-revision
+   "C-j" #'git-timemachine-show-next-revision
    "C-r" #'git-timemachine-show-revision))
 
 (provide 'git)
