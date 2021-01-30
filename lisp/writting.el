@@ -296,11 +296,48 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     :load-path "~/.doom.d/extras/")
 
   (use-package sdcv-mode
+    :disabled
     :straight '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv")
     :general
     (my-leader-def
       :infix "d"
       "d" #'sdcv-search))
+
+  (use-package lexic
+    :straight '(lexic :host github :repo "tecosaur/lexic")
+    :general
+    (my-leader-def
+      :infix "d"
+      "d" #'lexic-search)
+    :init
+    (setq lexic-dictionary-specs
+	  '(("Webster's Revised Unabridged Dictionary (1913)" :formatter lexic-format-webster :priority 1)
+	    ("Element\s database" :short "Element" :formatter lexic-format-element :priority 3)
+	    ("Online Etymology Dictionary" :short "Etymology" :formatter lexic-format-online-etym :priority 4)
+	    ("Soule's Dictionary of English Synonyms" :short "Synonyms" :formatter lexic-format-soule :priority 5)))
+    :config
+    (general-define-key
+     :keymaps 'lexic-mode-map
+     :states 'normal
+     "q" #'lexic-return-from-lexic
+     "o" #'counsel-outline
+     "RET" #'lexic-search-word-at-point
+     "C-c C-o" #'lexic-search-word-at-point
+     "a" #'outline-show-all
+     "h" (lambda () (interactive) (outline-hide-sublevels 3))
+     "H" #'outline-hide-sublevels
+     "C-i" #'lexic-toggle-entry
+     "n" #'lexic-next-entry
+     "N" (lambda () (interactive) (lexic-next-entry t))
+     "p" #'lexic-previous-entry
+     "P" (lambda () (interactive) (lexic-previous-entry t))
+     "E" (lambda () (interactive) (lexic-return-from-lexic) ; expand
+	       (switch-to-buffer (lexic-get-buffer)))
+     "M" (lambda () (interactive) (lexic-return-from-lexic) ; minimise
+	       (lexic-goto-lexic))
+     "C-p" #'lexic-search-history-backwards
+     "C-n" #'lexic-search-history-forwards
+     "/" (lambda () (interactive) (call-interactively #'lexic-search))))
 
   (use-package wiki-summary
     :general
