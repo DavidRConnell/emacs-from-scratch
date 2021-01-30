@@ -232,7 +232,7 @@ This ensures the results are visible."
   :straight nil
   :mode ("\\.pdf\\'" . pdf-view-mode)
   :config
-  (general-define-key
+  (general-nmap
    :keymaps 'pdf-view-mode-map
    "r" #'org-ref-pdf-to-bibtex)
   (use-package saveplace-pdf-view))
