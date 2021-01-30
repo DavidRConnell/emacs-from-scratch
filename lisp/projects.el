@@ -5,6 +5,7 @@
 ;;   grep project tool
 
 (use-package projectile
+  :commands projectile-project-p
   :general
   (my-leader-def
     :infix "p"
