@@ -95,12 +95,20 @@
   (use-package poly-org
     :hook (org-mode . poly-org-mode)))
 
+(use-package format-all
+  :config
+  (defun my-format-all-setup ()
+    (format-all-ensure-formatter)
+    (format-all-buffer)
+    (format-all-mode)))
+
 (use-package lsp-mode
   :commands lsp-mode lsp-deferred)
 
 (use-package ess
   :mode ("\\.r\\'" . ess-r-mode)
   :hook (ess-r-mode . lsp-deferred)
+  :hook (ess-r-mode . my-format-all-setup)
   :config
   (general-define-key
    :keymaps 'ess-r-mode-map
@@ -156,6 +164,7 @@ This ensures the results are visible."
 
 (use-package python
   :hook (python-mode . lsp-deferred)
+  :hook (python-mode . my-format-all-setup)
   :config
   (defun my-set-python-library-directories ()
     "Determine library directories for lsp based on python shell interpreter."
@@ -217,10 +226,7 @@ This ensures the results are visible."
   (general-nmap
     :keymaps 'python-mode-map
     :prefix "g"
-    "K" #'my-python-help)
-
-  (use-package blacken
-    :hook (python-mode . blacken-mode)))
+    "K" #'my-python-help))
 
 (use-package pdf-tools
   :straight nil
