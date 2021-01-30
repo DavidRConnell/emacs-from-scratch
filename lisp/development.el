@@ -237,6 +237,29 @@ This ensures the results are visible."
    "r" #'org-ref-pdf-to-bibtex)
   (use-package saveplace-pdf-view))
 
+(use-package sh-script
+  :straight nil
+  :hook (sh-mode . my-format-all-setup)
+  :mode ("\\.bats\\'" . sh-mode)
+  :config
+  (setq sh-indent-after-continuation 'always)
+  (add-hook 'sh-mode-hook
+	    (defun my-set-shell-formatter ()
+	      (setq-local format-all-formatters
+			  '(("Shell" beautysh))))
+	    -10)
+
+  (use-package company-shell
+    :config
+    (setq company-shell-delete-duplicates t)
+    (add-hook 'sh-mode-hook
+	      #'(lambda ()
+		  (setq-local company-backends
+			    '(company-shell
+			      company-capf
+			      company-yasnippet
+			      company-files))))))
+
 ;; Testing might at hooks later.
 (use-package tree-sitter
   :commands tree-sitter-hl-mode
