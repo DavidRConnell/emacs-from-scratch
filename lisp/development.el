@@ -60,7 +60,6 @@
 ;;   :config (add-hook 'emacs-lisp-mode-hook #'flycheck-elsa-setup)))
 
 (use-package helpful
-;; (use-package elisp-demos)
 ;; (use-package macrostep)
   :general
   (general-nmap
@@ -70,6 +69,9 @@
     "f" #'helpful-callable
     "v" #'helpful-variable))
 
+(use-package elisp-demos
+  :config
+  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 ;; (use-package sly)
 
 (use-package lispy
