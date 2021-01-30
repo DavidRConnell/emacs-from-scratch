@@ -70,16 +70,12 @@
    "C-i" #'ivy-dispatching-done
    "C-w" #'ivy-backward-kill-word)
 
-  (use-package ivy-prescient
-    :config
-    (ivy-prescient-mode 1))
-
   (use-package ivy-posframe
-  :config
-  (setq ivy-posframe-display-functions-alist
-	'((t .  ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-parameters '((internal-border . 2)))
-  (ivy-posframe-mode 1))
+    :config
+    (setq ivy-posframe-display-functions-alist
+	  '((t . ivy-posframe-display-at-frame-center)))
+    (setq ivy-posframe-parameters '((internal-border . 2)))
+    (ivy-posframe-mode 1))
 
   (use-package ivy-avy
     :general
@@ -96,6 +92,10 @@
     (my-leader-def
       "O" #'counsel-recentf)
     (counsel-mode 1))
+
+  (use-package ivy-prescient
+    :config
+    (ivy-prescient-mode 1))
 
   (use-package swiper
     :general
