@@ -112,7 +112,11 @@
   :general
   (general-nvmap
     "u" #'undo-fu-only-undo
-    "C-r" #'undo-fu-only-redo))
+    "C-r" #'undo-fu-only-redo)
+  :config
+  (use-package undo-fu-session
+    :config
+    (global-undo-fu-session-mode t)))
 
 (use-package undo-tree
   :disabled
