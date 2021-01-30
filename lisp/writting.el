@@ -139,7 +139,12 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    (setq type (match-string 1 keyword))
 	    (cond
 	     ((string= type "eq")
-	      (format "eq \\ref{%s}" keyword)))))))))
+	      (format "eq \\ref{%s}" keyword))))))))
+
+    (use-package citeproc-org
+      :config
+      (citeproc-org-setup)
+      (setq citeproc-org-org-bib-header "** References\n")))
 
   (use-package ox
     :straight nil
