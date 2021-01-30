@@ -155,4 +155,9 @@
   :config
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+(use-package iedit
+  :general
+  (general-nmap
+   "C-;" #'iedit-mode))
+
 (provide 'ui)
