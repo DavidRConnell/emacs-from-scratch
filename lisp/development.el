@@ -237,6 +237,33 @@ This ensures the results are visible."
    "r" #'org-ref-pdf-to-bibtex)
   (use-package saveplace-pdf-view))
 
+;; Testing might at hooks later.
+(use-package tree-sitter
+  :commands tree-sitter-hl-mode
+  :general
+  (my-leader-def
+    :infix "h"
+    "t" (defun my-tree-sitter-toggle ()
+	  (interactive)
+	  (prism-whitespace-mode -1)
+	  (call-interactively #'tree-sitter-hl-mode)))
+  :config
+  (use-package tree-sitter-langs))
+
+(use-package prism
+  :straight (prism :host github :repo "alphapapa/prism.el")
+  :commands (prism-whitespace-mode prism-mode)
+  :general
+  (my-leader-def
+    :infix "h"
+    "p" (defun my-prism-toggle ()
+	  (interactive)
+	  (if (string-match-p "lisp" mode-name)
+	      (call-interactively #'prism-mode)
+	    (progn
+	      (tree-sitter-hl-mode -1)
+	      (call-interactively #'prism-whitespace-mode))))))
+
 ;; (use-package overseer)
 ;; (use-package buttercup)
 
