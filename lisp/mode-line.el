@@ -69,10 +69,29 @@
 	    (if gui
 		(propertize filler 'face 'nano-face-header-filler)
 	      (propertize " " 'face 'nano-face-header-filler))
-	    (propertize right 'face 'nano-face-header-default)
+	    right
 	    (if gui
 		(propertize " "   'face 'nano-face-header-separator)))))
 
+;; ---------------------------------------------------------------------
+(set-face-attribute 'eyebrowse-mode-line-active nil
+		    :foreground nano-color-salient
+		    :weight 'bold
+		    :inherit 'nano-face-header-default)
+(set-face 'eyebrowse-mode-line-inactive 'nano-face-header-default)
+(set-face 'eyebrowse-mode-line-delimiters 'nano-face-header-default)
+(set-face 'eyebrowse-mode-line-separator 'nano-face-header-default)
+
+(defun nano-modeline-right-side ()
+  "Provide general information for the right side of the modeline."
+  (let* ((line-info (format-mode-line "%l:%c "))
+	 (eyebrowse-workspaces (eyebrowse-mode-line-indicator))
+	 (buffer (- 7 (length line-info))))
+    (concat eyebrowse-workspaces
+	    (propertize (make-string buffer ?\ ) 'face 'nano-face-header-default)
+	    (propertize line-info 'face 'nano-face-header-default))))
+
+;; ---------------------------------------------------------------------
 (defun nano-modeline-org-roam-mode-p ()
   (and  (bound-and-true-p org-roam-mode)
 	(org-roam-db-has-file-p (buffer-file-name (window-buffer)))))
@@ -83,6 +102,7 @@
 						  (window-buffer)))
 			 "(Org-roam)"
 			 ""))
+
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-mu4e-dashboard-mode-p ()
   (bound-and-true-p mu4e-dashboard-mode))
@@ -255,8 +275,7 @@
 (defun nano-modeline-org-clock-mode ()
     (let ((buffer-name (format-mode-line "%b"))
           (mode-name   (format-mode-line "%m"))
-          (branch      (vc-branch))
-          (position    (format-mode-line "%l:%c")))
+          (branch      (vc-branch)))
       (nano-modeline-compose (nano-modeline-status)
                              buffer-name
                              (concat "(" mode-name
@@ -322,25 +341,23 @@
 
 (defun nano-modeline-completion-list-mode ()
     (let ((buffer-name (format-mode-line "%b"))
-          (mode-name   (format-mode-line "%m"))
-          (position    (format-mode-line "%l:%c")))
+          (mode-name   (format-mode-line "%m")))
       (nano-modeline-compose (nano-modeline-status)
-                             buffer-name "" position)))
+                             buffer-name "" (nano-modeline-right-side))))
 
 ;; ---------------------------------------------------------------------
 
 (defun nano-modeline-default-mode ()
     (let ((buffer-name (format-mode-line "%b"))
           (mode-name   (format-mode-line "%m"))
-          (branch      (vc-branch))
-          (position    (format-mode-line "%l:%c")))
+          (branch      (vc-branch)))
       (nano-modeline-compose (nano-modeline-status)
                              buffer-name
                              (concat "(" mode-name
                                      (if branch (concat ", "
                                             (propertize branch 'face 'italic)))
                                      ")" )
-                             position)))
+                             (nano-modeline-right-side))))
 
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-status ()
@@ -378,8 +395,8 @@
            ((nano-modeline-pdf-view-mode-p)        (nano-modeline-pdf-view-mode))
 	   ((nano-modeline-docview-mode-p)         (nano-modeline-docview-mode))
 	   ((nano-modeline-completion-list-mode-p) (nano-modeline-completion-list-mode))
-	   ((nano-modeline-message-mode-p)          (nano-modeline-mssage-mode))
-	   ((nano-modeline-org-roam-mode-p) (nano-modeline-org-roam-mode))
+	   ((nano-modeline-message-mode-p)         (nano-modeline-mssage-mode))
+	   ((nano-modeline-org-roam-mode-p)        (nano-modeline-org-roam-mode))
 	   (t                                      (nano-modeline-default-mode)))))))
 
 ;; ---------------------------------------------------------------------
