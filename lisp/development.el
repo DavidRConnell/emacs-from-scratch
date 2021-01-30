@@ -226,6 +226,10 @@ This ensures the results are visible."
 			      company-yasnippet
 			      company-files))))))
 
+(use-package c-mode
+  :straight nil
+  :hook (c-mode . my-format-all-setup))
+
 ;; Testing might at hooks later.
 (use-package tree-sitter
   :commands tree-sitter-hl-mode
