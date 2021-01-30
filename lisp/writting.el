@@ -406,12 +406,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (require 'find-lisp)
   (setq bibtex-completion-bibliography my-refs-bib
 	bibtex-completion-additional-search-fields '(keywords)
-	bibtex-completion-library-path
-	(cl-remove-if-not
-	 (lambda (f)
-	   (find-lisp-file-predicate-is-directory f my-refs-pdfs-dir))
-	 (directory-files-recursively my-refs-pdfs-dir "." 'dirs))
-
+	bibtex-completion-library-path my-refs-pdfs-dir
 	bibtex-completion-notes-path my-refs-notes-dir
 	bibtex-completion-pdf-open-function
 	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath))
