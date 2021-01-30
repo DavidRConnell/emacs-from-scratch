@@ -39,20 +39,24 @@ Otherwise open in `default-directory'."
     "g" #'counsel-projectile-rg
     "b" #'counsel-projectile-switch-to-buffer))
 
+(use-package eyebrowse
   :config
-
-(use-package workgroups2
-  :init
-  (setq wg-session-file (expand-file-name "workgroups" my-var-dir))
-  :general
-  (my-leader-def
-    :infix "p"
-    "p" #'wg-switch-to-workgroup
-    "w" #'wg-open-workgroup
-    "c" #'wg-create-workgroup)
-  :config
-  (defun wg-change-modeline ())
-  (workgroups-mode 1))
+  (general-define-key
+   :keymaps 'override
+   :prefix "C-c C-w"
+   "r" #'eyebrowse-rename-window-config
+   "c" #'eyebrowse-create-window-config
+   "b" #'eyebrowse-switch-to-window-config)
+  (general-nmap
+    :prefix "g"
+    "t" #'eyebrowse-next-window-config
+    "T" #'eyebrowse-prev-window-config)
+  (general-nmap
+    :prefix "z"
+    "x" #'eyebrowse-close-window-config)
+  (eyebrowse-mode t)
+  (setq eyebrowse-wrap-around t
+	eyebrowse-new-workspace t))
 
 (use-package golden
   :straight (golden :type git :repo "https://git.sr.ht/~wklew/golden")
