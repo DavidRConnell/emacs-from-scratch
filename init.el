@@ -9,7 +9,6 @@
 (require 'packages)    ;; declare packages
 (require 'tidy-files)
 (require 'keybindings)
-(require 'appearance)  ;; take care of general emacs stuff.
 (require 'ui)
 (require 'git)
 (require 'projects)
@@ -20,6 +19,7 @@
 (require 'terminal)
 (require 'completion)
 (require 'rss)
+(require 'appearance)  ;; take care of general emacs stuff.
 (require 'speed)
 
 (let ((inhibit-message t))
