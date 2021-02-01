@@ -37,7 +37,8 @@
 	org-catch-invisible-edits 'smart)
 
   (setq org-tag-alist '(("ignore")
-			("noexport")))
+			("noexport"))
+	org-tags-column (- 3 fill-column))
 
   (setq org-confirm-babel-evaluate nil
 	org-link-elisp-confirm-function nil)
