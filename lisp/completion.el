@@ -91,7 +91,9 @@
     :config
     (my-leader-def
       "O" #'counsel-recentf)
-    (counsel-mode 1))
+    (counsel-mode 1)
+    (setq counsel-describe-function-function #'helpful-callable
+	  counsel-describe-variable-function #'helpful-variable))
 
   (use-package ivy-prescient
     :config

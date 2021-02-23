@@ -208,6 +208,27 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 		:action #'my-org-roam-find-file-action
 		:caller 'my-org-roam-find-file))
 
+    (ivy-add-actions #'my-org-roam-find-file
+		     '(("j"
+			(lambda (x) (find-file-other-window (third x)))
+			"other window")
+		       ("k"
+			(lambda (x) (delete-file (third x)))
+			"delete")
+		       ("c" (lambda (x) (kill-new (third x))) "copy file name")))
+    (ivy-add-actions #'org-roam-switch-to-buffer
+		     '(("j"
+			(lambda (x)
+			  (switch-to-buffer-other-window (cdr x)))
+			"other window")
+		       ("k"
+			(lambda (x)
+			  (let (file-name (buffer-file-name (cdr x)))
+			    (kill-buffer file-name)
+			    (delete-file file-name)))
+			"delete")
+		       ("c" (lambda (x) (kill-new (buffer-file-name (cdr x)))) "copy file name")))
+
 ;;; Need to find an appropriate hook
     ;; (add-hook 'change-major-mode-hook
     ;; 	      (defun my-toggle-org-roam-buffer ()
