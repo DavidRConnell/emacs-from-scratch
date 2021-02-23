@@ -253,7 +253,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	  org-roam-capture-templates
 	  '(("d" "default" plain #'org-roam-capture--get-point
 	     :file-name "%<%Y%m%d%H%M%S>"
-	     :head "#+TITLE: ${title}\n"
+	     :head "#+TITLE: ${title}\n\n- tags :: %?"
 	     :unnarrowed t))
 
 	  org-roam-capture-immediate-template
@@ -271,7 +271,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       (setq org-roam-capture-ref-templates
 		    '(("r" "ref" plain #'org-roam-capture--get-point
 		       :file-name "%<%Y%m%d%H%M%S>"
-		       :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}\n"
+		       :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}\n\n- tags :: %?"
 		       :unnarrowed t))))
 
     (use-package org-roam-bibtex
@@ -288,7 +288,7 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    '(("r" "ref" plain #'org-roam-capture--get-point
 	       ""
 	       :file-name "references/${citekey}"
-	       :head "#+TITLE: ${title}\n#+AUTHOR: ${author}\n#+ROAM_KEY: ${ref}\n"
+	       :head "#+TITLE: ${title}\n#+AUTHOR: ${author}\n#+ROAM_KEY: ${ref}\n\n- tags :: [[roam:Read]]%?"
 	       :unnarrowed t))
 	    orb-insert-link-description 'citation))
 
