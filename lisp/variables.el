@@ -24,10 +24,10 @@
 (setq user-full-name "David R. Connell"
       user-mail-address "davidconnell12@gmail.com")
 
-(defvar my-cache-dir "~/.cache/emacs/"
+(defvar my-cache-dir (expand-file-name "emacs/" (getenv "XDG_CACHE_HOME"))
   "Location to store reproducibly generated files.")
 
-(defvar my-var-dir "~/.local/share/emacs/"
+(defvar my-var-dir (expand-file-name "emacs/" (getenv "XDG_DATA_HOME"))
   "Location to store persistent, non-reproducible data.")
 
 (cl-dolist (dir (list my-cache-dir my-var-dir))
