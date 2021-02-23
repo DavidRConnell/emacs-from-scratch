@@ -160,4 +160,12 @@
   (general-nmap
    "C-;" #'iedit-mode))
 
+(use-package dired-narrow
+  :general
+  (general-nmap
+    :keymaps 'dired-mode-map
+    "/" #'dired-narrow))
+
+(setq dired-dwim-target t)
+
 (provide 'ui)
