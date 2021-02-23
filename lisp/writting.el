@@ -86,7 +86,7 @@
     (require 'org-tweaks)
     (general-define-key
      :states '(normal insert)
-     :keymap 'org-mode-map
+     :keymaps '(evil-org-mode-map org-mode-map)
      [C-return] #'+org/insert-item-below
      [C-S-return] #'+org/insert-item-above
      [C-M-return] #'org-insert-subheading))
