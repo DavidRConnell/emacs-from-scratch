@@ -91,6 +91,10 @@
      [C-S-return] #'+org/insert-item-above
      [C-M-return] #'org-insert-subheading))
 
+  (general-nmap
+   :keymaps 'org-mode-map
+   "zn" #'org-toggle-narrow-to-subtree)
+
   (my-local-leader-def
     :keymaps 'org-mode-map
     "t" #'org-todo
