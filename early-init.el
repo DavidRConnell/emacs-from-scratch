@@ -23,7 +23,7 @@
 
 (setq frame-resize-pixelwise t)
 (setq default-frame-alist
-      '((font . "Roboto Mono:style=Light:size=14")
+      '((font . "Hack:style=Light:size=14")
         (min-height . 1)  '(height     . 45)
         (min-width  . 40) '(width      . 81)
         (vertical-scroll-bars . nil)
