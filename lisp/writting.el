@@ -316,10 +316,9 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	    org-roam-server-network-label-truncate-length 60
 	    org-roam-server-network-label-wrap-length 20)))
 
-  ;; TODO: move into it's own package.
-  (use-package +ox-word
+  (use-package ox-word
     :straight nil
-    :load-path "~/.doom.d/extras/")
+    :load-path "~/projects/ox-word")
 
   (use-package sdcv-mode
     :disabled
