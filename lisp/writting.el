@@ -154,11 +154,31 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (use-package ox
     :straight nil
     :config
-    (setq org-latex-pdf-process
-      '("pdflatex -interaction nonstopmode -output-directory %o %f"
-	"bibtex %b"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"
-	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+    (setq org-latex-pdf-process '("tectonic %f")
+	  org-latex-packages-alist '(
+				     ("" "xcolor" nil)
+				     ("capitalise, nameinlink, noabbrev" "cleveref" nil))
+	  org-latex-classes `(
+			      ("article"
+			       ,(concat
+				 "\\documentclass[11pt]{article}\n"
+				 "[DEFAULT-PACKAGES]\n"
+				 "[PACKAGES]\n"
+				 "\\definecolor{defaultcolor}{HTML}{436092}\n"
+				 "\\crefformat{equation}{#2eq~#1#3}\n"
+				 "\\crefmultiformat{equation}{#2eq~#1#3}{ and #2#1#3}{, #2#1#3}{ and #2#1#3}\n"
+				 "\\crefmultiformat{figure}{#2Figures~#1#3}{ and #2#1#3}{, #2#1#3}{ and #2#1#3}\n"
+				 "\\hypersetup{%\n"
+				 "colorlinks,\n"
+				 "linkcolor=defaultcolor,\n"
+				 "urlcolor=defaultcolor,\n"
+				 "citecolor=defaultcolor}")
+			       ("\\section{%s}" . "\\section*{%s}")
+			       ("\\subsection{%s}" . "\\subsection*{%s}")
+			       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+			       ("\\paragraph{%s}" . "\\paragraph*{%s}")
+			       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+	  org-export-with-sub-superscripts '{})
     (require 'ox-extra)
     (ox-extras-activate '(ignore-headlines)))
 
