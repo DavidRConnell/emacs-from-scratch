@@ -250,6 +250,13 @@ This ensures the results are visible."
  :keymaps 'Info-mode-map
  "C-c C-o" #'Info-follow-nearest-node)
 
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (add-to-list 'imenu-generic-expression
+			 '("Package"
+			   "^\\s-*(use-package \\(\\(?:\\sw\\|\\s_\\|\\\\.\\)+\\)[[:space:]\n]+[^)]"
+			   1))))
+
 (use-package hl-todo
     :hook (prog-mode . hl-todo-mode)
     :config
