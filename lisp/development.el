@@ -246,6 +246,10 @@ This ensures the results are visible."
 (use-package prism
   :straight (prism :host github :repo "alphapapa/prism.el")
   :commands (prism-whitespace-mode prism-mode)
+(general-define-key
+ :keymaps 'Info-mode-map
+ "C-c C-o" #'Info-follow-nearest-node)
+
 (use-package hl-todo
     :hook (prog-mode . hl-todo-mode)
     :config
