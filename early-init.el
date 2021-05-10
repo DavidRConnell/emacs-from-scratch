@@ -49,7 +49,8 @@
 (tooltip-mode 0)
 (global-hl-line-mode 1)
 
-(setq x-underline-at-descent-line t)
+(setq x-underline-at-descent-line t
+      ring-bell-function 'ignore)
 
 ;; Vertical window divider
 (setq window-divider-default-right-width 24)
