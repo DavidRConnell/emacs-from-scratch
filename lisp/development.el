@@ -269,16 +269,29 @@ This ensures the results are visible."
             ("NOTE"       success bold)
             ("DEPRECATED" font-lock-doc-face bold))))
 
+(use-package nix-mode
+  :hook format-all-mode
+  :mode "\\.nix\\'"
   :general
   (my-leader-def
     :infix "h"
     "p" (defun my-prism-toggle ()
+    "h" (defun my-find-home-manager ()
 	  (interactive)
 	  (if (string-match-p "lisp" mode-name)
 	      (call-interactively #'prism-mode)
 	    (progn
 	      (tree-sitter-hl-mode -1)
 	      (call-interactively #'prism-whitespace-mode))))))
+	  (projectile-find-file-in-directory
+	   (expand-file-name "nixpkgs"
+			     (getenv "XDG_CONFIG_HOME")))))
+  :config
+  (my-local-leader-def
+    :keymaps 'nix-mode-map
+    "u" (defun my-update-home-manager ()
+	  (interactive)
+	  (async-shell-command "home-manager switch"))))
 
 ;; (use-package overseer)
 ;; (use-package buttercup)
