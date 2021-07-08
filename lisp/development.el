@@ -296,15 +296,14 @@ This ensures the results are visible."
 ;; (use-package overseer)
 ;; (use-package buttercup)
 
-(use-package eos
-  :mode ("\\.m$" . octave-mode)
+(use-package matlab
+  :straight (matlab-emacs :type git :repo "https://git.code.sf.net/p/matlab-emacs/src")
+  :mode ("\\.m$" . matlab-mode)
+  :hook (matlab-mode . flycheck-mode)
   :config
-  (general-define-key
-    :keymaps 'octave-mode-map
-    :prefix "C-c"
-    "C-j" #'octave-send-line
-    "C-c" #'octave-send-block
-    "C-l" #'octave-send-buffer))
+  (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+  (require 'flycheck-mlint)
+  (setq flycheck-matlab-mlint-executable "mlint"))
 
 (provide 'development)
 ;;; development.el ends here
