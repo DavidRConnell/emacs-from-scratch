@@ -537,6 +537,11 @@ If there is more than one local bib file ask."
     :config
     (use-package flyspell-correct-ivy)))
 
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :config
+  (setq nov-text-width fill-column))
+
 (use-package markdown-mode
   :hook (markdown-mode . visual-line-mode)
   :mode (("README\\.md\\'" . gfm-mode)
