@@ -304,6 +304,19 @@ This ensures the results are visible."
   (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
   (require 'flycheck-mlint)
   (setq flycheck-matlab-mlint-executable "mlint"))
+(use-package cypher-mode
+  :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
+  :mode ("\\.cypher\\'" . cypher-interactive-mode)
+  :config
+  (general-def
+    :keymaps 'cypher-interactive-mode-map
+    :prefix "C-c"
+    "C-c" (defun cypher-send-buffer ()
+	    (interactive)
+	    (let ((file (buffer-name (current-buffer)))
+		  (database "neo4j")
+		  (command "cypher-shell --database=%s --file=%s"))
+	      (async-shell-command (format command database file))))))
 
 (provide 'development)
 ;;; development.el ends here
