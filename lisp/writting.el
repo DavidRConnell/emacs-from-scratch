@@ -537,5 +537,12 @@ If there is more than one local bib file ask."
     :config
     (use-package flyspell-correct-ivy)))
 
+(use-package markdown-mode
+  :hook (markdown-mode . visual-line-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+	 ("\\.md\\'" . markdown-mode)
+	 ("\\.markdown\\'" . markdowm-mode)
+	 ("qutebrowser-editor" . gfm-mode)))
+
 (provide 'writting)
 ;;; writting ends here
