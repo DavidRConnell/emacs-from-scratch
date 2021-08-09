@@ -10,6 +10,8 @@
   :config
   (prescient-persist-mode +1))
 
+(require 'vertico-setup)
+(require 'corfu-setup)
 
 (use-package yasnippet
   :hook ((text-mode prog-mode snippet-mode) .
