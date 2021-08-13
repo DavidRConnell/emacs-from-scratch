@@ -107,6 +107,13 @@
     "S" #'org-insert-last-stored-link
     "t" #'org-toggle-link-display)
 
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    :infix "s"
+    "n" #'org-babel-next-src-block
+    "p" #'org-babel-previous-src-block
+    "g" #'org-babel-goto-named-src-block)
+
   (use-package ox-clip)
 
   (use-package org-cliplink
