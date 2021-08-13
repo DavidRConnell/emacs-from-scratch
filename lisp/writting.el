@@ -47,8 +47,12 @@
    'org-babel-load-languages
    '((R . t)
      (python . t)
+     (matlab . t)
      (shell . t)
      (emacs-lisp . t)))
+
+  (require 'ob-octave-fix)
+  (setq org-babel-default-header-args:matlab '((:session . "*MATLAB*")))
 
   (use-package ob-async)
 
