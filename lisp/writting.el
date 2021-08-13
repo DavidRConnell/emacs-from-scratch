@@ -6,14 +6,6 @@
 (use-package org
   :defer 2
   :commands org-mode
-  :straight '(org-mode :host github
-           :repo "emacs-straight/org-mode"
-           :files ("*.el" "lisp/*.el" "contrib/lisp/*.el")
-           :build (with-temp-file (expand-file-name "org-version.el"
-						    (straight--repos-dir "org-mode"))
-                    (insert "(fset 'org-release (lambda () \"9.5\"))\n"
-                            "(fset 'org-git-version #'ignore)\n"
-                            "(provide 'org-version)\n")))
   :general
   (my-leader-def
     :infix "n"
@@ -73,7 +65,6 @@
 	    ("[X]" . 9745))))
 
   (use-package evil-org
-    :straight '(evil-org :host github :repo "hlissner/evil-org-mode")
     :hook (org-mode . evil-org-mode)
     :init
     (defvar evil-org-retain-visual-state-on-shift t)
