@@ -306,10 +306,10 @@ This ensures the results are visible."
   (setq flycheck-matlab-mlint-executable "mlint"))
 (use-package cypher-mode
   :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
-  :mode ("\\.cypher\\'" . cypher-interactive-mode)
+  :mode ("\\.cypher\\'" . cypher-mode)
   :config
   (general-def
-    :keymaps 'cypher-interactive-mode-map
+    :keymaps 'cypher-mode-map
     :prefix "C-c"
     "C-c" (defun cypher-send-buffer ()
 	    (interactive)
