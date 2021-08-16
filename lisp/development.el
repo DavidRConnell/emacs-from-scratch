@@ -308,6 +308,12 @@ This ensures the results are visible."
   :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
   :mode ("\\.cypher\\'" . cypher-mode)
   :config
+  (set-face-attribute 'cypher-variable-face nil
+		      :foreground 'unspecified :background 'unspecified
+		      :family 'unspecified :slant 'unspecified
+		      :weight 'normal :height 'unspecified
+		      :underline 'unspecified :overline 'unspecified
+		      :box 'unspecified :inherit font-lock-variable-name-face)
   (general-def
     :keymaps 'cypher-mode-map
     :prefix "C-c"
