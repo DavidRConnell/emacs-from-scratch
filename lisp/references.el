@@ -48,7 +48,7 @@
 		(car files)
 	      (completing-read "Choose: " files))))))
 
-(use-package bibtex
+(use-package bibtex-completion
   :after org-ref
   :config
   (require 'find-lisp)
@@ -64,6 +64,25 @@
     :keymaps 'bibtex-mode-map
     :prefix "C-c"
     "C-c" #'org-ref-clean-bibtex-entry)
+
+  (use-package consult-bibtex
+    :after embark
+    :load-path "~/.cache/emacs/consult-bibtex"
+    :general
+    (my-leader-def
+      :infix "r"
+      "c" #'consult-bibtex)
+    :config
+    (general-def
+      :keymaps 'consult-bibtex-embark-map
+      "p" #'consult-bibtex-open-pdf
+      "n" #'consult-bibtex-edit-notes
+      "o" nil
+      "e" nil)
+    (general-imap
+      :keymaps 'org-mode-map
+      "C-]" #'consult-bibtex)
+    (add-to-list 'embark-keymap-alist '(bibtex-completion . consult-bibtex-embark-map)))
 
   (use-package bibtex-actions
     :disabled
@@ -161,7 +180,7 @@ If there is more than one local bib file ask."
     :infix "n"
     "d" #'deft)
   :config
-  (setq deft-extensions '("org")
+  (setq deft-default-extension "org"
 	deft-new-file-format "%Y%m%d%H%M%S"
 	deft-use-filter-string-for-filename nil
 	deft-directory org-roam-directory)
