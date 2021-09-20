@@ -300,10 +300,94 @@ This ensures the results are visible."
   :straight (matlab-emacs :type git :repo "https://git.code.sf.net/p/matlab-emacs/src")
   :mode ("\\.m$" . matlab-mode)
   :hook (matlab-mode . flycheck-mode)
+  :hook (matlab-mode . yas-minor-mode)
   :config
-  (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+  (add-to-list 'load-path (expand-file-name
+			   "emacs/straight/repos/matlab-emacs"
+			   (getenv "XDG_CACHE_HOME")))
+  (load-library "matlab-load")
+  ;; (matlab-cedet-setup)
   (require 'flycheck-mlint)
-  (setq flycheck-matlab-mlint-executable "mlint"))
+  (setq flycheck-matlab-mlint-executable "mlint")
+  (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+  (require 'matlab-testing)
+  (general-nmap
+    :keymaps 'matlab-mode-map
+    "gK" (defun my-matlab-help-at-point ()
+	   (interactive)
+	   (matlab-shell-describe-command
+	    (matlab-read-word-at-point))))
+
+  (general-nvmap
+    :keymaps 'matlab-mode-map
+    :prefix "C-c"
+    "C-c" #'matlab-shell-run-cell
+    "C-l" #'matlab-shell-save-and-go
+    "C-j" #'mt-shell-run-line
+    "C-r" #'mt-shell-run-region)
+
+  (general-imap
+    :keymaps 'matlab-shell-mode-map
+    "C-SPC" #'matlab-shell-c-tab)
+
+  (my-local-leader-def
+    :keymaps 'matlab-mode-map
+    :infix "t"
+    "g" #'mt-toggle-test-file
+    "G" #'(lambda () (interactive)
+	    (counsel-find-file (mt-get-test-dir)))
+    "t" #'(lambda () (interactive)
+	    (mt-shell-run-tests "file" "Unit"))
+    "T" #'(lambda () (interactive)
+	    (mt-shell-run-tests "project" "Unit"))
+    "i" #'(lambda () (interactive)
+	    (mt-shell-run-tests "project" "Integration"))
+    "f" #'(lambda () (interactive)
+	    (mt-shell-run-tests "project" "Functional"))
+    "p" #'(lambda () (interactive)
+	    (mt-shell-run-performance-tests "file"))
+    "P" #'(lambda () (interactive)
+	    (mt-shell-run-performance-tests "project"))
+    "r" #'(lambda () (interactive)
+	    (mt-shell-run-tests "rerun")))
+
+  (my-local-leader-def
+    :keymaps 'matlab-mode-map
+    "," #'matlab-shell
+    "r" (lambda (arg) (interactive "P")
+	  (if arg
+	      (call-interactively #'mt-run-command)
+	    (call-interactively #'mt-run-last-command)))
+    "?" (lambda ()
+	  (interactive)
+	  (let ((mathworks-ref-prefix "https://www.mathworks.com/help/matlab/ref/"))
+	    (eww (concat mathworks-ref-prefix (matlab-read-word-at-point) ".html")))))
+
+  (defun my-matlab-insert-function-snippet ()
+    "Add snippet for matlab function when opening a new .m file."
+    (if (and (equal 0 (buffer-size))
+	     (not (string-match-p "^\s*\\*.*\\*\s*$" (buffer-name))))
+	(insert (concat "function " (file-name-sans-extension (buffer-name)) "\nend"))))
+
+  (defun my-matlab-fix-imenu-generic-expression ()
+    (setq imenu-generic-expression
+	  '(("Function" "^\\s-*\\(function\\)\\s-*\\([^\\.\n]*\\)" 2)
+	    ("Function" "^\\s-*\\(function\\)\\s-*\\([^\\.\n]*\\.\\.\\.\\s-*\n.*\\)" 2)
+	    ("Class" "^\\s-*\\(classdef\\)\\s-*\\(.*\\)" 2)
+	    ("Methods" "^\\s-*\\(methods\\)\\s-*\\(.*\\)?" 2)
+	    ("Properties" "^\\s-*\\(properties\\)\\s-*\\(.*\\)?" 2)
+	    ("Section" "^\\s-*%%\\s-*\\(.*\\)$" 1))))
+
+  (add-hook 'matlab-mode-hook #'my-matlab-insert-function-snippet)
+  (add-hook 'matlab-mode-hook #'my-matlab-fix-imenu-generic-expression))
+
+(use-package cc-mode
+  :config
+  (use-package lsp-mode
+    :hook (c-mode . lsp))
+  (use-package ccls
+    :hook (c-mode . (lambda () (require 'ccls) (lsp)))))
+
 (use-package cypher-mode
   :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
   :mode ("\\.cypher\\'" . cypher-mode)
