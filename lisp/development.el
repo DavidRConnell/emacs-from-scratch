@@ -389,15 +389,28 @@ This ensures the results are visible."
 		      :weight 'normal :height 'unspecified
 		      :underline 'unspecified :overline 'unspecified
 		      :box 'unspecified :inherit font-lock-variable-name-face)
+  (set-face-attribute 'cypher-pattern-face nil
+		      :foreground 'unspecified :background 'unspecified
+		      :family 'unspecified :slant 'unspecified
+		      :weight 'bold :height 'unspecified
+		      :underline 'unspecified :overline 'unspecified
+		      :box 'unspecified :inherit font-lock-variable-name-face)
+(defun cypher-send-buffer (&optional output-file)
+  (interactive)
+  (let ((file (buffer-name (current-buffer)))
+	(database "neo4j")
+	(command "cypher-shell --database=%s --file=%s"))
+    (setq command (format command database file))
+    (if output-file
+	(setq command (concat command " > " output-file)))
+    (async-shell-command command)))
+
   (general-def
     :keymaps 'cypher-mode-map
     :prefix "C-c"
-    "C-c" (defun cypher-send-buffer ()
-	    (interactive)
-	    (let ((file (buffer-name (current-buffer)))
-		  (database "neo4j")
-		  (command "cypher-shell --database=%s --file=%s"))
-	      (async-shell-command (format command database file))))))
+    "C-c" #'cypher-send-buffer
+    "C-e" (defun cypher-results-to-buffer (file) (interactive "F")
+	    (cypher-send-buffer file))))
 
 (provide 'development)
 ;;; development.el ends here
