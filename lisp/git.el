@@ -32,6 +32,8 @@
    "b" #'magit-branch
    "r" #'git-gutter:revert-hunk
    "a" #'git-gutter:stage-hunk
+   "n" #'git-gutter:next-hunk
+   "p" #'git-gutter:previous-hunk
    "c" #'magit-commit)
   :config
   (advice-add 'magit-status :after #'delete-other-windows)
