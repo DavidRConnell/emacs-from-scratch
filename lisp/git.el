@@ -19,6 +19,10 @@
 ;;
 ;;; Code:
 
+(use-package vc
+  :config
+  (setq vc-follow-symlinks t))
+
 (use-package magit
   :general
   (my-leader-def
