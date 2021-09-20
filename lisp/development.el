@@ -129,11 +129,6 @@
    "gV" #'ess-display-vignettes
    "go" #'ess-display-help-apropos)
 
-  (add-hook 'ess-r-mode-hook
-	    (lambda () (interactive)
-	      (setq-local company-backends '(company-R-args
-					     company-R-objects
-					     company-dabbrev-code))))
   (advice-add #'ess-eval-region-or-function-or-paragraph
 	      :before #'evil-set-jump)
 
