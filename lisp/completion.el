@@ -11,7 +11,6 @@
   (prescient-persist-mode +1))
 
 (require 'vertico-setup)
-(require 'corfu-setup)
 
 (use-package yasnippet
   :hook ((text-mode prog-mode snippet-mode) .
@@ -21,7 +20,6 @@
     "C-e" #'yas-expand)
   :config
   (use-package doom-snippets
-    :straight nil
     :load-path "~/.cache/emacs/doom-snippets/"
     :config
     (setq doom-snippets-dir
@@ -31,11 +29,10 @@
   (general-define-key
    :keymaps 'yas-keymap
    "C-SPC" #'yas-next-field-or-maybe-expand)
-  (defun my-add-yasnippet-backend ()
-    (add-to-list 'company-backends #'company-yasnippet 'append))
 
-  (add-hook 'yas-minor-mode-hook #'my-add-yasnippet-backend))
-
-
+  (add-to-list 'yas/snippet-dirs (expand-file-name "snippets"
+						   user-emacs-directory))
+  (yas-reload-all))
 
 (provide 'completion)
+;;; completion.el ends here

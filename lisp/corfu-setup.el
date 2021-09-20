@@ -3,20 +3,18 @@
 ;;; Code:
 
 (use-package corfu
-  :init
-  (corfu-global-mode 1)
   :config
   (general-define-key
-    :keymaps 'corfu-map
-    "C-n" #'corfu-next
-    "C-p" #'corfu-previous
-    "C-SPC" #'corfu-complete)
+   :keymaps corfu-map
+   "C-SPC" corfu-complete)
   (general-imap
     "C-SPC" #'completion-at-point)
-  (setq  corfu-cylce t
-	 corfu-auto t
-	 corfu-echo-documentation t))
-text-mode-
+  (setq corfu-cylce t
+	corfu-auto t
+	corfu-echo-documentation t
+	corfu-quit-no-match t)
+
+  (corfu-global-mode 1))
 
 (use-package orderless
   :init
