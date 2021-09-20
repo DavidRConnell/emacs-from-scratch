@@ -1,9 +1,5 @@
 ;;; development --- Setup development enviornment. -*- lexical-binding: t; -*-
 ;;; Commentary:
-;;   elisp development tools.  Watch JWiegley's videos
-;;   some sort of eval program
-;;   sly/lisp editing set-up.
-;;   undo-tree
 ;;; Code:
 
 (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
