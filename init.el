@@ -2,11 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'package)
-(setq package-archives nil
-      package-enable-at-startup nil)
-(package-initialize)
-
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
