@@ -137,7 +137,7 @@
         undo-strong-limit 12000000
         undo-outer-limit 120000000
         undo-tree-history-directory-alist
-        `(("." . ,(concat my-cache-dir "undo-tree-hist/")))))
+        `(("." . ,(concat my-var-dir "undo-tree-hist/")))))
 
 (use-package link-hint
   :general
