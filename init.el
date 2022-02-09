@@ -20,7 +20,7 @@
 (require 'terminal)
 (require 'completion)
 (require 'rss)
-(require 'appearance)  ;; take care of general emacs stuff.
+(require 'appearance)
 (require 'speed)
 
 (let ((inhibit-message t))
