@@ -239,17 +239,14 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 ;; (use-package org-drill)
 
 (use-package flyspell
-  :straight nil
-  :hook (text-mode . flyspell-mode)
   :config
+  (add-hook 'text-mode-hook #'flyspell-mode)
   (setq ispell-program-name (executable-find "aspell")
 	ispell-personal-dictionary "~/.aspell.en.pws")
   (use-package flyspell-correct
     :general
     (general-nmap
-      "z=" #'flyspell-correct-wrapper)
-    :config
-    (use-package flyspell-correct-ivy)))
+      "z=" #'flyspell-correct-wrapper)))
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
