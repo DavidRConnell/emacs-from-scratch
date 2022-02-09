@@ -201,8 +201,8 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     (ox-extras-activate '(ignore-headlines)))
 
   (use-package ox-word
-    :straight nil
-    :load-path "~/projects/ox-word")
+    :after org
+    :load-path "~/packages/emacs/ox-word")
 
   (use-package sdcv-mode
     :straight '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv")
