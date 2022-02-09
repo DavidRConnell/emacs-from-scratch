@@ -39,7 +39,7 @@
 
   (use-package elfeed-org
     :init
-    (setq rmh-elfeed-org-files (list "~/org/elfeed.org"))
+    (setq rmh-elfeed-org-files (list "~/notes/elfeed.org"))
     :config
     (elfeed-org)))
 
