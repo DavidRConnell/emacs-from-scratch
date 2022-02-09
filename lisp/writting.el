@@ -170,14 +170,16 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       (setq citeproc-org-org-bib-header "** References\n")))
 
   (use-package ox
-    :straight nil
+    :defer
     :config
-    (setq org-latex-pdf-process '("tectonic %f")
-	  org-latex-packages-alist '(
-				     ("" "xcolor" nil)
+    (setq org-latex-pdf-process '("latexmk -g -pdf -xelatex -outdir=%o %f")
+	  org-latex-default-packages-alist '(("AUTO" "inputenc" t ("pdflatex"))
+					     ("T1" "fontenc" t ("pdflatex"))
+					     ("" "hyperref" nil))
+	  org-latex-packages-alist '(("" "xcolor" nil)
+				     ("" "amsmath" nil)
 				     ("capitalise, nameinlink, noabbrev" "cleveref" nil))
-	  org-latex-classes `(
-			      ("article"
+	  org-latex-classes `(("article"
 			       ,(concat
 				 "\\documentclass[11pt]{article}\n"
 				 "[DEFAULT-PACKAGES]\n"
@@ -195,8 +197,14 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 			       ("\\subsection{%s}" . "\\subsection*{%s}")
 			       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
 			       ("\\paragraph{%s}" . "\\paragraph*{%s}")
-			       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-	  org-export-with-sub-superscripts '{})
+			       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+			      ("rushpres"
+			       "\\documentclass{rushpresentation}"
+			       ("\\section{%s}" . "\\section*{%s}")
+			       ("\\subsection{%s}" . "\\subsection*{%s}")
+			       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+	  org-export-with-sub-superscripts '{}
+	  org-odt-preferred-output-format "docx")
     (require 'ox-extra)
     (ox-extras-activate '(ignore-headlines)))
 
