@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: tufte-handout
+# uuid:
+# key: __handout
+# condition: t
+# --
+#+AUTHOR: David R. Connell
+#+LATEX_CLASS: tufte-handout
+$0

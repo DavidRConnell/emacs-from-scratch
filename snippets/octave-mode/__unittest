@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: unittest
+# key: __unittest
+# condition: t
+# --
+
+classdef `(file-name-sans-extension (buffer-name)))` < matlab.${1:$(if (string= yas-text "Performance") "perftest" "unittest")}.TestCase
+
+methods (Test, TestTags = {'${1:$$(yas-choose-value '("Unit" "Integration" "Functional" "Performance"))}'})$0
+end
+
+end

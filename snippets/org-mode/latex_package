@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: latex_package
+# key: usepackage
+# --
+
+#+LATEX_HEADER: \usepackage{$0}

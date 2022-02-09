@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: test methods
+# key: testmethods
+# condition: t
+# --
+
+methods (${1:$$(yas-choose-value '("TestMethodSetup" "TestClassSetup"))})
+end

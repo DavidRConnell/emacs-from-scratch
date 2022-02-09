@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: presentation
+# key: pres
+# condition: t
+# --
+
+#+SUBTITLE: $1
+#+AUTHOR: David R. Connell
+#+BEAMER_HEADER: \institute{Rush University}
+#+startup: beamer
+#+LATEX_CLASS: rushpres
+#+LATEX_CLASS_OPTIONS: [aspectratio=169]
+#+LATEX_COMPILER: xelatex
+#+TAGS: noexport(x) ignore(i)
+#+OPTIONS: H:1

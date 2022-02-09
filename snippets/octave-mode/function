@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: function
+# key: function
+# condition: t
+# --
+
+function $0
+end

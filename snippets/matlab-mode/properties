@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: properties
+# key: properties
+# condition: t
+# --
+
+properties $0
+end

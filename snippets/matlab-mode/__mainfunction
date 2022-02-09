@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: main function
+# key: __mainfunction
+# condition: t
+# --
+
+function `(file-name-sans-extension (buffer-name))`$0
+%`(upcase (file-name-sans-extension (buffer-name)))` ${1:description}
+
+end

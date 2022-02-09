@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: test function
+# key: test
+# condition: t
+# --
+
+function test${1:name}(testCase)
+${0:testCase.verifyFail('Not implemented yet.')}
+end

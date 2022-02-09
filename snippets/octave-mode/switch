@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: switch
+# key: switch
+# condition: t
+# --
+
+switch $0
+end

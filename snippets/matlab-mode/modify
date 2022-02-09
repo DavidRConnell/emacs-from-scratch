@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: modify var
+# key: modify
+# condition: t
+# --
+
+${1:var} = $1 $0;
