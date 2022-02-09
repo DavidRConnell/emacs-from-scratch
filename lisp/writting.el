@@ -53,7 +53,7 @@
 
   (general-define-key
    :keymaps 'org-src-mode-map
-   "C-c C-c" #'org-edit-src-exit)
+   "C-c C-'" #'org-edit-src-exit)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
