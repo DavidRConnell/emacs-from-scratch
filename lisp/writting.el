@@ -95,20 +95,22 @@
     (require 'org-tweaks)
     (general-define-key
      :states '(normal insert)
-     :keymaps '(evil-org-mode-map org-mode-map)
+     :keymaps 'org-mode-map
      [C-return] #'+org/insert-item-below
      [C-S-return] #'+org/insert-item-above
      [C-M-return] #'org-insert-subheading))
 
   (general-nmap
-   :keymaps 'org-mode-map
-   "zn" #'org-toggle-narrow-to-subtree)
+    :keymaps 'org-mode-map
+    "zn" #'org-toggle-narrow-to-subtree)
 
   (my-local-leader-def
     :keymaps 'org-mode-map
     "t" #'org-todo
     "h" #'org-toggle-heading
-    "i" #'org-toggle-item)
+    "i" #'org-toggle-item
+    "p" #'org-priority
+    "P" #'org-set-property)
 
   (my-local-leader-def
     :keymaps 'org-mode-map
@@ -119,7 +121,7 @@
     "L" #'org-insert-all-links
     "s" #'org-store-link
     "S" #'org-insert-last-stored-link
-    "t" #'org-toggle-link-display)
+    "t" #'my-org-toggle-markup-display)
 
   (my-local-leader-def
     :keymaps 'org-mode-map
