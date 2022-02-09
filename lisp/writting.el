@@ -45,6 +45,8 @@
   (setq org-confirm-babel-evaluate nil
 	org-link-elisp-confirm-function nil)
 
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . "xdg-open %s"))
+
   (general-define-key
    :keymaps 'org-mode-map
    "C-c C-q" #'counsel-org-tag)
