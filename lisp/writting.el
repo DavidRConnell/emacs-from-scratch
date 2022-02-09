@@ -1,12 +1,11 @@
 ;;; writting.el --- packages for writting -*- lexical-binding: t; -*-
-;;   spell-checker. Should work with magit.
-;;   Deft
 ;;; Code:
 
 (use-package org
-  :defer 2
-  :commands org-mode
-  :general
+  :demand
+  :init
+  (setq org-modules '(org-id ol-info org-protocol ol-doi))
+  :config
   (my-leader-def
     :infix "n"
     "l" #'org-store-link
