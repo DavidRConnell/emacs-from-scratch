@@ -230,11 +230,6 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   (require 'references))
 
 
-(use-package helm
-  :general
-  (my-leader-def
-    ";" #'helm-eval-expression-with-eldoc))
-
 ;; (use-package org-journal)
 ;; (use-package org-drill)
 
