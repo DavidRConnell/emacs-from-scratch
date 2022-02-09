@@ -62,7 +62,8 @@
      (python . t)
      (matlab . t)
      (shell . t)
-     (emacs-lisp . t)))
+     (emacs-lisp . t)
+     (latex . t)))
 
   (require 'ob-octave-fix)
   (setq org-babel-default-header-args:matlab '((:session . "*MATLAB*")))
