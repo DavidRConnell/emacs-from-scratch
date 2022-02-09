@@ -6,6 +6,7 @@
              (expand-file-name "lisp/" user-emacs-directory))
 
 (require 'variables)
+(require 'packages)
 (require 'tidy-files)
 (require 'keybindings)
 (require 'ui)

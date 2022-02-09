@@ -1,7 +1,8 @@
 ;;; Declare packages installed packages here. -*- lexical-binding: t; -*-
 
-(setq straight-base-dir my-cache-dir)
+(defvar straight-base-dir my-cache-dir)
 (defvar bootstrap-version)
+(defvar straight-check-for-modifications '(check-on-save find-when-checking))
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
       (bootstrap-version 5))
@@ -14,11 +15,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(straight-use-package 'use-package)
+;(straight-use-package 'use-package)
 (eval-when-compile
   (require 'use-package))
-
-(setq straight-use-package-by-default t)
 
 (provide 'packages)
 ;;; packages.el ends here
