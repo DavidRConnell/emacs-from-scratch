@@ -8,11 +8,7 @@
   :config
   (my-leader-def
     :infix "n"
-    "l" #'org-store-link
-    "f" #'my-org-roam-find-file
-    "x" #'org-roam-capture)
-
-  :config
+    "l" #'org-store-link)
   (general-imap
     :keymaps 'org-mode-map
     "C-i" #'org-do-demote
@@ -52,7 +48,9 @@
 
   (general-define-key
    :keymaps 'org-mode-map
-   "C-c C-q" #'counsel-org-tag)
+   :prefix "C-c"
+   "C-q" #'counsel-org-tag
+   "r" #'org-refile)
 
   (general-define-key
    :keymaps 'org-src-mode-map
