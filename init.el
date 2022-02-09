@@ -13,7 +13,6 @@
 (require 'git)
 (require 'projects)
 (require 'development)
-(require 'debugging)
 (require 'writting)
 (require 'notes)
 (require 'references)
