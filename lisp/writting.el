@@ -27,6 +27,16 @@
 	org-hide-emphasis-markers t
 	org-catch-invisible-edits 'smart)
 
+  (defun my-org-toggle-emphasis-markers-display ()
+    (interactive)
+    (setq-local org-hide-emphasis-markers (not org-hide-emphasis-markers))
+    (font-lock-fontify-buffer))
+
+  (defun my-org-toggle-markup-display ()
+    (interactive)
+    (org-toggle-link-display)
+    (my-org-toggle-emphasis-markers-display))
+
   (setq org-tag-alist '(("ignore")
 			("noexport"))
 	org-tags-column (- 3 fill-column))
