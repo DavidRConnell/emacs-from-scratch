@@ -118,6 +118,15 @@
   :config (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 		aw-scope 'global))
 
+(use-package popper
+  :general
+  (my-leader-def
+    :infix "u"
+    "u" #'popper-toggle-latest
+    "n" #'popper-cycle
+    "q" #'popper-close-latest
+    "t" #'popper-toggle-type)
+  :config (popper-mode 1))
 
 (use-package evil-args
   :general
