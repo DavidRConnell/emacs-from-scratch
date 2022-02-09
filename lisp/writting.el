@@ -38,7 +38,8 @@
     (my-org-toggle-emphasis-markers-display))
 
   (setq org-tag-alist '(("ignore")
-			("noexport"))
+			("noexport")
+			("export"))
 	org-tags-column (- 3 fill-column))
 
   (setq org-confirm-babel-evaluate nil
