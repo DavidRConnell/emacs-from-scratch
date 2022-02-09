@@ -49,7 +49,8 @@
   (my-leader-def
     "b" #'switch-to-buffer
     "w" #'save-buffer
-    "q" #'evil-delete-buffer
+    "q" (lambda () (interactive) (kill-buffer))
+    "Q" #'evil-delete-buffer
     "o" #'find-file
     "l" #'imenu
     ";" #'eval-expression)
