@@ -7,7 +7,9 @@
 (recentf-mode 1)
 
 (use-package which-key
-  :config (which-key-mode))
+  :config
+  (setq which-key-popup-type 'minibuffer)
+  (which-key-mode))
 
 (use-package evil-easymotion
   :general
