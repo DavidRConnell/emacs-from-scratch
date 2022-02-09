@@ -2,103 +2,131 @@
 ;;; Commentary:
 ;;; Code:
 
-;; See https://github.com/jkitchin/org-ref-cite &
-;; https://blog.tecosaur.com/tmio/2021-07-31-citations.html for updating
-;; to org-cite when released in org-mode.
 (use-package org-ref
+  :defer 3
   :general
-  (general-imap
-    :keymaps 'org-mode-map
-    "C-]" #'org-ref-insert-link)
   (my-local-leader-def
     :keymaps 'org-mode-map
     :infix "e"
-    "c" #'org-ref-insert-link
     "r" #'org-ref-insert-ref-link
     "b" #'org-ref-insert-bibliography-link
-    "s" #'org-ref-insert-bibliographystyle-link
-    "n" #'org-ref-open-notes-at-point
-    "p" #'org-ref-open-pdf-at-point
-    "u" #'org-ref-open-url-at-point)
+    "s" #'org-ref-insert-bibliographystyle-link)
+
   (my-leader-def
     :infix "r"
-    "c" #'org-ref-insert-link
     "d" #'doi-utils-add-bibtex-entry-from-doi
     "a" #'arxiv-get-pdf-add-bibtex-entry
     "m" (defun my-open-master-bib
 	    () (interactive) (find-file my-refs-bib)))
 
   :config
-  (setq org-ref-default-bibliography (list my-refs-bib)
-	org-ref-default-ref-type "cref"
-	org-ref-show-broken-links t
-	org-latex-prefer-user-labels t
-	org-ref-bibliography-notes my-refs-notes-dir
-	org-ref-notes-function (lambda (key)
-				 (interactive)
-				 (org-ref-notes-function-many-files
-				  key))
-	org-ref-pdf-directory my-refs-pdfs-dir
-	org-ref-get-pdf-filename-function
-	(lambda (key)
-	  (let ((files (directory-files-recursively
-			org-ref-pdf-directory
-			(concat key ".pdf"))))
-	    (if (= 1 (length files))
-		(car files)
-	      (completing-read "Choose: " files))))))
+  (require 'org-ref-arxiv)
+  (setq org-ref-default-ref-type "cref"
+	org-latex-prefer-user-labels t)
+  (add-to-list 'org-ref-bibtex-journal-abbreviations
+	       '("CC" "Cerebral Cortex" "Cereb. Cortex")))
+
+(use-package org-ref-cite
+  :disabled
+  :load-path "~/.cache/emacs/org-ref-cite/"
+  :general
+  ;; (my-local-leader-def
+  ;;   :keymaps 'org-mode-map
+  ;;   :infix "e"
+  ;;   "r" #'org-cite-ref-insert-ref-link
+  ;;   "b" #'org-cite-ref-insert-bibliography-link
+  ;;   "s" #'org-cite-ref-insert-bibliographystyle-link)
+
+  (my-leader-def
+    :infix "r"
+    "d" #'doi-utils-add-bibtex-entry-from-doi
+    "a" #'arxiv-get-pdf-add-bibtex-entry
+    "m" (defun my-open-master-bib
+	    () (interactive) (find-file my-refs-bib)))
+  :config
+  (setq org-cite-global-bibliography bibtex-completion-bibliography
+	org-cite-insert-processor 'org-ref-cite
+	org-cite-follow-processor 'org-ref-cite
+	org-cite-activate-processor 'org-ref-cite))
+
+;; (use-package citeproc
+;;   :after org)
+
+(use-package org-ref-cite-core
+  :disabled
+  :load-path "~/.cache/emacs/org-ref-cite"
+  :after (org-ref oc bibtex-completion)
+  :config
+  (setq org-cite-export-processors '((html csl "elsevier-with-titles.csl")
+				     (latex org-ref-cite)
+				     (t basic))))
 
 (use-package bibtex-completion
-  :after org-ref
+  :after (org-ref org-roam-bibtex)
   :config
   (require 'find-lisp)
   (setq bibtex-completion-bibliography (list my-refs-bib)
 	bibtex-completion-additional-search-fields '(doi url)
 	bibtex-completion-library-path my-refs-pdfs-dir
 	bibtex-completion-notes-path my-refs-notes-dir
+	bibtex-completion-edit-notes-function #'orb-bibtex-completion-edit-note
 	bibtex-completion-pdf-open-function
-	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath))
-	bibtex-completion-edit-notes-function #'orb-edit-notes)
+	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
+  (add-to-list 'bibtex-completion-format-citation-functions
+	       '(org-mode . (lambda (keys)
+			      (format "cite:%s"
+				      (s-join ","
+					      (--map (format "%s" it) keys))))))
 
   (general-nmap
     :keymaps 'bibtex-mode-map
     :prefix "C-c"
-    "C-c" #'org-ref-clean-bibtex-entry)
+    "C-c" #'org-ref-clean-bibtex-entry))
 
-  (use-package consult-bibtex
-    :after embark
-    :load-path "~/.cache/emacs/consult-bibtex"
-    :general
-    (my-leader-def
-      :infix "r"
-      "c" #'consult-bibtex)
-    :config
-    (general-def
-      :keymaps 'consult-bibtex-embark-map
-      "p" #'consult-bibtex-open-pdf
-      "n" #'consult-bibtex-edit-notes
-      "o" nil
-      "e" nil)
-    (general-imap
-      :keymaps 'org-mode-map
-      "C-]" #'consult-bibtex)
-    (add-to-list 'embark-keymap-alist '(bibtex-completion . consult-bibtex-embark-map)))
+(use-package consult-bibtex
+  :load-path "~/.cache/emacs/consult-bibtex"
+  :after bibtex-completion
+  :general
+  (my-leader-def
+    :infix "r"
+    "c" #'consult-bibtex-insert-citation)
 
-  (use-package bibtex-actions
-    :disabled
-    :after embark
-    :general
-    (my-leader-def
-      :infix "r"
-      "c" #'bibtex-actions-insert-citation)
-    :config
-    ;; Make the 'bibtex-actions' bindings and targets available to `embark'.
-    (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
-    (add-to-list 'embark-keymap-alist '(bibtex . bibtex-actions-map))
-    (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map))
-    (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)))
+  (general-imap
+    :keymaps 'org-mode-map
+    "C-]" #'consult-bibtex-insert-citation)
+
+  :config
+  (general-define-key
+   :keymaps 'consult-bibtex-embark-map
+   "o" #'nil
+   "e" #'nil
+   "p" #'consult-bibtex-open-pdf
+   "n" #'consult-bibtex-edit-notes)
+  (add-to-list 'embark-keymap-alist '(bibtex-completion . consult-bibtex-embark-map)))
+
+(use-package bibtex-actions
+  :disabled
+  :after (bibtex-completion embark oc org-roam-bibtex)
+  :general
+  :config
+  (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
+  (add-to-list 'embark-keymap-alist '(bibtex . bibtex-actions-map))
+  (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map))
+  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
+  (setq bibtex-actions-bibliography (list my-refs-bib)
+	bibtex-actions-file-open-note-function #'orb-bibtex-actions-edit-note
+	bibtex-actions-at-point-function 'embark-act))
+
+(use-package oc-bibtex-actions
+  :disabled
+  :after (embark oc)
+  :config
+  (setq org-cite-insert-processor 'oc-bibtex-actions
+	org-cite-follow-processor 'oc-bibtex-actions
+	org-cite-activate-processor 'oc-bibtex-actions))
 
 (use-package ebib
+  :straight t
   :general
   (my-leader-def
     :infix "r"
@@ -180,18 +208,29 @@ If there is more than one local bib file ask."
     :infix "n"
     "d" #'deft)
   :config
+  (defun deft-parse-title (file contents)
+    "HACK to work around deft's defualt method of finding a
+title. Force deft to search for org-mode title so it returns a
+relevant line."
+    (if deft-use-filename-as-title
+	(deft-base-filename file)
+
+      (let ((begin (string-match "^#\\+TITLE:.*$" contents)))
+	(if begin
+	    (funcall deft-parse-title-function
+		     (substring contents begin (match-end 0)))))))
+
   (setq deft-default-extension "org"
 	deft-new-file-format "%Y%m%d%H%M%S"
 	deft-use-filter-string-for-filename nil
 	deft-directory org-roam-directory)
+
   (general-imap
     :keymaps 'deft-mode-map
     "C-o" #'deft-open-file-other-window
     "C-w" #'deft-filter-decrement-word
     "C-n" #'next-line
     "C-p" #'previous-line))
-
-
 
 (provide 'references)
 ;;; references.el ends here

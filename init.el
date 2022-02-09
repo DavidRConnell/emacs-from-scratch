@@ -15,6 +15,8 @@
 (require 'development)
 (require 'debugging)
 (require 'writting)
+(require 'notes)
+(require 'references)
 (require 'file-templates)
 (require 'mail)
 (require 'terminal)
