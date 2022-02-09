@@ -70,15 +70,43 @@
     (point)
     (evil-insert-state))
 
+  (defun my-avy-action-define (pt)
+    (save-excursion
+      (goto-char pt)
+      (sdcv-search (thing-at-point 'word)))
+    (select-window
+     (cdr (ring-ref avy-ring 0)))
+    t)
+
+  (defun my-avy-action-helpful (pt)
+    (save-excursion
+      (goto-char pt)
+      (helpful-at-point))
+    (select-window
+     (cdr (ring-ref avy-ring 0)))
+    t)
+
+  (defun my-avy-action-embark (pt)
+    (unwind-protect
+	(save-excursion
+	  (goto-char pt)
+	  (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
   (setq avy-dispatch-alist
-        '((?c . my-avy-action-kill-move)
-          (?d . avy-action-kill-stay)
-          (?g . avy-action-teleport)
-          (?m . avy-action-mark)
-          (?n . avy-action-copy)
-          (?y . avy-action-yank)
-          (?i . avy-action-ispell)
-          (?z . avy-action-zap-to-char))))
+	'((?c . my-avy-action-kill-move)
+	  (?w . my-avy-action-define)
+	  (?H . my-avy-action-helpful)
+	  (?i . my-avy-action-embark)
+	  (?d . avy-action-kill-stay)
+	  (?g . avy-action-teleport)
+	  (?m . avy-action-mark)
+	  (?n . avy-action-copy)
+	  (?y . avy-action-yank)
+	  (?k . avy-action-ispell)
+	  (?z . avy-action-zap-to-char))))
 
 (use-package evil-exchange
   :general (general-nmap "gx" #'evil-exchange))
@@ -88,7 +116,8 @@
 	     "C-w" #'ace-window
 	     "C-c" #'ace-delete-window)
   :config (setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
-		aw-scope 'frame))
+		aw-scope 'global))
+
 
 (use-package evil-args
   :general
