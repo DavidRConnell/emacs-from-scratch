@@ -264,5 +264,17 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
 	 ("\\.markdown\\'" . markdowm-mode)
 	 ("qutebrowser-editor" . gfm-mode)))
 
+(use-package org-pandoc-import
+  :commands org-pandoc-import-docx-to-org org-pandoc-import-docx-as-org org-pandoc-import-transient-mode
+  :after (org yasnippet)
+  :straight (:host github
+             :repo "tecosaur/org-pandoc-import"
+             :files ("*.el" "filters" "preprocessors"))
+  :config
+  (org-pandoc-import-transient-mode nil))
+
+(use-package ox-pandoc
+  :after org org-pandoc-import)
+
 (provide 'writting)
 ;;; writting ends here
