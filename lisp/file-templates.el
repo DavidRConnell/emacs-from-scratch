@@ -4,7 +4,6 @@
 
 (use-package yatemplate
   :after yasnippet
-  :straight t
   :config
   (auto-insert-mode t)
   (setq yatemplate-dir (expand-file-name "templates"
