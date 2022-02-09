@@ -262,7 +262,20 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
   :mode (("README\\.md\\'" . gfm-mode)
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdowm-mode)
-	 ("qutebrowser-editor" . gfm-mode)))
+	 ("qutebrowser-editor" . gfm-mode))
+  :config
+  (my-local-leader-def
+    :keymaps '(markdowm-mode-map gfm-mode-map)
+    :infix "l"
+    "l" #'markdown-insert-link)
+  (general-nmap
+    :keymaps '(markdown-mode-map gfm-mode-map)
+    "gj" #'markdown-outline-next
+    "gk" #'markdown-outline-previous
+    "M-j" #'markdown-move-down
+    "M-k" #'markdown-move-up
+    "C-i" #'markdown-demote
+    "C-S-i" #'markdown-promote))
 
 (use-package org-pandoc-import
   :commands org-pandoc-import-docx-to-org org-pandoc-import-docx-as-org org-pandoc-import-transient-mode
