@@ -232,14 +232,11 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       :infix "d"
       "w" #'wordnut-search)
     :config
-    (add-hook 'wordnut-mode-hook #'org-mode)))
-
-  (require 'notes)
-  (require 'references))
-
-
-;; (use-package org-journal)
-;; (use-package org-drill)
+    (general-nmap
+      :keymaps 'wordnut-mode-map
+      "q" #'evil-delete-buffer)
+    ;; (add-hook 'wordnut-mode-hook #'org-mode)
+    ))
 
 (use-package flyspell
   :config
