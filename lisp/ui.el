@@ -61,9 +61,6 @@
   (evil-define-avy-motion my-avy-goto-char-forward-in-line inclusive)
   (evil-define-avy-motion my-avy-goto-char-backward-in-line inclusive)
 
-  (advice-add #'avy-jump
-	      :before #'evil-set-jump)
-
   (defun my-avy-action-kill-move (pt)
     "Kill sexp at PT and move there."
     (goto-char pt)
