@@ -60,7 +60,6 @@
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)
 
-;; (setq inhibit-startup-screen t)
 (setq frame-inhibit-implied-resize t)
 
 (setq package-enable-at-startup nil)
