@@ -219,6 +219,10 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
       :infix "d"
       "d" #'sdcv-search)
     :config
+    (general-nmap
+      :keymaps 'sdcv-mode-map
+      "q" #'evil-delete-buffer
+      "C-SPC" #'sdcv-toggle-entry))
 
   (use-package wiki-summary
     :general
