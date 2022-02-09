@@ -39,7 +39,8 @@
 (set-display-table-slot standard-display-table 'wrap
                          (make-glyph-code ?↩ 'fallback))
 
-(setq inhibit-startup-screen t
+(setq inhibit-startup-screen nil
+      initial-buffer-choice "~/notes/zettle/todo.org"
       inhibit-startup-message t
       inhibit-startup-echo-area-message t
       initial-scratch-message nil)
