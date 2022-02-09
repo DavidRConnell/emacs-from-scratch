@@ -37,6 +37,9 @@
     (org-toggle-link-display)
     (my-org-toggle-emphasis-markers-display))
 
+  (setq org-directory my-zettle-dir
+	org-agenda-files '("todo.org"))
+
   (setq org-tag-alist '(("ignore")
 			("noexport")
 			("export"))
