@@ -18,9 +18,9 @@
 (require 'file-templates)
 (require 'mail)
 (require 'terminal)
-(require 'completion)
 (require 'rss)
 (require 'appearance)
+(require 'completion)
 (require 'speed)
 
 (let ((inhibit-message t))
