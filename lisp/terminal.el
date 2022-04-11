@@ -20,13 +20,17 @@
 ;;; Code:
 
 (defun my-term (&optional working-directory)
-  "Open a new alacritty window in `default-directory' or WORKING-DIRECTORY."
+  "Open a new st window in `default-directory' or WORKING-DIRECTORY."
 
   (interactive)
   (if working-directory
-      (start-process "alacritty" nil "alacritty"
-		     (concat  "--working-directory=" working-directory))
-    (start-process "alacritty" nil "alacritty")))
+      (let* ((dir-len (length (split-string working-directory "/")))
+	     (last-dir (- dir-len 2)))
+	(message "%d\n%d" dir-len last-dir)
+	(start-process "st" nil "st"
+		       (concat "-cst:" (nth last-dir (split-string working-directory "/")))
+		       (concat  "-e cd " working-directory)))
+    (start-process "st" nil "st")))
 
 (use-package vterm
   :disabled
