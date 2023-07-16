@@ -6,7 +6,7 @@
   :after yasnippet
   :config
   (auto-insert-mode t)
-  (setq yatemplate-dir (expand-file-name "templates"
+  (setq yatemplate-dir (expand-file-name "file-templates"
 					 user-emacs-directory))
   (yatemplate-fill-alist))
 
