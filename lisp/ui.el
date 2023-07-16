@@ -119,14 +119,45 @@
 		aw-scope 'global))
 
 (use-package popper
-  :general
+  :demand
+  :config
   (my-leader-def
     :infix "u"
     "u" #'popper-toggle-latest
     "n" #'popper-cycle
-    "q" #'popper-close-latest
+    "q" #'popper-kill-latest-popup
     "t" #'popper-toggle-type)
-  :config (popper-mode 1))
+
+  (defun my-popper-shell-output-empty-p (buf)
+    (and (string-match-p
+	  "\\*Async Shell Command\\*"
+	  (buffer-name buf))
+	 (= (buffer-size buf) 0)))
+
+  (setq popper-reference-buffers
+	'(helpful-mode
+	  "\\*Messages\\*"
+	  "Output\\*$"
+	  "\\*Async Shell Command\\*"
+	  '(my-popper-shell-output-empty-p . hide)
+	  "\\*wiki-summary\\*.*"
+	  "\\*Embark Actions\\*"
+	  "\\*Backtrace\\*"
+	  "\\*git-gutter:diff\\*"
+	  "\\*MATLAB\\*"
+	  "\\*Help\\*"
+	  "\\*sdcv\\*"
+	  "\\*lispy-message\\*"
+	  "\\*Org PDF LaTeX Output\\*"
+	  "\\*pytest\\*.*"
+	  "\\*Python\\*"
+	  Man-mode
+	  compilation-mode))
+
+  (setq popper-mode-line nil
+	popper-group-function 'popper-group-by-directory)
+
+  (popper-mode 1))
 
 (use-package evil-args
   :general
