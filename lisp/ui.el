@@ -34,7 +34,7 @@
 	    "T" #'(lambda () (interactive)
 		    (evil-my-avy-goto-char-backward-in-line)))
   :config
-  (setq avy-keys-alist '((avy-goto-char . (?u ?h ?e ?t ?o ?n ?a ?s)))
+  (setq avy-keys-alist '((avy-goto-char . (?a ?o ?e ?u ?h ?t ?n ?s)))
 	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
 	avy-enter-times-out t
 	avy-timeout-seconds 0.3
