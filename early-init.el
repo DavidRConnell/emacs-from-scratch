@@ -45,6 +45,8 @@
       inhibit-startup-echo-area-message t
       initial-scratch-message nil)
 
+(setq native-comp-async-report-warnings-errors nil)
+
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 (tooltip-mode 0)
