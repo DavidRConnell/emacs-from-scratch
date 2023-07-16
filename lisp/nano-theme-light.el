@@ -22,14 +22,15 @@
 
 ;; Colors from Material design at https://material.io/
 (defvar nano-color-foreground "#37474F") ;; Blue Grey / L800
-(defvar nano-color-background "#FFFFFF") ;; White
-(defvar nano-color-highlight  "#FAFAFA") ;; Very Light Grey
+(defvar nano-color-background "#EFEFEF") ;; White
+(defvar nano-color-highlight  "#E1E1E1") ;; Very Light Grey
 (defvar nano-color-critical   "#FF6F00") ;; Amber / L900
 (defvar nano-color-salient    "#673AB7") ;; Deep Purple / L500
 (defvar nano-color-strong     "#000000") ;; Black
 (defvar nano-color-popout     "#FFAB91") ;; Deep Orange / L200
-(defvar nano-color-subtle     "#ECEFF1") ;; Blue Grey / L50
-(defvar nano-color-faded      "#B0BEC5") ;; Blue Grey / L200
+(defvar nano-color-subtle     "#CFD6DB") ;; Blue Grey / L50
+(defvar nano-color-faded      "#849AA5") ;; Blue Grey / L200
+(defvar nano-color-string     "#4285f4") ;; Green
 
 (require 'nano-theme)
 (provide 'nano-theme-light)
