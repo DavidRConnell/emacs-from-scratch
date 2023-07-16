@@ -19,26 +19,25 @@
 ;;
 ;;; Code:
 
+(require 'f)
+
 (defun my-term (&optional working-directory)
-  "Open a new st window in `default-directory' or WORKING-DIRECTORY."
+  "Open a new alacritty window in `default-directory' or WORKING-DIRECTORY."
 
   (interactive)
   (if working-directory
-      (let* ((dir-len (length (split-string working-directory "/")))
-	     (last-dir (- dir-len 2)))
-	(message "%d\n%d" dir-len last-dir)
-	(start-process "st" nil "st"
-		       (concat "-cst:" (nth last-dir (split-string working-directory "/")))
-		       (concat  "-e cd " working-directory)))
-    (start-process "st" nil "st")))
-
-(use-package vterm
+      (let* ((project-name (car (last (f-split working-directory))))
+	     (proc-name (format "alacritty-%s" project-name))
+	     (alacritty-title (format "*project-%s*" project-name)))
+	(if (get-process proc-name)
+	    (shell-command (format "stumpish select-window-by-name \"%s\"" alacritty-title))
+	  (start-process  proc-name nil "alacritty"
+			  (format "--title=%s" alacritty-title)
+			  (format "--working-directory=%s" working-directory)
+			  "--command=tmux")))
+    (start-process "alacritty" nil "alacritty")))
   :disabled
   :config
-  (general-imap
-    :keymaps 'vterm-mode-map
-    "C-SPC" #'vterm-send-tab
-    "C-y" #'vterm-yank))
 
 (provide 'terminal)
 ;;; terminal.el ends here
