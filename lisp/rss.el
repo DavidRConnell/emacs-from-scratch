@@ -43,5 +43,16 @@
     :config
     (elfeed-org)))
 
+(use-package elpher
+  :commands elpher
+  :config
+  (general-nmmap
+    :keymaps 'elpher-mode-map
+    "C-o" #'elpher-back
+    "C-c C-o" #'elpher-follow-current-link
+    "C-n" #'elpher-next-link
+    "C-p" #'elpher-prev-link)
+  (setq elpher-start-page-url "gopher://gopher.floodgap.com/7/v2/vs"))
+
 (provide 'rss)
 ;;; rss.el ends here
