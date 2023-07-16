@@ -23,10 +23,14 @@
 	no-littering-var-directory my-var-dir))
 
 (setq my-auto-save-directory
-      (expand-file-name "auto-save/" my-var-dir))
+      (expand-file-name "auto-save/" my-var-dir)
+      my-backup-directory
+      (expand-file-name "backup/" my-var-dir))
 
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat my-auto-save-directory "\\1") t)))
+      `((".*" ,(concat my-auto-save-directory "\\1") t))
+      backup-directory-alist
+      `(("" . ,my-backup-directory)))
 
 (if (not (file-directory-p my-auto-save-directory))
     (make-directory my-auto-save-directory))
