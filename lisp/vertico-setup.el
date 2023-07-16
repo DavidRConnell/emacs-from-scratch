@@ -73,6 +73,44 @@
   ;; 	   (interactive)
   ;; 	   (consult-line (thing-at-point 'symbol))))
   )
+(use-package cape
+  :after corfu
+  :config
+  (defun my-cape-completion-generator (funcs)
+    (let ((result))
+      (dolist (element funcs result)
+	(add-to-list 'completion-at-point-functions element 'append))))
+
+  (add-hook 'text-mode-hook
+	    (defun my-text-mode-capfs ()
+	      (my-cape-completion-generator
+	       (list #'cape-dict
+		     #'cape-dabbrev
+		     #'citar-capf
+		     (cape-company-to-capf #'company-yasnippet)))))
+
+  (add-hook 'prog-mode-hook (defun my-prog-mode-capfs ()
+			      (my-cape-completion-generator
+			       (list #'cape-dabbrev
+				     #'cape-file
+				     #'cape-keyword
+				     (cape-company-to-capf #'company-yasnippet)))))
+
+  (add-hook 'emacs-lisp-mode-hook (defun my-emacs-mode-capfs ()
+				    (add-to-list 'completion-at-point-functions #'cape-symbol)))
+
+  (add-hook 'minibuffer-mode-hook (defun my-minibuffer-mode-capfs ()
+				    (setq-local completion-at-point-functions
+						(list #'cape-dabbrev #'cape-history))))
+
+  (general-imap
+    "C-x C-f" #'cape-file
+    "C-x C-k" #'cape-dict)
+  (setq cape-dict-file (list ispell-personal-dictionary ispell-alternate-dictionary))
+  ;; WARNING: May cause performance issues. If eglot slow remove and look at
+  ;; https://github.com/minad/corfu/wiki#configuring-corfu-for-eglot for other
+  ;; options.
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
 (use-package embark
   :after consult

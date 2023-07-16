@@ -1,0 +1,3 @@
+[submodule "packages/tempel-collection"]
+	path = packages/tempel-collection
+	url = https://github.com/DavidRConnell/tempel-collection
