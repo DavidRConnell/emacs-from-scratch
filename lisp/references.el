@@ -5,128 +5,148 @@
 (use-package org-ref
   :defer 3
   :general
-  (my-local-leader-def
-    :keymaps 'org-mode-map
-    :infix "e"
-    "r" #'org-ref-insert-ref-link
-    "b" #'org-ref-insert-bibliography-link
-    "s" #'org-ref-insert-bibliographystyle-link)
-
   (my-leader-def
     :infix "r"
     "d" #'doi-utils-add-bibtex-entry-from-doi
     "a" #'arxiv-get-pdf-add-bibtex-entry
+    "i" #'isbn-to-bibtex
     "m" (defun my-open-master-bib
 	    () (interactive) (find-file my-refs-bib)))
 
   :config
   (require 'org-ref-arxiv)
-  (setq org-ref-default-ref-type "cref"
-	org-latex-prefer-user-labels t)
+  (require 'org-ref-isbn)
   (add-to-list 'org-ref-bibtex-journal-abbreviations
 	       '("CC" "Cerebral Cortex" "Cereb. Cortex")))
 
-(use-package org-ref-cite
-  :disabled
-  :load-path "~/.cache/emacs/org-ref-cite/"
-  :general
-  ;; (my-local-leader-def
-  ;;   :keymaps 'org-mode-map
-  ;;   :infix "e"
-  ;;   "r" #'org-cite-ref-insert-ref-link
-  ;;   "b" #'org-cite-ref-insert-bibliography-link
-  ;;   "s" #'org-cite-ref-insert-bibliographystyle-link)
+(use-package citeproc)
 
-  (my-leader-def
-    :infix "r"
-    "d" #'doi-utils-add-bibtex-entry-from-doi
-    "a" #'arxiv-get-pdf-add-bibtex-entry
-    "m" (defun my-open-master-bib
-	    () (interactive) (find-file my-refs-bib)))
+(use-package bibtex
+  :after org-ref
+  :mode ("\\.bib\\'" . bibtex-mode)
   :config
-  (setq org-cite-global-bibliography bibtex-completion-bibliography
-	org-cite-insert-processor 'org-ref-cite
-	org-cite-follow-processor 'org-ref-cite
-	org-cite-activate-processor 'org-ref-cite))
-
-;; (use-package citeproc
-;;   :after org)
-
-(use-package org-ref-cite-core
-  :disabled
-  :load-path "~/.cache/emacs/org-ref-cite"
-  :after (org-ref oc bibtex-completion)
-  :config
-  (setq org-cite-export-processors '((html csl "elsevier-with-titles.csl")
-				     (latex org-ref-cite)
-				     (t basic))))
-
-(use-package bibtex-completion
-  :after (org-ref org-roam-bibtex)
-  :config
-  (require 'find-lisp)
-  (setq bibtex-completion-bibliography (list my-refs-bib)
-	bibtex-completion-additional-search-fields '(doi url)
-	bibtex-completion-library-path my-refs-pdfs-dir
-	bibtex-completion-notes-path my-refs-notes-dir
-	bibtex-completion-edit-notes-function #'orb-bibtex-completion-edit-note
-	bibtex-completion-pdf-open-function
-	(lambda (fpath) (call-process "xdg-open" nil 0 nil fpath)))
-  (add-to-list 'bibtex-completion-format-citation-functions
-	       '(org-mode . (lambda (keys)
-			      (format "cite:%s"
-				      (s-join ","
-					      (--map (format "%s" it) keys))))))
-
   (general-nmap
     :keymaps 'bibtex-mode-map
     :prefix "C-c"
-    "C-c" #'org-ref-clean-bibtex-entry))
+    "C-c" #'org-ref-clean-bibtex-entry)
 
-(use-package consult-bibtex
-  :load-path "~/.cache/emacs/consult-bibtex"
-  :after bibtex-completion
+  ;; (add-hook 'bibtex-add-entry-hook #'citar-refresh)
+  )
+
+(use-package oc
+  :demand
+  :config
+  (require 'oc-csl)
+  (setq org-cite-csl-styles-dir "~/.local/share/csl"
+	org-cite-export-processors
+	;; Potentially modify to use natbib for latex (see variable's
+	;; help).
+	'((t csl)))
+  (set-face-attribute 'org-cite nil :foreground nano-color-faded)
+  (set-face-attribute 'org-cite-key nil :foreground nano-color-faded))
+
+(use-package citar
+  :demand
+  :after embark
+  ;; :hook
+  ;; (LaTeX-mode . citar-capf-setup)
+  ;; (markdown-mode . citar-capf-setup)
+  ;; (org-mode . citar-capf-setup)
   :general
   (my-leader-def
     :infix "r"
-    "c" #'consult-bibtex-insert-citation)
-
+    "c" #'citar-open)
   (general-imap
     :keymaps 'org-mode-map
-    "C-]" #'consult-bibtex-insert-citation)
+    "C-]" (lambda ()
+	    (interactive)
+	    (let* ((bib (citar-org-local-bib-files))
+		   (citar-bibliography (if bib
+					   bib citar-bibliography)))
+	      (if bib
+		  (progn
+		    (setq-local citar--candidates-cache 'uninitialized
+				citar--local-candidates-cache 'uninitialized)))
+	      (call-interactively #'org-cite-insert))))
 
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    :infix "m"
+    "n" #'embark-act)
   :config
-  (general-define-key
-   :keymaps 'consult-bibtex-embark-map
-   "o" #'nil
-   "e" #'nil
-   "p" #'consult-bibtex-open-pdf
-   "n" #'consult-bibtex-edit-notes)
-  (add-to-list 'embark-keymap-alist '(bibtex-completion . consult-bibtex-embark-map)))
+  (require 'citar-capf)
+  (require 'citar-org)
+  (require 'citar-citeproc)
+  (setq org-cite-global-bibliography (list my-refs-bib)
+	org-cite-insert-processor 'citar
+	org-cite-follow-processor 'citar
+	org-cite-activate-processor 'citar
+	citar-bibliography org-cite-global-bibliography
+	citar-library-paths (list my-refs-pdfs-dir my-refs-books-dir)
+	citar-file-additional-files-separator "_supp-"
+	citar-notes-paths (list my-refs-notes-dir)
+	citar-citeproc-csl-styles-dir org-cite-csl-styles-dir
+	citar-notes-sources '((citar-file :name "Notes"
+					  :category file
+					  :items citar-file--get-notes
+					  :hasitems citar-file--has-notes
+					  :open find-file
+					  :create orb-citar-edit-note
+					  :transform file-name-nondirectory))
+	citar-at-point-function 'embark-act
+	bibtex-completion-bibliography (list my-refs-bib)
+	bibtex-completion-notes-path my-refs-notes-dir
+	bibtex-completion-library-path citar-library-paths)
+  (add-to-list 'savehist-additional-variables 'citar-history)
 
-(use-package bibtex-actions
-  :disabled
-  :after (bibtex-completion embark oc org-roam-bibtex)
-  :general
-  :config
-  (add-to-list 'embark-target-finders 'bibtex-actions-citation-key-at-point)
-  (add-to-list 'embark-keymap-alist '(bibtex . bibtex-actions-map))
-  (add-to-list 'embark-keymap-alist '(citation-key . bibtex-actions-buffer-map))
-  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-  (setq bibtex-actions-bibliography (list my-refs-bib)
-	bibtex-actions-file-open-note-function #'orb-bibtex-actions-edit-note
-	bibtex-actions-at-point-function 'embark-act))
+  (setq citar-file-open-functions
+	'(("html" . citar-file-open-external)
+	  ("pdf" . citar-file-open-external)
+	  (t . find-file)))
+  (general-def
+    :keymaps '(citar-citation-map citar-map)
+    "f" nil
+    "p" #'citar-open-files
+    "a" (defun my-add-library-file (key)
+	  "Add a file to reference library associated with KEY."
+	  (interactive (list (citar-select-ref)))
+	  (message "%s" key)
+	  (bibtex-completion-add-pdf-to-library (list key))))
 
-(use-package oc-bibtex-actions
-  :disabled
-  :after (embark oc)
+  ;; (advice-add #'citar--select-resource
+  ;; 	      :filter-args
+  ;; 	      (defun advise-citar--select-resource-no-prompt (arg-list)
+  ;; 		"Advise around citar--select-resource to never prompt if only one resource found."
+  ;; 		(let ((prompt-pos (seq-position arg-list :always-prompt)))
+  ;; 		  (if prompt-pos
+  ;; 		      (setq arg-list (seq-union (seq-subseq arg-list 0 prompt-pos)
+  ;; 						(seq-subseq arg-list (+ prompt-pos 2))))))
+
+  ;; 		(seq-union arg-list '(:always-prompt nil))))
+  ;; (advice-remove #'advise-citar--select-resource-no-prompt #'citar-select-resource)
+
+  (defun my-org-roam-citation-finder ()
+    "Return the citation keys for the currently visited org-roam reference note."
+    (when-let (property (and (eq major-mode 'org-mode)
+			     (car (org-property-values "ROAM_REFS"))))
+      (if (string-match org-element-citation-key-re property)
+	  (let ((key (match-string 1 property)))
+	    (cons 'citar-key key)))))
+
+  (add-to-list 'embark-target-finders #'my-org-roam-citation-finder))
+
+(use-package citar-embark
+  :after citar embark
+  :config (citar-embark-mode))
+
+(use-package citar-org-roam
+  :after citar org-roam
   :config
-  (setq org-cite-insert-processor 'oc-bibtex-actions
-	org-cite-follow-processor 'oc-bibtex-actions
-	org-cite-activate-processor 'oc-bibtex-actions))
+  (setq citar-org-roam-capture-template-key "r")
+  (citar-org-roam-mode))
 
 (use-package ebib
-  :straight t
+  :commands ebib
   :general
   (my-leader-def
     :infix "r"
@@ -135,7 +155,7 @@
 
 If there is more than one local bib file ask."
 	  (interactive)
-	  (let* ((potential-bibs (org-ref-find-bibliography))
+	  (let* ((potential-bibs (citar-org-local-bib-files))
 		 (local-bib-file
 		  (cond
 		   ((not potential-bibs)
