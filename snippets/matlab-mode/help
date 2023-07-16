@@ -1,7 +1,6 @@
 # -*- mode: snippet -*-
 # name: help
 # key: help
-# condition: t
 # --
 
-%`(upcase (file-name-sans-extension (buffer-name)))` ${0:description}
+%`(upcase (file-name-sans-extension (buffer-name)))` ${0:`(or % "description")`}

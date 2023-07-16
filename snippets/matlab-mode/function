@@ -1,8 +1,9 @@
 # -*- mode: snippet -*-
 # name: function
-# key: function
-# condition: t
+# key: func
 # --
 
-function $0
+function ${1:func_name}($2)
+    %${1:$(upcase yas-text)} ${3:description}
+    $0
 end
