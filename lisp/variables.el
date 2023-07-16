@@ -38,6 +38,7 @@
 (defvar my-zettle-dir (expand-file-name "zettle/" my-notes-dir))
 (defvar my-refs-notes-dir (expand-file-name "references/" my-zettle-dir))
 (defvar my-refs-pdfs-dir "~/References/")
+(defvar my-refs-books-dir "~/books/")
 (defvar my-refs-bib (expand-file-name "master.bib" my-refs-notes-dir))
 
 (provide 'variables)
