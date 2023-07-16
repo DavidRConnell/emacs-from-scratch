@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: error
+# key: err
+# --
+fprintf(stderr, "$0\n");

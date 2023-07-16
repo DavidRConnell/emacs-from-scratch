@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: quotes
+# key: ''
+# --
+
+''
+    $0
+  '';

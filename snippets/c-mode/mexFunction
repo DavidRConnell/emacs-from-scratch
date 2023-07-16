@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: mexFunction
+# key: mex
+# --
+
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+  $0
+}
