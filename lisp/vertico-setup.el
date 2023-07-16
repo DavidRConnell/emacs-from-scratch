@@ -16,29 +16,28 @@
     "C-SPC" #'completion-at-point)
 
   (setq vertico-cycle t)
-  (setq completion-in-region-function #'consult-completion-in-region)
 
   (vertico-mode 1))
 
 (use-package vertico-directory
-  :load-path "~/.cache/emacs/vertico/extensions"
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :general
   (general-def
-   :keymaps 'vertico-map
-   "C-j" #'vertico-directory-enter
-   "C-w" #'vertico-directory-delete-word
-   "DEL" #'vertico-directory-delete-char))
+    :keymaps 'vertico-map
+    "C-j" #'vertico-directory-enter
+    "C-w" #'vertico-directory-delete-word
+    "DEL" #'vertico-directory-delete-char))
 
 (use-package vertico-repeat
-  :load-path "~/.cache/emacs/vertico/extensions"
   :hook (minibuffer-setup . vertico-repeat-save)
   :general
   (general-nmmap
-    "C-c C-r" #'vertico-repeat))
+    :prefix "C-c"
+    "C-r" #'vertico-repeat-last
+    "R" #'vertico-repeat-select))
 
 (use-package vertico-quick
-  :load-path "~/.cache/emacs/vertico/extensions"
+  :after vertico
   :general
   (general-define-key
    :keymaps 'vertico-map
@@ -47,6 +46,30 @@
   :config
   (setq vertico-quick1 "aoeu"
 	vertico-quick2 "snth"))
+
+(use-package vertico-buffer
+  :after vertico-multiform
+  :config
+  (setq vertico-buffer-display-action
+	'(display-buffer-in-direction
+          (direction . right)
+          (window-width . 0.26)))
+  (vertico-buffer-mode -1))
+
+(use-package vertico-grid
+  :after vertico-multiform)
+
+(use-package vertico-multiform
+  :after vertico
+  :config
+  (setq vertico-multiform-commands
+	'((consult-imenu buffer)
+	  (consult-outline buffer)
+	  (consult-xref buffer)
+	  (projectile-find-file grid)))
+  (setq vertico-multiform-categories
+	'((file grid)))
+  (vertico-multiform-mode t))
 
 (use-package orderless
   :init
