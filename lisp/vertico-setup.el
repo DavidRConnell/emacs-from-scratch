@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package vertico
+  :demand
   :config
   (general-define-key
    :keymaps 'vertico-map
@@ -73,29 +74,41 @@
 
 (use-package orderless
   :init
-  (setq completion-styles '(orderless)
+  (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package savehist
-  :config
-  (savehist-mode 1))
-
 (use-package consult
-  :after vertico
+  :demand
   :config
-  (require 'consult-imenu) ;; don't know why I need this now?
+  (require 'consult-imenu)
+  (require 'consult-flymake)
+  (require 'consult-xref)
   (my-leader-def
     "b" #'consult-buffer
     "O" #'consult-locate
+    "e" #'consult-flymake
     "l" #'consult-imenu
-    "L" #'consult-imenu-multi)
-  ;; (general-nmmap
-  ;;   "/" #'consult-line
-  ;;   "gn" (defun consult-line-symbol-at-point ()
-  ;; 	   (interactive)
-  ;; 	   (consult-line (thing-at-point 'symbol))))
-  )
+    "L" #'consult-imenu-multi
+    "s" #'consult-outline)
+  (general-nmmap
+    :prefix "g"
+    "n" (defun my-find-symbol ()
+	  (interactive)
+	  (consult-line (format "%s" (symbol-at-point)))))
+
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+		  (replace-regexp-in-string
+		   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+		   crm-separator)
+		  (car args))
+	  (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  (setq xref-show-xrefs-function #'consult-xref
+	xref-show-definitions-function #'consult-xref))
+
 (use-package cape
   :after corfu
   :config
@@ -140,28 +153,37 @@
   :config
   (general-define-key
    :keymaps 'vertico-map
-   "C-i" #'embark-act)
+   "C-o" #'embark-act
+   "C-a" #'embark-act-all
+   "C-e" #'embark-collect)
   (general-define-key
-   "C-h b" #'embark-bindings)
-  (my-leader-def
-    :infix "p"
-    "g" #'consult-ripgrep))
+   [remap describe-bindings] #'embark-bindings)
+  (general-nmmap
+    "C-a" #'embark-act)
+  (general-nmmap
+    "RET" #'embark-dwim))
 
 (use-package embark-consult
-  :after (embark consult)
+  :after consult
   :config
   (general-def
+    :keymaps 'embark-general-map
+    "C-SPC" #'embark-cycle)
+  (my-leader-def
+    :infix "p"
+    "g" #'consult-ripgrep)
+  (general-def
     :keymaps 'embark-file-map
-    "x" #'consult-file-externally
+    "x" #'embark-open-externally
     "j" #'find-file-other-window)
   (general-def
     :keymaps 'embark-buffer-map
     "j" #'consult-buffer-other-window))
 
 (use-package marginalia
-  :after (consult vertico)
+  :after consult
   :config
-  (marginalia-mode 1)
+  (marginalia-mode)
   (general-define-key
    :keymaps 'minibuffer-local-map
    "M-a" #'marginalia-cycle))
@@ -171,5 +193,61 @@
   (general-nmap
     "z=" #'flyspell-correct-wrapper))
 
+(use-package corfu
+  :demand
+  :general
+  (general-imap
+    "C-SPC" #'completion-at-point)
+  :custom
+  (corfu-cycle t)
+  (corfu-auto nil)
+  (corfu-separator ?\s)
+  (corfu-quit-at-boundary nil)
+  (corfu-quit-no-match nil)
+  (corfu-preview-current t)
+  (corfu-preselect 'first)
+  (corfu-on-exact-match nil)
+  (corfu-min-width 25)
+  :config
+  (general-def
+    :keymaps 'corfu-map
+    "C-n" #'corfu-next
+    "C-p" #'corfu-previous
+    "M-s" #'corfu-move-to-minibuffer)
+
+  (use-package corfu-history
+    :after corfu
+    :config
+    (corfu-history-mode t)
+    (add-to-list 'savehist-additional-variables 'corfu-history))
+
+  (use-package corfu-quick
+    :custom
+    (corfu-quick1 "aoeu")
+    (corfu-quick2 "snth")
+    :general
+    (general-def
+      :keymaps 'corfu-map
+      "C-s" #'corfu-quick-complete))
+
+  (use-package corfu-info
+    :general
+    (general-def
+      :keymaps 'corfu-map
+      "M-g" #'corfu-info-location
+      "M-h" #'corfu-info-documentation))
+
+  (use-package corfu-popupinfo
+    :after corfu
+    :config
+    (corfu-popupinfo-mode t))
+
+  (use-package corfu-echo
+    :after corfu
+    :config
+    (corfu-echo-mode t))
+
+  (evil-make-overriding-map corfu-map)
+  (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
 (provide 'vertico-setup)
 ;;; vertico-setup.el ends here
