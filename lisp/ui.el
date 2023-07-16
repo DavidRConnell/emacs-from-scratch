@@ -3,8 +3,10 @@
 ;;; Code:
 
 (save-place-mode 1)
-
 (recentf-mode 1)
+(use-package savehist
+  :config
+  (savehist-mode 1))
 
 (use-package which-key
   :config
@@ -16,8 +18,11 @@
   (general-define-key
    :states '(operator)
    :keymaps 'override
-    "j" #'evilem-motion-next-line
-    "k" #'evilem-motion-previous-line)
+   "j" #'evilem-motion-next-line
+   "k" #'evilem-motion-previous-line
+   "C-w" #'evilem-motion-forward-word-begin
+   "C-e" #'evilem-motion-forward-word-end
+   "C-b" #'evilem-motion-backward-word-begin)
   (general-define-key
    :keymaps '(normal motion visual)
    "C-j" #'evilem-motion-next-line
@@ -168,6 +173,15 @@
    :keymaps 'evil-outer-text-objects-map
    "a" #'evil-outer-arg))
 
+(use-package evil-textobj-tree-sitter
+  :general
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
+
 (use-package evil-lion
   :general
   (general-nvmap
@@ -183,11 +197,28 @@
   :general
   (general-nvmap
     "u" #'undo-fu-only-undo
-    "C-r" #'undo-fu-only-redo)
+    "C-r" #'undo-fu-only-redo
+    "U" #'undo-fu-disable-checkpoint)
   :config
   (use-package undo-fu-session
     :config
-    (global-undo-fu-session-mode t)))
+    (global-undo-fu-session-mode t))
+  (setq undo-fu-allow-undo-in-region t
+	undo-fu-ignore-keyboard-quit t))
+
+(use-package vundo
+  :general
+  (general-nvmap
+    "U" #'vundo)
+  :config
+  (general-def
+    :keymaps 'vundo-mode-map
+    "L" #'vundo-stem-end
+    "H" #'vundo-stem-root
+    "j" #'vundo-next
+    "k" #'vundo-previous
+    [ret] #'vundo-confirm)
+  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 (use-package undo-tree
   :disabled
@@ -219,17 +250,23 @@
   (setq highlight-indent-guides-method 'character))
 
 (use-package dumb-jump
+  :commands dumb-jump-xref-activate
   :general
   (general-nmmap
     :prefix "g"
     "D" #'xref-find-definitions)
   :config
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+  (setq dumb-jump-mode t))
+
+(use-package xref
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
 
 (use-package iedit
   :general
   (general-nmap
-   "C-;" #'iedit-mode))
+    "C-;" #'iedit-mode))
 
 (use-package dired-narrow
   :general
@@ -238,5 +275,27 @@
     "/" #'dired-narrow))
 
 (setq dired-dwim-target t)
+
+(use-package dirvish
+  :straight t
+  :config
+  (general-nmap
+    :keymaps 'dirvish-mode-map
+    "/" #'dirvish-narrow
+    "C-i" #'dirvish-history-go-forward
+    "C-o" #'dirvish-history-go-backward
+    "h" #'dired-up-directory
+    "l" #'dired-find-file)
+  (dirvish-override-dired-mode t))
+
+(use-package vlf
+  :config
+  (require 'vlf-setup)
+  (setq vlf-application 'dont-ask))
+
+(use-package delim-col
+  :config
+  (setq delimit-columns-str-separator " | "
+	delimit-columns-format 'padding))
 
 (provide 'ui)
