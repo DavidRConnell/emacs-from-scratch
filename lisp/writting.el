@@ -242,6 +242,19 @@ See https://www.ctan.org/tex-archive/macros/latex/contrib/cleveref"
     ;; (add-hook 'wordnut-mode-hook #'org-mode)
     ))
 
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :init
+  (setq ispell-program-name (executable-find "aspell")
+	ispell-personal-dictionary "~/.aspell.en.pws"
+	ispell-alternate-dictionary (expand-file-name "dicts/en-common.wl"
+						      my-var-dir))
+  :config
+  (general-nmap
+    "z=" #'jinx-correct)
+
+  (set-face-attribute 'jinx-misspelled nil :underline t :inherit 'nano-face-popout))
+
 (use-package flyspell
   :config
   (add-hook 'text-mode-hook #'flyspell-mode)
