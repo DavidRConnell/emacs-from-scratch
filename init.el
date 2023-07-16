@@ -10,8 +10,10 @@
 (require 'tidy-files)
 (require 'keybindings)
 (require 'ui)
-(require 'git)
+(require 'pass)
 (require 'projects)
+(require 'appearance)
+(require 'git)
 (require 'development)
 (require 'writting)
 (require 'notes)
@@ -20,13 +22,13 @@
 (require 'mail)
 (require 'terminal)
 (require 'rss)
-(require 'appearance)
+(require 'chat)
 (require 'completion)
 (require 'speed)
 
 (let ((inhibit-message t))
   (message (format "Initialization time: %s"
-                 (emacs-init-time))))
+                   (emacs-init-time))))
 
 (provide 'init)
 ;;; init.el ends here
