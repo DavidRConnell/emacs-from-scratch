@@ -288,19 +288,45 @@ This ensures the results are visible."
 ;; (use-package buttercup)
 
 (use-package matlab
-  :straight (matlab-emacs :type git :repo "https://git.code.sf.net/p/matlab-emacs/src")
-  :mode ("\\.m$" . matlab-mode)
-  :hook (matlab-mode . flycheck-mode)
-  :hook (matlab-mode . yas-minor-mode)
+  :mode ("\\.m\\'" . matlab-mode)
+  :hook (matlab-mode . flymake-mode)
   :config
-  (add-to-list 'load-path (expand-file-name
-			   "emacs/straight/repos/matlab-emacs"
-			   (getenv "XDG_CACHE_HOME")))
-  (load-library "matlab-load")
-  ;; (matlab-cedet-setup)
-  (require 'flycheck-mlint)
-  (setq flycheck-matlab-mlint-executable "mlint")
-  (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
+  (require 'matlab-shell)
+  (require 'matlab-shell-gud)
+  (require 'matlab-topic)
+  ;; (add-hook 'matlab-shell-mode-hook (lambda () (load-library "matlab-load")))
+
+  (cl-loop for hk in prog-mode-hook
+	   do (add-hook 'matlab-mode-hook hk))
+
+  (defun my-wrap-matlab-shell (fun &rest args)
+    "Open matlab in project root instead of `default-directory' and return to
+calling window."
+
+    (let ((old-dir default-directory)
+	  (win (selected-window))
+	  (buff (buffer-name)))
+      (cd (projectile-project-root))
+      (apply fun args)
+      (switch-to-buffer buff)
+      (pop-to-buffer "*MATLAB*")
+      (select-window win)
+      (cd old-dir)))
+
+  (advice-add #'matlab-shell :around #'my-wrap-matlab-shell)
+
+  (require 'flymake-codeissues)
+  (setq matlab-shell-command-switches
+	'("-nodesktop" "-nosplash" "-softwareopengl")
+	matlab-shell-tab-use-company nil)
+  (setq matlab-indent-function-body t
+	matlab-functions-have-end t
+	matlab-fill-code t
+	matlab-return-add-semicolon t
+	matlab-highlight-cross-function-variables t)
+  (defvar font-lock-reference-face nil
+    "Empty var to stop error in matlab (treats as a var instead of font)")
+
   (require 'matlab-testing)
   (general-nmap
     :keymaps 'matlab-mode-map
