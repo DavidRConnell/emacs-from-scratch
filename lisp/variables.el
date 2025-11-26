@@ -22,7 +22,7 @@
 (require 'cl-lib)
 
 (setq user-full-name "David R. Connell"
-      user-mail-address "davidconnell12@gmail.com")
+      user-mail-address "david32@dcon.addy.io")
 
 (defvar my-cache-dir (expand-file-name "emacs/" (getenv "XDG_CACHE_HOME"))
   "Location to store reproducibly generated files.")
@@ -30,7 +30,10 @@
 (defvar my-var-dir (expand-file-name "emacs/" (getenv "XDG_DATA_HOME"))
   "Location to store persistent, non-reproducible data.")
 
-(cl-dolist (dir (list my-cache-dir my-var-dir))
+(defvar my-config-dir (expand-file-name "emacs/" (getenv "XDG_CONFIG_HOME"))
+  "Location to store persistent, non-reproducible data.")
+
+(cl-dolist (dir (list my-cache-dir my-var-dir my-config-dir))
   (unless (file-exists-p dir)
     (make-directory dir)))
 
@@ -40,6 +43,8 @@
 (defvar my-refs-pdfs-dir "~/References/")
 (defvar my-refs-books-dir "~/books/")
 (defvar my-refs-bib (expand-file-name "master.bib" my-refs-notes-dir))
+
+(setenv "PATH" (format "%s:%s" (getenv "PATH") "~/bin"))
 
 (provide 'variables)
 ;;; variables.el ends here
