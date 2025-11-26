@@ -19,12 +19,10 @@
 ;;
 ;;; Code:
 
-;; elfeed
-
 (use-package elfeed
   :general
   (my-leader-def
-    "e" #'elfeed)
+    "E" #'elfeed)
 
   :config
   (general-define-key
@@ -32,7 +30,8 @@
    ;; "r" #'elfeed-update
    "&" #'elfeed-search-browse-url)
 
-  (setq elfeed-search-filter "@2-week-ago")
+  (setq elfeed-search-filter "@2-week-ago"
+	elfeed-show-entry 'display-buffer)
 
   (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
   (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
