@@ -24,18 +24,25 @@
 (winner-mode t)
 (use-package evil
   :init
-  (setq evil-want-keybinding nil)
+  (setq evil-want-keybinding nil
+	evil-search-module 'evil-search
+	;; evil-undo-system 'undo-fu
+	)
   :config
-  (general-imap
-    "C-u" #'evil-delete-back-to-indentation)
   (general-nmvmap
+    :keymaps 'override
     "J" #'evil-scroll-line-down
     "K" #'evil-scroll-line-up
     "H" #'evil-beginning-of-visual-line
     "L" #'evil-end-of-line-or-visual-line
+    "M" #'evil-goto-mark)
+  (general-imap
+    "C-u" #'evil-delete-back-to-indentation)
+  (general-nmvmap
     "gj" #'evil-join
     "j" #'evil-next-visual-line
     "k" #'evil-previous-visual-line
+    "-" #'dired-jump
     "C-m" #'evil-goto-mark
     "C-q" #'evil-execute-macro)
   (general-nmmap
