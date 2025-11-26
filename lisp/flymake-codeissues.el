@@ -46,7 +46,9 @@
 					       (gethash "ColumnEnd" ht))
 					 (matlab--flymake-severity
 					  (gethash "Severity" ht))
-					 (gethash "Description" ht)))
+					 (format "%s (%s)"
+						 (gethash "Description" ht)
+						 (gethash "CheckID" ht))))
 			 issues)))))
 
 (defun matlab-setup-flymake-backend ()

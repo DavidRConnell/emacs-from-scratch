@@ -42,7 +42,7 @@
   '((warning line-start "L " line " (C " (1+ digit)  "): " (message) line-end))
   :modes '(matlab-mode)
   :enabled (lambda () (string= (file-name-extension (buffer-file-name))
-			  "m")))
+			       "m")))
 
 (add-to-list 'flycheck-checkers 'matlab-mlint 'append)
 
