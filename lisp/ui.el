@@ -128,7 +128,7 @@
   :config
   (my-leader-def
     :infix "u"
-    "u" #'popper-toggle-latest
+    "u" #'popper-toggle
     "n" #'popper-cycle
     "q" #'popper-kill-latest-popup
     "t" #'popper-toggle-type)
@@ -144,25 +144,31 @@
 	  "\\*Messages\\*"
 	  "Output\\*$"
 	  "\\*Async Shell Command\\*"
-	  '(my-popper-shell-output-empty-p . hide)
+	  (my-popper-shell-output-empty-p . hide)
 	  "\\*wiki-summary\\*.*"
 	  "\\*Embark Actions\\*"
 	  "\\*Backtrace\\*"
 	  "\\*git-gutter:diff\\*"
 	  "\\*MATLAB\\*"
+	  "\\*R:.*\\*"
 	  "\\*Help\\*"
 	  "\\*sdcv\\*"
 	  "\\*lispy-message\\*"
 	  "\\*Org PDF LaTeX Output\\*"
 	  "\\*pytest\\*.*"
 	  "\\*Python\\*"
+	  "\\*python\\*"
+	  "\\*eldoc.*\\*"
+	  "\\*readable.*\\*"
 	  Man-mode
 	  compilation-mode))
 
   (setq popper-mode-line nil
 	popper-group-function 'popper-group-by-directory)
 
-  (popper-mode 1))
+  (require 'popper-echo)
+  (popper-mode t)
+  (popper-echo-mode t))
 
 (use-package evil-args
   :general
