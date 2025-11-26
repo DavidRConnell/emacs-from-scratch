@@ -18,7 +18,7 @@
 ;; From https://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
 ;; ---------------------------------------------------------------------
 (defun shorten-directory (dir max-length)
-  "Show up to `max-length' characters of a directory name `dir'."
+  "Show up to MAX-LENGTH characters of a directory name DIR."
   (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
         (output ""))
     (when (and path (equal "" (car path)))
@@ -33,7 +33,7 @@
 ;; ---------------------------------------------------------------------
 
 (defun nano-modeline-compose (status name primary secondary)
-  "Compose a string with provided information"
+  "Compose a string with provided information."
   (let* ((char-width    (window-font-width nil 'default))
 	 (filler " ")
          (space-up       +0.15)
@@ -84,22 +84,32 @@
 
 (defun nano-modeline-right-side ()
   "Provide general information for the right side of the modeline."
-  (let* ((line-info (format-mode-line "%l:%c "))
+  (let* ((line-info (format-mode-line "%l:%c %p%%  "))
 	 (eyebrowse-workspaces (eyebrowse-mode-line-indicator))
-	 (buffer (- 7 (length line-info))))
+	 (popup (if (member popper-popup-status '(popup user-popup))
+		    (propertize " POP " 'face 'nano-face-header-popout)
+		  ""))
+	 (buffer (max 1 (- 7 (length line-info)))))
     (concat eyebrowse-workspaces
 	    (propertize (make-string buffer ?\ ) 'face 'nano-face-header-default)
-	    (propertize line-info 'face 'nano-face-header-default))))
+	    (propertize line-info 'face 'nano-face-header-default)
+	    (propertize " " 'face 'nano-face-header-separator)
+	    popup)))
 
 ;; ---------------------------------------------------------------------
+(defun my-org-roam-db-has-file-p (file)
+  (not (null (org-roam-db-query
+	      [:select * :from titles :where (= file $s1)] file))))
+
 (defun nano-modeline-org-roam-mode-p ()
-  (and  (bound-and-true-p org-roam-mode)
-	(org-roam-db-has-file-p (buffer-file-name (window-buffer)))))
+  (and  (fboundp 'org-roam-file-p)
+	(derived-mode-p 'org-mode)
+	(org-roam-file-p (buffer-file-name (window-buffer)))))
 
 (defun nano-modeline-org-roam-mode ()
   (nano-modeline-compose (nano-modeline-status)
-			 (org-roam-db--get-title (buffer-file-name
-						  (window-buffer)))
+			 (org-roam-node-title
+			  (org-roam-node-from-id (org-entry-get nil "ID" 'inherit)))
 			 "(Org-roam)"
 			 ""))
 
@@ -135,16 +145,12 @@
 
 (defun nano-modeline-elfeed-show-mode ()
   (let* ((title        (elfeed-entry-title elfeed-show-entry))
-         (tags         (elfeed-entry-tags elfeed-show-entry))
-         (tags-str     (mapconcat #'symbol-name tags ", "))
-         (date         (seconds-to-time (elfeed-entry-date elfeed-show-entry)))
          (feed         (elfeed-entry-feed elfeed-show-entry))
-         (feed-title   (plist-get (elfeed-feed-meta feed) :title))
-         (entry-author (elfeed-meta elfeed-show-entry :author)))
-    (nano-modeline-compose status
+         (feed-title   (plist-get (elfeed-feed-meta feed) :title)))
+    (nano-modeline-compose (nano-modeline-status)
                            (s-truncate 40 title "…")
-                           (concat "(" tags-str ")")
-                           feed-title)))
+                           ""
+                           "")))
 
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-calendar-mode-p ()
@@ -175,7 +181,7 @@
   (nano-modeline-compose (nano-modeline-status)
                          "Capture"
                          "(org)"
-                         "[C-c C-c] Finish [C-c C-w] Refile [C-c C-k] Abort"))
+                         ""))
 
 (with-eval-after-load 'org-capture
   (defun org-capture-turn-off-header-line ()
@@ -266,7 +272,7 @@
 (setq org-mode-line-string nil)
 (with-eval-after-load 'org-clock
   (add-hook 'org-clock-out-hook
-            '(lambda () (setq org-mode-line-string nil)
+            #'(lambda () (setq org-mode-line-string nil)
                         (force-mode-line-update))))
 
 (defun nano-modeline-org-clock-mode-p ()
@@ -361,7 +367,7 @@
 
 ;; ---------------------------------------------------------------------
 (defun nano-modeline-status ()
-  "Return buffer status: read-only (RO), modified (**) or read-write (RW)"
+  "Return buffer status: read-only (RO), modified (**) or read-write (RW)."
 
   (let ((read-only   buffer-read-only)
         (modified    (and buffer-file-name (buffer-modified-p))))

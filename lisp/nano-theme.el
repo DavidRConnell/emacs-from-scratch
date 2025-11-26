@@ -31,11 +31,11 @@
 (defun set-face (face style)
   "Reset a face and make it inherit style."
   (set-face-attribute face nil
-   :foreground 'unspecified :background 'unspecified
-   :family     'unspecified :slant      'unspecified
-   :weight     'unspecified :height     'unspecified
-   :underline  'unspecified :overline   'unspecified
-   :box        'unspecified :inherit    style))
+		      :foreground 'unspecified :background 'unspecified
+		      :family     'unspecified :slant      'unspecified
+		      :weight     'unspecified :height     'unspecified
+		      :underline  'unspecified :overline   'unspecified
+		      :box        'unspecified :inherit    style))
 
 ;; A theme is fully defined by these six faces
 (defgroup nano nil
@@ -46,7 +46,7 @@
 
 (defface nano-face-default nil
   "Default face is used for regular information."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-default nil
   "Default face for ther header line."
@@ -54,9 +54,10 @@
 
 (defface nano-face-critical nil
   "Critical face is for information that requires immediate action.
-It should be of high constrast when compared to other faces. This
-can be realized (for example) by setting an intense background
-color, typically a shade of red. It must be used scarcely."
+It should be of high constrast when compared to other faces.
+This\ncan be realized (for example) by setting an intense
+background\ncolor, typically a shade of red.  It must be used
+scarcely."
   :group 'nano)
 
 (defface nano-face-header-critical nil
@@ -65,34 +66,34 @@ color, typically a shade of red. It must be used scarcely."
 
 
 (defface nano-face-popout nil
-"Popout face is used for information that needs attention.
+  "Popout face is used for information that needs attention.
 To achieve such effect, the hue of the face has to be
 sufficiently different from other faces such that it attracts
 attention through the popout effect."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-popout nil
   "Popout face for ther header line."
   :group 'nano)
 
 (defface nano-face-strong nil
-"Strong face is used for information of a structural nature.
+  "Strong face is used for information of a structural nature.
 It has to be the same color as the default color and only the
 weight differs by one level (e.g., light/regular or
 regular/bold). IT is generally used for titles, keywords,
 directory, etc."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-strong nil
   "Strong face for ther header line."
   :group 'nano)
 
 (defface nano-face-salient nil
-"Salient face is used for information that are important.
+  "Salient face is used for information that are important.
 To suggest the information is of the same nature but important,
 the face uses a different hue with approximately the same
 intensity as the default face. This is typically used for links."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-salient nil
   "Salient face for ther header line."
@@ -100,12 +101,12 @@ intensity as the default face. This is typically used for links."
 
 
 (defface nano-face-faded nil
-"Faded face is for information that are less important.
+  "Faded face is for information that are less important.
 It is made by using the same hue as the default but with a lesser
 intensity than the default. It can be used for comments,
 secondary information and also replace italic (which is generally
 abused anyway)."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-faded nil
   "Faded face for ther header line."
@@ -117,11 +118,11 @@ abused anyway)."
 
 
 (defface nano-face-subtle nil
-"Subtle face is used to suggest a physical area on the screen.
+  "Subtle face is used to suggest a physical area on the screen.
 It is important to not disturb too strongly the reading of
 information and this can be made by setting a very light
 background color that is barely perceptible."
-:group 'nano)
+  :group 'nano)
 
 (defface nano-face-header-subtle nil
   "Subtle face for ther header line."
@@ -136,6 +137,9 @@ background color that is barely perceptible."
   "Face compsenting spaces in the header line (internal use) "
   :group 'nano)
 
+(defface nano-face-string nil
+  "Face used for highlighting strings"
+  :group 'nano)
 
 (set-foreground-color nano-color-foreground)
 (set-background-color nano-color-background)
@@ -151,14 +155,15 @@ background color that is barely perceptible."
                     :background nano-color-critical)
 (set-face-attribute 'nano-face-popout nil
                     :foreground nano-color-popout)
-(if (display-graphic-p)
-    (set-face-attribute 'nano-face-strong nil
-                        :foreground (face-foreground 'nano-face-default)
-                        :family "Roboto Mono"
-                        :weight 'medium)
-  (set-face-attribute 'nano-face-strong nil
-                      :foreground (face-foreground 'nano-face-default)
-                      :weight 'bold))
+;;( if (display-graphic-p)
+(set-face-attribute 'nano-face-strong nil
+                    :foreground (face-foreground 'nano-face-default)
+                    :family "Roboto Mono"
+                    :weight 'medium)
+;; (set-face-attribute 'nano-face-strong nil
+;;                     :foreground (face-foreground 'nano-face-default)
+;;                     :weight 'bold)
+;;)
 (set-face-attribute 'nano-face-salient nil
                     :foreground nano-color-salient
                     :weight 'light)
@@ -167,39 +172,41 @@ background color that is barely perceptible."
                     :weight 'light)
 (set-face-attribute 'nano-face-subtle nil
                     :background nano-color-subtle)
-
+(set-face-attribute 'nano-face-string nil
+		    :foreground nano-color-string
+		    :weight 'light)
 (set-face-attribute 'nano-face-header-default nil
 		    :foreground nano-color-foreground
 		    :background nano-color-subtle
 		    :box `(:line-width 1
-		          :color ,nano-color-background
-  		          :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-strong nil
 		    :foreground nano-color-strong
 		    :background nano-color-subtle
 		    :family "Roboto Mono"
                     :weight 'medium
 		    :box `(:line-width 1
-		           :color ,nano-color-background
-  		           :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-salient nil
 		    :foreground nano-color-background
 		    :background nano-color-salient
 		    :box `(:line-width 1
-		          :color ,nano-color-background
-  		          :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-popout nil
 		    :foreground nano-color-background
 		    :background nano-color-popout
 		    :box `(:line-width 1
-		          :color ,nano-color-background
-  		          :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-faded nil
 		    :foreground nano-color-background
 		    :background nano-color-faded
 		    :box `(:line-width 1
-		          :color ,nano-color-background
-  		          :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-highlight nil
 		    :inherit 'nano-face-header-faded
 		    :box nil)
@@ -209,8 +216,8 @@ background color that is barely perceptible."
 		    :foreground nano-color-background
 		    :background nano-color-critical
 		    :box `(:line-width 1
-		           :color ,nano-color-background
-  		           :style nil))
+				       :color ,nano-color-background
+  				       :style nil))
 (set-face-attribute 'nano-face-header-separator nil
 		    :inherit 'nano-face-default
 		    :height 0.1)
@@ -227,8 +234,8 @@ background color that is barely perceptible."
                     :foreground (face-foreground 'nano-face-faded)
                     :background (face-background 'nano-face-default)
                     :overline nil
-		            :underline nil
-		            :box nil)
+		    :underline nil
+		    :box nil)
 (set-face-attribute 'mode-line-inactive nil
                     :height 0.75
                     :foreground (face-foreground 'nano-face-faded)
@@ -238,17 +245,17 @@ background color that is barely perceptible."
 		    :inherit nil
                     :box nil)
 ;;(when (display-graphic-p)
-  (set-face-attribute 'header-line nil
-		      :weight 'light
-                      :foreground (face-foreground 'nano-face-default)
-                      :background (face-background 'nano-face-default)
-                      :overline nil
-                      :underline nil
-                      :box nil
-                      :box `(:line-width 1
-                             :color ,(face-background 'nano-face-default)
-                             :style nil)
-		              :inherit nil)
+(set-face-attribute 'header-line nil
+		    :weight 'light
+                    :foreground (face-foreground 'nano-face-default)
+                    :background (face-background 'nano-face-default)
+                    :overline nil
+                    :underline nil
+                    :box nil
+                    :box `(:line-width 1
+				       :color ,(face-background 'nano-face-default)
+				       :style nil)
+		    :inherit nil)
 ;; (when (not (display-graphic-p))
 ;;   (set-face-attribute 'header-line nil
 ;; 		      :weight 'light
@@ -313,8 +320,8 @@ background color that is barely perceptible."
 (set-face 'link                                    'nano-face-salient)
 (set-face 'fringe                                    'nano-face-faded)
 (set-face-attribute 'fringe nil
-                       :foreground (face-background 'nano-face-subtle)
-                               :background (face-background 'default))
+                    :foreground (face-background 'nano-face-subtle)
+                    :background (face-background 'default))
 (set-face 'isearch                                  'nano-face-strong)
 (set-face 'isearch-fail                              'nano-face-faded)
 (set-face 'lazy-highlight                           'nano-face-subtle)
@@ -329,7 +336,7 @@ background color that is barely perceptible."
 ;; Programmation mode
 (set-face 'font-lock-comment-face                    'nano-face-faded)
 (set-face 'font-lock-doc-face                        'nano-face-faded)
-(set-face 'font-lock-string-face                    'nano-face-popout)
+(set-face 'font-lock-string-face                    'nano-face-string)
 (set-face 'font-lock-constant-face                 'nano-face-salient)
 (set-face 'font-lock-warning-face                   'nano-face-popout)
 (set-face 'font-lock-function-name-face             'nano-face-strong)
@@ -338,6 +345,10 @@ background color that is barely perceptible."
 (set-face 'font-lock-type-face                     'nano-face-salient)
 (set-face 'font-lock-keyword-face                  'nano-face-salient)
 
+;;; tweaks
+(set-face-attribute 'font-lock-variable-name-face nil
+		    :weight 'normal
+		    :slant 'italic)
 
 ;; Highlight line mode
 (with-eval-after-load 'hl-line
@@ -350,22 +361,22 @@ background color that is barely perceptible."
                       :foreground (face-foreground 'nano-face-faded)
                       :background (face-background 'nano-face-default)
                       :box `(:line-width 1
-                             :color ,(face-foreground 'nano-face-faded)
-                             :style nil))
+					 :color ,(face-foreground 'nano-face-faded)
+					 :style nil))
   (set-face-attribute 'custom-button-mouse nil
-;;                      :inherit 'custom-button
+		      ;;                      :inherit 'custom-button
                       :foreground (face-foreground 'nano-face-faded)
                       :background (face-background 'nano-face-subtle)
                       :box `(:line-width 1
-                             :color ,(face-foreground 'nano-face-faded)
-                             :style nil))
+					 :color ,(face-foreground 'nano-face-faded)
+					 :style nil))
   (set-face-attribute 'custom-button-pressed nil
                       :foreground (face-background 'default)
                       :background (face-foreground 'nano-face-salient)
                       :inherit 'nano-face-salient
                       :box `(:line-width 1
-                             :color ,(face-foreground 'nano-face-salient)
-                             :style nil)
+					 :color ,(face-foreground 'nano-face-salient)
+					 :style nil)
                       :inverse-video nil))
 
 ;; Documentation
@@ -381,7 +392,7 @@ background color that is barely perceptible."
 
 ;; Bookmarks
 (with-eval-after-load 'bookmark
-  (set-face 'bookmark-menu-heading                  'nano-face-strong)
+  ;; (set-face 'bookmark-menu-heading                  'nano-face-strong)
   (set-face 'bookmark-menu-bookmark                'nano-face-salient))
 
 ;; Message
@@ -459,8 +470,8 @@ function is a convenience wrapper used by `describe-package-1'."
                            text (concat "[" text "]")))
           (button-face (if (display-graphic-p)
                            '(:box `(:line-width 1
-                                    :color ,nano-color-subtle
-                                    :style nil)
+						:color ,nano-color-subtle
+						:style nil)
                                   :foreground nano-color-faded
                                   :background nano-color-subtle)
                          'link)))
@@ -487,7 +498,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'diff-changed                           'nano-face-popout)
   (set-face 'diff-added                            'nano-face-salient)
   (set-face 'diff-refine-added                    '(nano-face-salient
-                                                     nano-face-strong))
+                                                    nano-face-strong))
   (set-face 'diff-refine-changed                    'nano-face-popout)
   (set-face 'diff-refine-removed                    'nano-face-faded)
   (set-face-attribute     'diff-refine-removed nil :strike-through t))
@@ -521,6 +532,33 @@ function is a convenience wrapper used by `describe-package-1'."
                       :foreground "#FFEE58"   ;; material color yellow L400
                       :background "#FFF9C4")) ;; material color yellow L100
 
+(with-eval-after-load 'ansi-color
+  (set-face 'ansi-color-bold 'nano-face-strong)
+  (set-face-attribute 'ansi-color-black nil
+		      :foreground (face-foreground 'nano-face-default)
+		      :background (face-foreground 'nano-face-default))
+  (set-face-attribute 'ansi-color-white nil
+                      :foreground (face-background 'nano-face-default)
+                      :background (face-background 'nano-face-default))
+  (set-face-attribute 'ansi-color-blue nil
+                      :foreground "#42A5F5"   ;; material color blue L400
+                      :background "#BBDEFB")  ;; material color blue L100
+  (set-face-attribute 'ansi-color-cyan nil
+                      :foreground "#26C6DA"   ;; material color cyan L400
+                      :background "#B2EBF2")  ;; material color cyan L100
+  (set-face-attribute 'ansi-color-green nil
+                      :foreground "#66BB6A"   ;; material color green L400
+                      :background "#C8E6C9")  ;; material color green L100
+  (set-face-attribute 'ansi-color-magenta nil
+                      :foreground "#AB47BC"   ;; material color purple L400
+                      :background "#E1BEE7")  ;; material color purple L100
+  (set-face-attribute 'ansi-color-red nil
+                      :foreground "#EF5350"   ;; material color red L400
+                      :background "#FFCDD2")  ;; material color red L100
+  (set-face-attribute 'ansi-color-yellow nil
+                      :foreground "#FFEE58"   ;; material color yellow L400
+                      :background "#FFF9C4"))
+
 (with-eval-after-load 'calendar
   (set-face 'calendar-today                         'nano-face-strong))
 
@@ -533,7 +571,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'org-agenda-current-time                'nano-face-strong)
   (set-face 'org-agenda-date                        'nano-face-salient)
   (set-face 'org-agenda-date-today                  '(nano-face-strong
-                                                     nano-face-salient))
+                                                      nano-face-salient))
   (set-face 'org-agenda-date-weekend                 'nano-face-faded)
   (set-face 'org-agenda-diary                        'nano-face-faded)
   (set-face 'org-agenda-dimmed-todo-face             'nano-face-faded)
@@ -542,7 +580,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'org-agenda-filter-effort                'nano-face-faded)
   (set-face 'org-agenda-filter-regexp                'nano-face-faded)
   (set-face 'org-agenda-filter-tags                  'nano-face-faded)
-;;  (set-face 'org-agenda-property-face                'nano-face-faded)
+  ;;  (set-face 'org-agenda-property-face                'nano-face-faded)
   (set-face 'org-agenda-restriction-lock             'nano-face-faded)
   (set-face 'org-agenda-structure                   'nano-face-strong))
 
@@ -634,7 +672,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'mu4e-highlight-face                    'nano-face-popout)
   (set-face 'mu4e-link-face                        'nano-face-salient)
   (set-face 'mu4e-modeline-face                      'nano-face-faded)
-  (set-face 'mu4e-moved-face                         'nano-face-faded)
+  ;; (set-face 'mu4e-moved-face                         'nano-face-faded)
   (set-face 'mu4e-ok-face                            'nano-face-faded)
   (set-face 'mu4e-region-code                        'nano-face-faded)
   (set-face 'mu4e-replied-face                     'nano-face-default)
@@ -755,6 +793,6 @@ function is a convenience wrapper used by `describe-package-1'."
   (set-face 'ivy-subdir                              'nano-face-faded)
   (set-face 'ivy-virtual                             'nano-face-faded)
   (set-face 'ivy-yanked-word                         'nano-face-faded)
-)
+  )
 
 (provide 'nano-theme)
