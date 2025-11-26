@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: gls
+# key: gls
+# --
+[[gls:$0]]

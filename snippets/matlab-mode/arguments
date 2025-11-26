@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: arguments
+# key: args
+# --
+arguments
+    $0
+end

@@ -3,4 +3,5 @@
 # key: help
 # --
 
-%`(upcase (file-name-sans-extension (buffer-name)))` ${0:`(or % "description")`}
+%`(upcase (file-name-sans-extension (buffer-name)))` ${description}
+$0

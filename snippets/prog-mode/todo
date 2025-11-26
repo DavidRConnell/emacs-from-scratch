@@ -1,0 +1,4 @@
+# key: todo
+# name: todo
+# --
+`(format "%s%s" comment-start comment-padding)`TODO: $0`(if comment-end (format "%s%s" comment-end comment-padding) "")`
