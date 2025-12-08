@@ -51,7 +51,7 @@
     "C-c C-k" #'tempel-abort))
 
 (use-package tempel-collection
-  :load-path "/home/voidee/.config/emacs/packages/tempel-collection"
+  :load-path "/home/voidee/.config/emacs/vendor/tempel-collection"
   :after tempel
   :config
   (defun tempel-collection-reload ()

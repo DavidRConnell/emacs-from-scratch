@@ -1,5 +1,5 @@
 [submodule "packages/tempel-collection"]
-	path = packages/tempel-collection
+	path = vendor/tempel-collection
 	url = https://github.com/DavidRConnell/tempel-collection
 [submodule "vendor/nano-emacs"]
 	path = vendor/nano-emacs
