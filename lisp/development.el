@@ -296,59 +296,47 @@ calling window."
 
 (use-package cython-mode)
 
-
-(use-package pdf-tools
-  :straight nil
-  :mode ("\\.pdf\\'" . pdf-view-mode)
-  :config
-  (general-nmap
-   :keymaps 'pdf-view-mode-map
-   "r" #'org-ref-pdf-to-bibtex)
-  (use-package saveplace-pdf-view))
-
 (use-package sh-script
   :magic ("#!/usr/bin/env bash" . sh-mode)
   :hook ((bash-ts-mode sh-mode) . format-all-mode)
   :hook ((bash-ts-mode sh-mode) . eglot-ensure)
   :config
   (setq sh-indent-after-continuation 'always)
+  (require 'man)
+  (general-nmmap
+    :keymaps '(sh-mode-map bash-ts-mode Man-mode-map)
+    "gK" #'(lambda (arg)
+	     (interactive "P")
+	     (my-man-at-point arg 1)))
   (add-hook 'sh-mode-hook
 	    (defun my-set-shell-formatter ()
 	      (setq-local format-all-formatters
-			  '(("Shell" beautysh))))
-	    -10)
+			  '(("Shell" shfmt))))
+	    -10))
 
-  (use-package company-shell
-    :config
-    (setq company-shell-delete-duplicates t)
-    (add-hook 'sh-mode-hook
-	      #'(lambda ()
-		  (setq-local company-backends
-			    '(company-shell
-			      company-capf
-			      company-yasnippet
-			      company-files))))))
-
-(use-package c-mode
-  :straight nil
-  :hook (c-mode . my-format-all-setup))
-
-;; Testing might at hooks later.
-(use-package tree-sitter
-  :commands tree-sitter-hl-mode
-  :general
-  (my-leader-def
-    :infix "h"
-    "t" (defun my-tree-sitter-toggle ()
-	  (interactive)
-	  (prism-whitespace-mode -1)
-	  (call-interactively #'tree-sitter-hl-mode)))
+(use-package direnv
   :config
-  (use-package tree-sitter-langs))
+  (add-to-list 'auto-mode-alist '("\\.envrc'" . direnv-envrc-mode))
+  (add-to-list 'auto-mode-alist '("\\direnvrc'" . direnv-envrc-mode))
+  (direnv-mode))
 
+;; Testing might add hooks later.
 (use-package prism
-  :straight (prism :host github :repo "alphapapa/prism.el")
+  :disabled
+  ;; :straight (prism :host github :repo "alphapapa/prism.el")
   :commands (prism-whitespace-mode prism-mode)
+  ;; :general
+  ;; (my-leader-def
+  ;;   :infix "h"
+  ;;   "p" (defun my-prism-toggle ()
+  ;; 	  (interactive)
+  ;; 	  (if (string-match-p "lisp" mode-name)
+  ;; 	      (call-interactively #'prism-mode)
+  ;; 	    (progn
+  ;; 	      (tree-sitter-hl-mode -1)
+  ;; 	      (call-interactively #'prism-whitespace-mode)))))
+  )
+
 (general-define-key
  :keymaps 'Info-mode-map
  "C-c C-o" #'Info-follow-nearest-node)
@@ -398,8 +386,6 @@ calling window."
 	  (interactive)
 	  (async-shell-command "home-manager switch"))))
 
-;; (use-package overseer)
-;; (use-package buttercup)
 
 (use-package matlab
   :mode ("\\.m\\'" . matlab-mode)
@@ -408,7 +394,7 @@ calling window."
   (require 'matlab-shell)
   (require 'matlab-shell-gud)
   (require 'matlab-topic)
-  ;; (add-hook 'matlab-shell-mode-hook (lambda () (load-library "matlab-load")))
+  (require 'mlint)
 
   (cl-loop for hk in prog-mode-hook
 	   do (add-hook 'matlab-mode-hook hk))
