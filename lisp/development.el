@@ -459,6 +459,10 @@ calling window."
     "C-c" #'cypher-send-buffer
     "C-e" (defun cypher-results-to-buffer (file) (interactive "F")
 	    (cypher-send-buffer file))))
+
+(use-package gnuplot-mode
+  :mode ("\\.gnu\\'" . gnuplot-mode))
+
 (use-package toml-mode
   :mode ("\\.toml\\'" . toml-mode))
 
@@ -477,6 +481,11 @@ calling window."
 	 . (lambda ()
 	     (setq-local format-all-formatters '(("HTML" prettierd)))))
   :hook (mhtml-mode . format-all-mode))
+
+(use-package mermaid-mode
+  :mode (("\\.mmd\\'" . mermaid-mode)))
+
+(use-package dockerfile-ts-mode)
 
 (setq compilation-scroll-output 'first-error
       compilation-auto-jump-to-first-error nil)
