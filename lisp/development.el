@@ -541,6 +541,11 @@ calling window."
   (cl-dolist (fn matlab-mode-hook)
     (add-hook 'matlab-ts-mode-hook fn)))
 
+(use-package aggressive-indent-mode
+  :straight t
+  :hook ((matlab-mode . aggressive-indent-mode)
+	 (emacs-lisp-mode . aggressive-indent-mode)
+	 (cmake-ts-mode . aggressive-indent-mode)))
 
 (use-package cc-mode
   :config
