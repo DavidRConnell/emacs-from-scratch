@@ -629,9 +629,10 @@ info is a plist holding export options."
 
 (use-package markdown-mode
   :hook (markdown-mode . visual-line-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdowm-mode)
+  :mode (("\\.md\\'" . gfm-mode)
+	 ("\\.markdown\\'" . gfm-mode)
+	 ("\\.Rmd\\'" . gfm-mode)
+	 ("README\\.md\\'" . gfm-mode)
 	 ("qutebrowser-editor" . gfm-mode))
   :config
   (my-local-leader-def
@@ -647,17 +648,37 @@ info is a plist holding export options."
     "C-i" #'markdown-demote
     "C-S-i" #'markdown-promote))
 
-(use-package org-pandoc-import
-  :commands org-pandoc-import-docx-to-org org-pandoc-import-docx-as-org org-pandoc-import-transient-mode
-  :after (org yasnippet)
-  :straight (:host github
-             :repo "tecosaur/org-pandoc-import"
-             :files ("*.el" "filters" "preprocessors"))
-  :config
-  (org-pandoc-import-transient-mode nil))
+(use-package poly-markdown
+  :mode (("\\.md\\'" . poly-markdown-mode)
+	 ("\\.Rmd\\'" . poly-markdown-mode)))
+
+(use-package flymake-proselint
+  :hook ((text-mode . flymake-proselint-setup)))
 
 (use-package ox-pandoc
-  :after org org-pandoc-import)
+  :defer
+  :init
+  (setq org-pandoc-menu-entry
+	'((?h "As HTML5" org-pandoc-export-to-html5)
+	  (?5 "As HTML5-pdf" org-pandoc-export-to-html5-pdf)
+	  (?l "As LaTeX-pdf" org-pandoc-export-to-latex-pdf)
+	  (?b "As beamer-pdf" org-pandoc-export-to-beamer-pdf)
+	  (?e "As epub" org-pandoc-export-to-epub3)
+	  (?r "As rst" org-pandoc-export-to-rst)
+	  (?m "As man" org-pandoc-export-to-man)
+	  (?d "As docx" org-pandoc-export-to-docx)
+	  (?o "As odt" org-pandoc-export-to-odt)))
+  :config
+  (setq org-pandoc-options '((data-dir . "~/.local/share/pandoc/")
+			     (standalone . t))
+	org-pandoc-options-for-docx '((reference-doc . "~/.local/share/pandoc/reference.docx"))))
+
+(use-package tex-mode
+  :config
+  (add-to-list 'tex-compile-commands
+	       '((concat "latexmk -xelatex" " %f") t "%r.pdf"))
+  (add-to-list 'tex-compile-commands
+	       '((concat "latexmk -lualatex" " %f") t "%r.pdf")))
 
 (provide 'writting)
 ;;; writting ends here
