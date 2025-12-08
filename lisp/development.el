@@ -294,6 +294,8 @@ calling window."
   (advice-add #'py-vterm-interaction-repl :around #'my-wrap-run-python)
   (defalias 'py-vterm-interaction-repl 'run-python))
 
+(use-package cython-mode)
+
 
 (use-package pdf-tools
   :straight nil
