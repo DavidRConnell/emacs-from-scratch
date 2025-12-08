@@ -478,6 +478,21 @@ calling window."
 	     (setq-local format-all-formatters '(("HTML" prettierd)))))
   :hook (mhtml-mode . format-all-mode))
 
+(use-package scad-mode
+  :mode "\\.scad\\'"
+  :hook (scad-mode . eglot-ensure))
+
+(use-package scad-dbus
+  :after scad-mode
+  :straight (:host github :repo "Lenbok/scad-dbus" :branch "master")
+  :config
+  (my-local-leader-def
+    :keymaps 'scad-mode-map
+    "-" #'scad-dbus-view-zoom-out
+    "+" #'scad-dbus-view-zoom-in
+    "=" #'scad-dbus-view-reset
+    "p" #'scad-dbus-preview
+    "c" #'scad-dbus-export-stl))
 
 (provide 'development)
 ;;; development.el ends here
