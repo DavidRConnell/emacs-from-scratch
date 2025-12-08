@@ -1,9 +1,10 @@
-;;; `(file-name-base buffer-file-name)` --- $1 -*- lexical-binding: t; -*-
+;;; `(file-name-nondirectory buffer-file-name)` --- $1 -*- lexical-binding: t; -*-
 
 ;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
-;;
+
 ;; Author: `user-full-name` <`user-mail-address`>
-;; Version: 0.1.0
+
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This file is not part of GNU Emacs.
 
