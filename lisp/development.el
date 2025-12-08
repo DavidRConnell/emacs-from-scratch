@@ -478,6 +478,9 @@ calling window."
 	     (setq-local format-all-formatters '(("HTML" prettierd)))))
   :hook (mhtml-mode . format-all-mode))
 
+(setq compilation-scroll-output 'first-error
+      compilation-auto-jump-to-first-error nil)
+
 (use-package scad-mode
   :mode "\\.scad\\'"
   :hook (scad-mode . eglot-ensure))
