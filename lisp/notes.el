@@ -94,7 +94,11 @@
 	   :target (file+head "%<%Y%m%d>.org"
 			      "#+TITLE: %<%Y-%m-%d>\n"))))
 
-  (add-hook 'org-roam-mode-hook #'visual-line-mode))
+  (add-hook 'org-roam-mode-hook #'visual-line-mode)
+  (add-hook 'org-after-todo-state-change-hook
+	    #'(lambda ()
+		(if (org-entry-is-todo-p)
+		    (org-reset-checkbox-state-subtree)))))
 
 (use-package org-roam-protocol
   :after org-roam
@@ -109,13 +113,12 @@
 (use-package org-roam-bibtex
   :after org-roam
   :config
-  (my-local-leader-def
-    :keymaps 'org-mode-map
-    :infix "m"
-    "r" #'orb-insert-link
-    "n" #'orb-note-actions)
-  (setq orb-insert-link-description 'citation))
-
+  (setq orb-insert-link-description 'citation-org-cite
+	orb-roam-ref-format 'org-cite
+	org-roam-mode-sections
+	(list #'org-roam-backlinks-section
+	      #'orb-section-abstract
+	      #'org-roam-reflinks-section)))
 
 (provide 'notes)
 ;;; notes.el ends here
