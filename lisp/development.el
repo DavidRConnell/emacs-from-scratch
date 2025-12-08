@@ -3,6 +3,17 @@
 ;;; Code:
 
 (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook #'format-all-mode)
+(add-hook 'emacs-lisp-mode-hook #'flymake-mode)
+
+(setq major-mode-remap-alist
+      '((yaml-mode . yaml-ts-mode)
+	(toml-mode . toml-ts-mode)
+	(sh-mode . bash-ts-mode)
+	(python-mode . python-ts-mode)
+	(c-mode . c-ts-mode)))
+
+(add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-ts-mode))
 
 (use-package smartparens
   :config
@@ -35,43 +46,52 @@
 (use-package elisp-def
   :hook (emacs-lisp-mode . elisp-def-mode))
 
-;; :general (:keymaps 'elisp-def-mode-map "gd"))
-
 ;; (use-package elfmt
 ;;   :straight (elfmt :host github :repo "riscy/elfmt")
 ;;   :hook (emacs-lisp-mode . elfmt-mode))
 
 (use-package highlight-function-calls
-  :hook (emacs-lisp-mode . highlight-function-calls-mode)
-  :config (use-package rainbow-identifiers
-            :disabled :hook
-            (prog-mode . rainbow-identifiers-mode)))
+  :hook (emacs-lisp-mode . highlight-function-calls-mode))
 
 (use-package highlight-defined
   :hook (emacs-lisp-mode . highlight-defined-mode))
 
-;; (use-package elsa
-;;   :mode "\\.el\\'"
-;;   :config (use-package flycheck-elsa
-;;   :config (add-hook 'emacs-lisp-mode-hook #'flycheck-elsa-setup)))
-
 (use-package helpful
-;; (use-package macrostep)
   :general
-  (general-nmap
-    :prefix "C-h"
-    "o" #'helpful-symbol
-    "k" #'helpful-key
-    "f" #'helpful-callable
-    "v" #'helpful-variable))
+  (general-define-key
+   [remap describe-symbol] #'helpful-symbol
+   [remap describe-key] #'helpful-key
+   [remap describe-function] #'helpful-callable
+   [remap describe-variable] #'helpful-variable))
 
 (use-package elisp-demos
   :config
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
-;; (use-package sly)
+;; (use-package macrostep)
+
+(use-package geiser
+  :hook (scheme-mode . geiser-mode)
+  :config
+  ;; (general-define-key
+  ;;  :keymaps 'lispyville-mode-map
+  ;;  "e" #'geiser-eval-definition)
+  (general-nmap
+    :keymaps 'geiser-mode-map
+    "K" #'evil-scroll-line-up)
+  (use-package emr
+    :general
+    (general-nmap
+      :keymaps 'geiser-mode-map
+      "M-SPC" #'emr-show-refactor-menu)
+    :config
+    (my-local-leader-def
+      :keymaps 'geiser-mode-map
+      :infix "r"
+      "v" #'emr-scm-extract-variable
+      "f" #'emr-scm-extract-function)))
 
 (use-package lispy
-  :hook ((emacs-lisp-mode lisp-mode)
+  :hook ((emacs-lisp-mode lisp-mode geiser-mode)
          . lispy-mode)
   :config
   (use-package
