@@ -547,6 +547,10 @@ calling window."
 	 (emacs-lisp-mode . aggressive-indent-mode)
 	 (cmake-ts-mode . aggressive-indent-mode)))
 
+(mapc (lambda (x) (require-with-check x nil 'reload))
+      '(project xref))
+(require 'eglot)
+
 (use-package cc-mode
   :config
   (use-package lsp-mode
