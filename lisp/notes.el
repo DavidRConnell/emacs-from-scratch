@@ -24,7 +24,15 @@
     "i" #'org-roam-node-insert
     "m" #'org-roam-buffer-toggle
     "M" #'org-roam-buffer-display-dedicated
-    "c" #'org-id-get-create)
+    "c" #'org-id-get-create
+    "aa" #'org-roam-alias-add
+    "ar" #'org-roam-ref-add)
+  (my-local-leader-def
+    :keymaps 'org-mode-map
+    :infix "d"
+    "d" #'org-roam-dailies-goto-today
+    "n" #'org-roam-dailies-goto-next-note
+    "p" #'org-roam-dailies-goto-previous-note)
   :config
   (org-roam-setup)
   (add-to-list 'display-buffer-alist
