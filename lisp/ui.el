@@ -2,8 +2,19 @@
 ;;; Commentary:
 ;;; Code:
 
-(save-place-mode 1)
-(recentf-mode 1)
+(advice-add 'risky-local-variable-p :override #'ignore)
+
+(save-place-mode t)
+(recentf-mode t)
+
+(use-package emacs
+  :custom
+  (context-menu-mode t)
+  (enable-recursive-minibuffers t)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
+
 (use-package savehist
   :init
   (setq savehist-file (expand-file-name "savehist.el" my-cache-dir))
