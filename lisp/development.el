@@ -420,31 +420,55 @@ calling window."
     "Empty var to stop error in matlab (treats as a var instead of font)")
 
   (require 'matlab-testing)
-  (general-nmap
-    :keymaps 'matlab-mode-map
+
+  (general-nmmap
+    :keymaps '(matlab-mode-map matlab-ts-mode-map matlab-shell-mode-map matlab-shell-help-mode-map)
     "gK" (defun my-matlab-help-at-point ()
 	   (interactive)
 	   (matlab-shell-describe-command
-	    (matlab-read-word-at-point))))
+	    (matlab-read-word-at-point)))
+    "gD" #'matlab-shell-locate-fcn
+    "gr" #'xref-find-references)
 
   (general-nvmap
-    :keymaps 'matlab-mode-map
+    :keymaps '(matlab-mode-map matlab-ts-mode-map)
     :prefix "C-c"
     "C-c" #'matlab-shell-run-cell
-    "C-l" #'matlab-shell-save-and-go
+    "C-b" #'matlab-shell-save-and-go
     "C-j" #'mt-shell-run-line
     "C-r" #'mt-shell-run-region)
 
-  (general-imap
-    :keymaps 'matlab-shell-mode-map
-    "C-SPC" #'matlab-shell-c-tab)
+  (defun my-matlab-capfs ()
+    (setq-local completion-at-point-functions
+		(list
+		 ;; (cape-company-to-capf #'company-matlab-shell)
+		 (cape-company-to-capf #'company-semantic)
+		 (cape-company-to-capf #'company-yasnippet)
+		 #'cape-keyword
+		 #'cape-dabbrev
+		 #'cape-file)
+		cape-keyword-list '((matlab-mode
+				     "break" "case" "catch" "classdef" "continue"
+				     "else" "elseif" "end" "for" "function" "global"
+				     "if" "otherwise" "parfor" "persistent" "return"
+				     "spmd" "switch" "try" "while"))))
+
+  (add-hook 'matlab-mode-hook #'my-matlab-capfs 100)
+  (add-hook 'matlab-mode-hook #'semantic-mode)
+  (add-hook 'matlab-shell-mode-hook
+	    (lambda ()
+	      (setq-local completion-at-point-functions
+			  (list (cape-company-to-capf #'company-matlab-shell)
+				#'cape-dabbrev
+				#'cape-history
+				#'cape-file))))
 
   (my-local-leader-def
-    :keymaps 'matlab-mode-map
+    :keymaps '(matlab-mode-map matlab-ts-mode-map)
     :infix "t"
     "g" #'mt-toggle-test-file
     "G" #'(lambda () (interactive)
-	    (counsel-find-file (mt-get-test-dir)))
+	    (find-file (mt-get-test-dir)))
     "t" #'(lambda () (interactive)
 	    (mt-shell-run-tests "file" "Unit"))
     "T" #'(lambda () (interactive)
@@ -458,10 +482,33 @@ calling window."
     "P" #'(lambda () (interactive)
 	    (mt-shell-run-performance-tests "project"))
     "r" #'(lambda () (interactive)
-	    (mt-shell-run-tests "rerun")))
+	    (mt-shell-run-tests "rerun" "")))
 
   (my-local-leader-def
-    :keymaps 'matlab-mode-map
+    :keymaps '(matlab-mode-map matlab-ts-mode-map)
+    :infix "p"
+    "o" #'(lambda () (interactive)
+	    (mt-run-command "profile clear; profile on"))
+    "s" #'(lambda () (interactive)
+	    (mt-run-command "profile off; profsave(profile('info'), '/tmp/matlab/profile_results')"))
+    "v" #'(lambda () (interactive)
+	    (consult-file-externally "/tmp/matlab/profile_results/file0.html")))
+
+  (my-local-leader-def
+    :keymaps '(matlab-mode-map matlab-shell-mode-map matlab-ts-mode-map)
+    :infix "d"
+    "b" #'mlgud-break
+    "r" #'mlgud-remove
+    "f" #'mlgud-up
+    "d" #'mlgud-down
+    "s" #'mlgud-step
+    "n" #'mlgud-next
+    "u" #'mlgud-until
+    "c" #'mlgud-cont
+    "q" #'mlgud-finish)
+
+  (my-local-leader-def
+    :keymaps '(matlab-mode-map matlab-ts-mode-map)
     "," #'matlab-shell
     "r" (lambda (arg) (interactive "P")
 	  (if arg
@@ -470,7 +517,7 @@ calling window."
     "?" (lambda ()
 	  (interactive)
 	  (let ((mathworks-ref-prefix "https://www.mathworks.com/help/matlab/ref/"))
-	    (eww (concat mathworks-ref-prefix (matlab-read-word-at-point) ".html")))))
+	    (mozilla-readable (concat mathworks-ref-prefix (matlab-read-word-at-point) ".html")))))
 
   (defun my-matlab-insert-function-snippet ()
     "Add snippet for matlab function when opening a new .m file."
@@ -483,12 +530,17 @@ calling window."
 	  '(("Function" "^\\s-*\\(function\\)\\s-*\\([^\\.\n]*\\)" 2)
 	    ("Function" "^\\s-*\\(function\\)\\s-*\\([^\\.\n]*\\.\\.\\.\\s-*\n.*\\)" 2)
 	    ("Class" "^\\s-*\\(classdef\\)\\s-*\\(.*\\)" 2)
+	    ("Arguments" "^\\s-*\\(arguments\\)\\s-*\\(.*\\)" 2)
 	    ("Methods" "^\\s-*\\(methods\\)\\s-*\\(.*\\)?" 2)
 	    ("Properties" "^\\s-*\\(properties\\)\\s-*\\(.*\\)?" 2)
 	    ("Section" "^\\s-*%%\\s-*\\(.*\\)$" 1))))
 
   (add-hook 'matlab-mode-hook #'my-matlab-insert-function-snippet)
-  (add-hook 'matlab-mode-hook #'my-matlab-fix-imenu-generic-expression))
+  (add-hook 'matlab-mode-hook #'my-matlab-fix-imenu-generic-expression)
+
+  (cl-dolist (fn matlab-mode-hook)
+    (add-hook 'matlab-ts-mode-hook fn)))
+
 
 (use-package cc-mode
   :config
