@@ -68,9 +68,7 @@
     :infix "m"
     "n" #'embark-act)
   :config
-  (require 'citar-capf)
   (require 'citar-org)
-  (require 'citar-citeproc)
   (setq org-cite-global-bibliography (list my-refs-bib)
 	org-cite-insert-processor 'citar
 	org-cite-follow-processor 'citar
@@ -101,23 +99,12 @@
     :keymaps '(citar-citation-map citar-map)
     "f" nil
     "p" #'citar-open-files
+    "x" #'citar-open-files
     "a" (defun my-add-library-file (key)
 	  "Add a file to reference library associated with KEY."
 	  (interactive (list (citar-select-ref)))
 	  (message "%s" key)
 	  (bibtex-completion-add-pdf-to-library (list key))))
-
-  ;; (advice-add #'citar--select-resource
-  ;; 	      :filter-args
-  ;; 	      (defun advise-citar--select-resource-no-prompt (arg-list)
-  ;; 		"Advise around citar--select-resource to never prompt if only one resource found."
-  ;; 		(let ((prompt-pos (seq-position arg-list :always-prompt)))
-  ;; 		  (if prompt-pos
-  ;; 		      (setq arg-list (seq-union (seq-subseq arg-list 0 prompt-pos)
-  ;; 						(seq-subseq arg-list (+ prompt-pos 2))))))
-
-  ;; 		(seq-union arg-list '(:always-prompt nil))))
-  ;; (advice-remove #'advise-citar--select-resource-no-prompt #'citar-select-resource)
 
   (defun my-org-roam-citation-finder ()
     "Return the citation keys for the currently visited org-roam reference note."
