@@ -685,7 +685,6 @@ calling window."
   (setq tree-sitter-load-path `(,(expand-file-name "tree-sitter/" my-config-dir))))
 
 (use-package cypher-mode
-  :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
   :mode ("\\.cypher\\'" . cypher-mode)
   :config
   (set-face-attribute 'cypher-variable-face nil
@@ -700,22 +699,23 @@ calling window."
 		      :weight 'bold :height 'unspecified
 		      :underline 'unspecified :overline 'unspecified
 		      :box 'unspecified :inherit font-lock-variable-name-face)
-(defun cypher-send-buffer (&optional output-file)
-  (interactive)
-  (let ((file (buffer-name (current-buffer)))
-	(database "neo4j")
-	(command "cypher-shell --database=%s --file=%s"))
-    (setq command (format command database file))
-    (if output-file
-	(setq command (concat command " > " output-file)))
-    (async-shell-command command)))
+
+  (defun cypher-send-buffer (&optional output-file)
+    (interactive)
+    (let ((file (buffer-name (current-buffer)))
+	  (database "neo4j")
+	  (command "cypher-shell --database=%s --file=%s"))
+      (setq command (format command database file))
+      (if output-file
+	  (setq command (concat command " > " output-file)))
+      (async-shell-command command)))
 
   (general-def
     :keymaps 'cypher-mode-map
     :prefix "C-c"
     "C-c" #'cypher-send-buffer
     "C-e" (defun cypher-results-to-buffer (file) (interactive "F")
-	    (cypher-send-buffer file))))
+		 (cypher-send-buffer file))))
 
 (use-package gnuplot-mode
   :mode ("\\.gnu\\'" . gnuplot-mode))
