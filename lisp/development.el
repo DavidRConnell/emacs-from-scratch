@@ -581,12 +581,108 @@ calling window."
   :after eglot
   :config (eglot-booster-mode))
 
-(use-package cc-mode
+(defun my-man-at-point (arg &optional section)
+  (interactive "P")
+  (if arg
+      (call-interactively #'manual-entry)
+    (let* ((base-command (Man-default-man-entry))
+	   (command (if section
+			(format "%d %s" section base-command)
+		      (format "-a %s" base-command)))
+	   (buff-name (format "*Man %s*" command)))
+      (manual-entry command)
+      ;; (pop-to-buffer buff-name)
+      )))
+
+(use-package c-ts-mode
+  :mode "\\.c\\'"
   :config
-  (use-package lsp-mode
-    :hook (c-mode . lsp))
-  (use-package ccls
-    :hook (c-mode . (lambda () (require 'ccls) (lsp)))))
+  (general-nmmap
+    :keymaps 'c-ts-base-mode-map
+    "C-c C-c" #'compile)
+
+  (require 'man)
+  (general-nmmap
+    :keymaps 'c-ts-base-mode-map
+    "gK" #'my-man-at-point)
+
+  (my-local-leader-def
+    :keymaps 'c-ts-base-mode-map
+    :infix "d"
+    "d" #'gud-gdb
+    "b" #'gud-break
+    "r" #'gud-remove
+    "f" #'gud-up
+    "s" #'gud-step
+    "n" #'gud-next
+    "u" #'gud-until
+    "c" #'gud-cont
+    "l" #'gud-refresh
+    "p" #'gud-print
+    "q" #'gud-finish))
+
+(use-package c++-ts-mode
+  :mode ("\\.cpp\\'" "\\.hpp\\'"))
+
+(use-package cc-mode
+  :after c-ts-mode
+  :hook ((c-common-mode c-ts-mode c++-mode c++-ts-mode c-or-c++-mode c-or-c++-ts-mode)
+	 . eglot-ensure)
+  :hook ((c-mode c-ts-mode c++-mode c++-ts-mode c-or-c++-mode c-or-c++-ts-mode)
+	 . (lambda ()
+	     (setq-local format-all-formatters '(("C" (clang-format "--style=file"))))))
+  :hook ((c-common-mode c-ts-mode c++-mode c++-ts-mode c-or-c++-mode c-or-c++-ts-mode)
+	 . format-all-mode)
+  :config
+  (general-nmmap
+    :keymaps '(c-mode-base-map c-ts-base-mode-map makefile-mode-map)
+    "C-c C-c" #'compile)
+
+  (require 'man)
+  (general-nmmap
+    :keymaps '(c-mode-base-map c-ts-base-mode-map Man-mode-map)
+    "gK" #'my-man-at-point)
+
+  (my-local-leader-def
+    :keymaps '(c-mode-base-map c-ts-base-mode-map gud-mode-map)
+    :infix "d"
+    "d" #'gud-gdb
+    "b" #'gud-break
+    "r" #'gud-remove
+    "f" #'gud-up
+    "s" #'gud-step
+    "n" #'gud-next
+    "u" #'gud-until
+    "c" #'gud-cont
+    "l" #'gud-refresh
+    "p" #'gud-print
+    "q" #'gud-finish))
+
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(add-hook 'compilation-filter-hook #'colorize-compilation-buffer)
+
+(use-package bats-mode
+  :mode "\\.bats\\'"
+  :config
+  (general-nmap
+    :keymaps 'bats-mode-map
+    :prefix "C-c"
+    "C-c" #'bats-run-current-test
+    "C-b" #'bats-run-current-file)
+  (my-local-leader-def
+    :keymaps 'bats-mode-map
+    :infix "t"
+    ;; make like pytest setup
+    "d" #'bats-run-current-test
+    "f" #'bats-run-current-file
+    "t" #'bats-run-all))
+
+(use-package tree-sitter
+  :init
+  (setq tree-sitter-load-path `(,(expand-file-name "tree-sitter/" my-config-dir))))
 
 (use-package cypher-mode
   :straight (cypher-mode :host github :repo "fxbois/cypher-mode")
