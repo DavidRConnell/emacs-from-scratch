@@ -3,13 +3,14 @@
 ;;; Code:
 
 (use-package vertico
-  :demand
+  :demand t
   :config
   (general-define-key
    :keymaps 'vertico-map
    "C-n" #'vertico-next
    "C-p" #'vertico-previous
-   "C-SPC" #'minibuffer-complete
+   "M-SPC" #'minibuffer-complete
+   "M-RET" #'minibuffer-force-complete-and-exit
    "C-w" #'backward-kill-word)
   (my-leader-def
     "o" #'find-file)
@@ -19,6 +20,16 @@
   (setq vertico-cycle t)
 
   (vertico-mode 1))
+
+(use-package vertico-prescient
+  :demand t
+  :after vertico prescient
+  :custom
+  (vertico-prescient-enable-sorting t)
+  (vertico-prescient-override-sorting nil)
+  (vertico-prescient-enable-filtering nil) ;; deferred to orderless
+  :config
+  (vertico-prescient-mode t))
 
 (use-package vertico-directory
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
@@ -106,12 +117,16 @@
 	  (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
+  (setq consult-narrow-key "<")
   (setq xref-show-xrefs-function #'consult-xref
 	xref-show-definitions-function #'consult-xref))
 
 (use-package cape
   :after corfu
   :config
+  (require 'citar-capf)
+  (require 'cape-keyword)
+
   (defun my-cape-completion-generator (funcs)
     (let ((result))
       (dolist (element funcs result)
@@ -122,18 +137,17 @@
 	      (my-cape-completion-generator
 	       (list #'cape-dict
 		     #'cape-dabbrev
-		     #'citar-capf
-		     (cape-company-to-capf #'company-yasnippet)))))
+		     #'citar-capf))))
 
   (add-hook 'prog-mode-hook (defun my-prog-mode-capfs ()
 			      (my-cape-completion-generator
 			       (list #'cape-dabbrev
 				     #'cape-file
-				     #'cape-keyword
-				     (cape-company-to-capf #'company-yasnippet)))))
+				     #'cape-keyword))))
 
   (add-hook 'emacs-lisp-mode-hook (defun my-emacs-mode-capfs ()
-				    (add-to-list 'completion-at-point-functions #'cape-symbol)))
+				    (add-to-list 'completion-at-point-functions
+						 #'cape-elisp-symbol)))
 
   (add-hook 'minibuffer-mode-hook (defun my-minibuffer-mode-capfs ()
 				    (setq-local completion-at-point-functions
@@ -142,6 +156,7 @@
   (general-imap
     "C-x C-f" #'cape-file
     "C-x C-k" #'cape-dict)
+
   (setq cape-dict-file (list ispell-personal-dictionary ispell-alternate-dictionary))
   ;; WARNING: May cause performance issues. If eglot slow remove and look at
   ;; https://github.com/minad/corfu/wiki#configuring-corfu-for-eglot for other
@@ -155,13 +170,22 @@
    :keymaps 'vertico-map
    "C-o" #'embark-act
    "C-a" #'embark-act-all
-   "C-e" #'embark-collect)
+   "C-e" #'embark-export
+   "C-SPC" #'embark-select)
   (general-define-key
    [remap describe-bindings] #'embark-bindings)
   (general-nmmap
-    "C-a" #'embark-act)
+    :keymaps 'override
+    "<C-return>" #'embark-act)
   (general-nmmap
     "RET" #'embark-dwim))
+
+(use-package wgrep
+  :after embark-consult
+  :config
+  (general-def
+    :keymaps 'grep-mode-map
+    "i" #'wgrep-change-to-wgrep-mode))
 
 (use-package embark-consult
   :after consult
@@ -194,7 +218,7 @@
     "z=" #'flyspell-correct-wrapper))
 
 (use-package corfu
-  :demand
+  :demand t
   :general
   (general-imap
     "C-SPC" #'completion-at-point)
@@ -213,9 +237,11 @@
     :keymaps 'corfu-map
     "C-n" #'corfu-next
     "C-p" #'corfu-previous
+    "C-SPC" #'corfu-complete
     "M-s" #'corfu-move-to-minibuffer)
 
   (use-package corfu-history
+    :disabled t
     :after corfu
     :config
     (corfu-history-mode t)
@@ -248,6 +274,36 @@
     (corfu-echo-mode t))
 
   (evil-make-overriding-map corfu-map)
-  (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
+  (global-corfu-mode)
+
+  (defun corfu-move-to-minibuffer ()
+    (interactive)
+    (let ((completion-extra-properties corfu--extra)
+	  completion-cycle-threshold completion-cycling)
+      (apply #'consult-completion-in-region completion-in-region--data)))
+
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active)
+		(bound-and-true-p vertico--input))
+      (corfu-mode 1)))
+
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
+
+  ;; (general-def
+  ;;   :keymaps 'evil-ex-map
+  ;;   "M-p" #'completion-at-point)
+  )
+
+(use-package corfu-prescient
+  :demand t
+  :after corfu prescient
+  :custom
+  (corfu-prescient-enable-sorting t)
+  (corfu-prescient-override-sorting nil)
+  (corfu-prescient-enable-filtering nil) ;; deferred to orderless
+  :config
+  (corfu-prescient-mode t))
+
 (provide 'vertico-setup)
 ;;; vertico-setup.el ends here
