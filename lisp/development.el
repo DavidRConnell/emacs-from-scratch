@@ -106,15 +106,19 @@
        c-u))))
 
 (use-package format-all
-  :config
-  (defun my-format-all-setup ()
-    (format-all-ensure-formatter)
-    (format-all-buffer)
-    (format-all-mode)))
+  :hook (format-all-mode . format-all-ensure-formatter)
+  :commands format-all-buffer format-all-mode
+  :general
+  (my-leader-def
+    "f" #'format-all-buffer))
+
+(use-package cmake-ts-mode
+  :hook (cmake-ts-mode . format-all-mode)
+  :hook (cmake-ts-mode . eglot-ensure))
 
 (use-package ess
   :mode ("\\.r\\'" . ess-r-mode)
-  :hook (ess-r-mode . my-format-all-setup)
+  :hook (ess-r-mode . format-all-mode)
   :config
   (general-define-key
    :keymaps 'ess-r-mode-map
@@ -164,9 +168,11 @@ This ensures the results are visible."
   (use-package ess-R-data-view))
 
 (use-package python
-  :hook (python-mode . my-format-all-setup)
+  :mode ("\\.py\\'" . python-mode)
+  :hook (python-base-mode . eglot-ensure)
+  :hook (python-base-mode . format-all-mode)
+  :hook (python-base-mode . (lambda () (setq-local format-all-formatters '(("Python" isort black)))))
   :config
-
   (setq python-indent-guess-indent-offset-verbose nil
 	org-babel-python-command python-shell-interpreter)
 
@@ -195,7 +201,7 @@ This ensures the results are visible."
       (switch-to-buffer-other-window buff)))
 
   (general-nmap
-    :keymaps 'python-mode-map
+    :keymaps 'python-base-mode-map
     :prefix "g"
     "K" #'my-python-help))
 
@@ -209,9 +215,9 @@ This ensures the results are visible."
   (use-package saveplace-pdf-view))
 
 (use-package sh-script
-  :straight nil
-  :hook (sh-mode . my-format-all-setup)
-  :mode ("\\.bats\\'" . sh-mode)
+  :magic ("#!/usr/bin/env bash" . sh-mode)
+  :hook ((bash-ts-mode sh-mode) . format-all-mode)
+  :hook ((bash-ts-mode sh-mode) . eglot-ensure)
   :config
   (setq sh-indent-after-continuation 'always)
   (add-hook 'sh-mode-hook
@@ -275,7 +281,9 @@ This ensures the results are visible."
             ("DEPRECATED" font-lock-doc-face bold))))
 
 (use-package nix-mode
-  :hook format-all-mode
+  :hook (nix-mode . eglot-ensure)
+  :hook (nix-mode . format-all-mode)
+  :hook (nix-mode . (lambda () (setq-local format-all-formatters '(("Nix" nixfmt)))))
   :mode "\\.nix\\'"
   :general
   (my-leader-def
@@ -451,6 +459,25 @@ calling window."
     "C-c" #'cypher-send-buffer
     "C-e" (defun cypher-results-to-buffer (file) (interactive "F")
 	    (cypher-send-buffer file))))
+(use-package toml-mode
+  :mode ("\\.toml\\'" . toml-mode))
+
+(use-package yaml-ts-mode
+  :mode (("\\.yml\\'" . yaml-ts-mode)
+	 ("\\.yaml\\'" . yaml-ts-mode)
+	 ("\\.clang-format\\'" . yaml-ts-mode))
+  :hook (yaml-ts-mode
+	 . (lambda ()
+	     (setq-local format-all-formatters '(("YAML" prettierd)))))
+  :hook (yaml-ts-mode . format-all-mode)
+  :hook (yaml-ts-mode . highlight-indent-guides-mode))
+
+(use-package mhtml-mode
+  :hook (mhtml-mode
+	 . (lambda ()
+	     (setq-local format-all-formatters '(("HTML" prettierd)))))
+  :hook (mhtml-mode . format-all-mode))
+
 
 (provide 'development)
 ;;; development.el ends here
