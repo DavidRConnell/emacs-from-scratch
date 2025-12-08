@@ -1,6 +1,11 @@
 ;;; writting.el --- packages for writting -*- lexical-binding: t; -*-
 ;;; Code:
 
+(setq sentence-end-double-space nil)
+
+(use-package emacs
+  :mode ("\\.tsv\\'" . whitespace-mode))
+
 (use-package org
   :demand
   :init
