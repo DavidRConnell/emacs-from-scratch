@@ -116,18 +116,6 @@
     "n" #'orb-note-actions)
   (setq orb-insert-link-description 'citation))
 
-(use-package org-roam-ui
-  :after org-roam
-  :general
-  (my-local-leader-def
-    :keymaps 'org-mode-map
-    :infix "m"
-    "u" #'org-roam-ui-mode)
-  :config
-  (setq org-roam-ui-sync-theme t
-	org-roam-ui-follow t
-	org-roam-ui-update-on-save t
-	org-roam-ui-open-on-start t))
 
 (provide 'notes)
 ;;; notes.el ends here
