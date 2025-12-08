@@ -164,7 +164,14 @@ If there is more than one local bib file ask."
 
   (general-define-key
    :keymaps 'ebib-index-mode-map
-   "/" #'swiper)
+   "/" #'ebib-search)
+
+  (my-local-leader-def
+    :keymaps 'ebib-index-mode-map
+    "c" #'ebib-dependent-create-dependent
+    "a" #'ebib-dependent-add-entry
+    "d" #'ebib-dependent-delete-entry
+    "m" #'ebib-dependent-switch-to-main)
 
   (defun my-ebib-create-org-title (key db)
     (replace-regexp-in-string "[\t\n ]+"
