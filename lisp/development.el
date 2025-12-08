@@ -200,7 +200,47 @@ This ensures the results are visible."
   :hook (python-base-mode . (lambda () (setq-local format-all-formatters '(("Python" isort black)))))
   :config
   (setq python-indent-guess-indent-offset-verbose nil
+	python-shell-interpreter "ipython"
+	python-shell-interpreter-args "-i --simple-prompt --InteractiveShell.display_page=True"
+	python-shell-completion-native-enable nil
 	org-babel-python-command python-shell-interpreter)
+
+  (defun my-wrap-run-python (fun &rest args)
+    "Open python in project root instead of `default-directory' and return to
+calling window."
+
+    (let ((old-dir default-directory)
+	  (win (selected-window)))
+      (cd (projectile-project-root))
+      (apply fun args)
+      (select-window win)
+      (cd old-dir)))
+
+  (advice-add #'run-python :around #'my-wrap-run-python)
+
+  (my-local-leader-def
+    :keymaps 'python-base-mode-map
+    "," #'run-python
+    "i" #'py-isort-buffer)
+
+  (general-nmap
+    :keymaps 'python-base-mode-map
+    :prefix "C-c"
+    "C-j" #'python-shell-send-statement
+    "C-c" #'python-shell-send-region
+    "C-f" #'python-shell-send-defun
+    "C-b" #'python-shell-send-buffer)
+
+  (use-package python-pytest
+    :general
+    (my-local-leader-def
+      :keymaps 'python-base-mode-map
+      "t" #'python-pytest-dispatch)
+    :config
+    (setq projectile-test-prefix-function
+	  (defun projectile-test-prefix-with-fallback (project-type)
+	    "Find default test files prefix based on PROJECT-TYPE."
+	    (projectile-project-type-attribute project-type 'test-prefix "test_"))))
 
   (defun my-python-help (thing)
     "Open a help buffer for python THING."
@@ -229,7 +269,31 @@ This ensures the results are visible."
   (general-nmap
     :keymaps 'python-base-mode-map
     :prefix "g"
-    "K" #'my-python-help))
+    "?" #'my-python-help
+    "K" #'python-describe-at-point))
+
+(use-package py-vterm-interaction
+  :disabled
+  :hook (python-mode . py-vterm-interaction-mode)
+  :commands py-vterm-interaction-repl
+  :config
+  (setq-default py-vterm-interaction-repl-program python-shell-interpreter
+		py-vterm-interaction-silent-cells t)
+
+  (defun my-wrap-run-python (fun &rest args)
+    "Open python in project root instead of `default-directory' and return to
+calling window."
+
+    (let ((old-dir default-directory)
+	  (win (selected-window)))
+      (cd (projectile-project-root))
+      (apply fun args)
+      (select-window win)
+      (cd old-dir)))
+
+  (advice-add #'py-vterm-interaction-repl :around #'my-wrap-run-python)
+  (defalias 'py-vterm-interaction-repl 'run-python))
+
 
 (use-package pdf-tools
   :straight nil
