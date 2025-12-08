@@ -39,19 +39,13 @@
   (require 'oc-csl)
   (setq org-cite-csl-styles-dir "~/.local/share/csl"
 	org-cite-export-processors
-	;; Potentially modify to use natbib for latex (see variable's
-	;; help).
-	'((t csl)))
+	'((latex biblatex) (t csl)))
   (set-face-attribute 'org-cite nil :foreground nano-color-faded)
   (set-face-attribute 'org-cite-key nil :foreground nano-color-faded))
 
 (use-package citar
   :demand
   :after embark
-  ;; :hook
-  ;; (LaTeX-mode . citar-capf-setup)
-  ;; (markdown-mode . citar-capf-setup)
-  ;; (org-mode . citar-capf-setup)
   :general
   (my-leader-def
     :infix "r"
