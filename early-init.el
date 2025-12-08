@@ -20,6 +20,8 @@
 ;;; Code:
 
 (setq gc-cons-threshold most-positive-fixnum)
+(setq load-prefer-newer t
+      native-comp-jit-compilation t)
 
 (setq frame-resize-pixelwise t)
 (setq default-frame-alist
@@ -31,13 +33,13 @@
         (tool-bar-lines . 0)
         (menu-bar-lines . 0)))
 
-;; Fall back font for glyph missing in Roboto
-(defface fallback '((t :family "Fira Code"
-                       :inherit 'nano-face-faded)) "Fallback")
+;; Fall back font for glyph missing in Roboto.
+(defface fallback '((t :family "Fira Code" :inherit 'nano-face-faded))
+  "Fallback font.")
 (set-display-table-slot standard-display-table 'truncation
                         (make-glyph-code ?… 'fallback))
 (set-display-table-slot standard-display-table 'wrap
-                         (make-glyph-code ?↩ 'fallback))
+                        (make-glyph-code ?↩ 'fallback))
 
 (setq inhibit-startup-screen nil
       initial-buffer-choice "~/notes/zettle/todo.org"
