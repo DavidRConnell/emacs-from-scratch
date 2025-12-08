@@ -1,3 +1,6 @@
 [submodule "packages/tempel-collection"]
 	path = packages/tempel-collection
 	url = https://github.com/DavidRConnell/tempel-collection
+[submodule "vendor/nano-emacs"]
+	path = vendor/nano-emacs
+	url = https://github.com/rougier/nano-emacs
