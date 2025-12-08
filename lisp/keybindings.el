@@ -62,6 +62,8 @@
     "l" #'imenu
     ";" #'eval-expression)
 
+  (advice-add 'push-mark :before (lambda (&rest _) (evil--jumps-push)))
+
   (evil-mode 1)
 
   (setq evil-echo-area-message nil
