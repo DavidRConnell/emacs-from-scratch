@@ -7,6 +7,13 @@
 ;;; Code:
 
 (use-package prescient
+  :custom
+  (prescient-aggressive-file-save t)
+  (prescient-sort-length-enable nil)
+  (prescient-sort-full-matches-first t)
+  (prescient-history-length 200)
+  (prescient-frequency-decay 0.997)
+  (prescient-frequency-threshold 0.05)
   :config
   (prescient-persist-mode +1))
 
