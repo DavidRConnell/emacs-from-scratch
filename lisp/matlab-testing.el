@@ -90,30 +90,34 @@
 
 (defun mt-shell-run-tests (scope tag)
   (interactive)
-  (let ((test-suite "testSuite = matlab.unittest.TestSuite.from%s('%s', 'tag', '%s'); ")
+  (let ((test-suite "testSuite = matlab.unittest.TestSuite.from%s('%s'); ")
 	(command (concat "testResults = run(%s); "
 			 "utils.summarizeTests(testResults)")))
 
     (cond ((string= scope "file")
-	   (mt-run-command
+	   (mt--send-test-to-buffer
 	    (concat
 	     (format test-suite
 		     "File"
 		     (concat (mt-get-test-dir)
-			     (mt--get-filename 'test))
-		     tag)
+			     (mt--get-filename 'test)))
 	     (format command "testSuite"))))
 
 	  ((string= scope "project")
-	   (mt-run-command
+	   (mt--send-test-to-buffer
 	    (concat
 	     (format test-suite "Folder" (mt-get-test-dir) tag)
 	     (format command "testSuite"))))
 
 	  ((string= scope "rerun")
-	   (mt-run-command
+	   (mt--send-test-to-buffer
 	    (concat "testSuite = testSuite([testResults.Failed]);"
 		    (format command "testSuite")))))))
+
+(defun mt--send-test-to-buffer (command)
+  (matlab-output-to-temp-buffer
+   "*MATLAB: test results*"
+   (matlab-shell-collect-command-output command)))
 
 (defun mt-shell-run-performance-tests (scope)
   (interactive)
