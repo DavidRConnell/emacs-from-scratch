@@ -67,22 +67,25 @@
   (setq org-roam-completion-everywhere t
 	org-roam-capture-templates
 	'(("d" "default" plain "%?"
-	   :if-new (file+head "%<%Y%m%d%H%M%S>.org"
+	   :target (file+head "%<%Y%m%d%H%M%S>.org"
 			      "#+TITLE: ${title}\n\n- tags :: ")
 	   :jump-to-captured t
 	   :unnarrowed t)
 	  ("r" "reference" plain "%?"
-	   :if-new (file+head "references/${citekey}.org"
-			      "#+TITLE: ${title}\n#+AUTHOR: ${author}\n\n- tags :: [[roam:Read]]")
+	   :target (file+head "references/${citar-citekey}.org"
+			      "#+TITLE: ${citar-title}\n#+AUTHOR: ${citar-author}\n#+YEAR: ${citar-date}\n")
 	   :jump-to-captured t
 	   :unnarrowed t)
 	  ("i" "immediate" plain "%?"
-	   :if-new (file+head "%<%Y%m%d%H%M%S>.org"
+	   :target (file+head "%<%Y%m%d%H%M%S>.org"
 			      "#+TITLE: ${title}\n")
 	   :unnarrowed t
-	   :immediate-finish t))
+	   :immediate-finish t)
+	  ("f" "fleeting" entry "* ${title}%?"
+	   :target (node "Inbox")
+	   :unnarrowed t))
 
-	org-roam-mode-section-functions
+	org-roam-mode-sections
 	(list #'org-roam-backlinks-section
 	      #'org-roam-reflinks-section)
 	org-roam-dailies-directory "dailies/"
@@ -96,13 +99,12 @@
 (use-package org-roam-protocol
   :after org-roam
   :config
-  (use-package org-protocol)
+  (require 'org-protocol)
   (setq org-roam-capture-ref-templates
 	'(("b" "bookmark" plain "%?"
-	   :if-new (file+head "bookmarks/%<%Y%m%d%H%M%S>.org"
-			      "#+TITLE: ${title}\n ${ref}\n\n- tags :: %?")
-	   :unnarrowed t
-	   :immediate-finish t))))
+	   :target (file+head "bookmarks/${slug}.org"
+			      "#+TITLE: ${title}\n ${ref}\n\n- tags :: ")
+	   :unnarrowed t))))
 
 (use-package org-roam-bibtex
   :after org-roam
