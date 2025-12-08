@@ -349,16 +349,19 @@ calling window."
 			   1))))
 
 (use-package hl-todo
-    :hook (prog-mode . hl-todo-mode)
-    :config
-    (setq hl-todo-highlight-punctuation ":"
-          hl-todo-keyword-faces
-          `(("TODO"       warning bold)
-            ("FIXME"      error bold)
-            ("HACK"       font-lock-constant-face bold)
-            ("REVIEW"     font-lock-keyword-face bold)
-            ("NOTE"       success bold)
-            ("DEPRECATED" font-lock-doc-face bold))))
+  :hook (prog-mode . hl-todo-mode)
+  :hook (text-mode . hl-todo-mode)
+  :config
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        `(("TODO"       warning bold)
+          ("FIXME"      next-error bold)
+          ("HACK"       font-lock-constant-face bold)
+          ("REVIEW"     hydra-face-red bold)
+          ("NOTE"       success bold)
+	  ("WARNING"    hydra-face-red bold)
+          ("DEPRECATED" font-lock-doc-face bold)
+	  ("TEMP"       modus-themes-prominent-warning bold))))
 
 (use-package nix-mode
   :hook (nix-mode . eglot-ensure)
