@@ -7,6 +7,12 @@
 (save-place-mode t)
 (recentf-mode t)
 
+(setq inhibit-startup-screen nil
+      initial-buffer-choice "~/notes/zettle/todo.org"
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message t
+      initial-scratch-message nil)
+
 (use-package emacs
   :custom
   (context-menu-mode t)

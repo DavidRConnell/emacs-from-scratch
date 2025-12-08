@@ -20,6 +20,14 @@
 		    :underline 'unspecified :overline 'unspecified
 		    :box 'unspecified :inherit 'bold)
 
+;; Fall back font for glyph missing in Roboto.
+(defface fallback '((t :family "Fira Code" :inherit 'nano-face-faded))
+  "Fallback font.")
+(set-display-table-slot standard-display-table 'truncation
+                        (make-glyph-code ?… 'fallback))
+(set-display-table-slot standard-display-table 'wrap
+                        (make-glyph-code ?↩ 'fallback))
+
 (use-package eww
   :config
   (defun mozilla-readable (url)
