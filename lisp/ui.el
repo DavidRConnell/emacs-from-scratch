@@ -5,8 +5,9 @@
 (save-place-mode 1)
 (recentf-mode 1)
 (use-package savehist
-  :config
-  (savehist-mode 1))
+  :init
+  (setq savehist-file (expand-file-name "savehist.el" my-cache-dir))
+  (savehist-mode t))
 
 (use-package which-key
   :config
