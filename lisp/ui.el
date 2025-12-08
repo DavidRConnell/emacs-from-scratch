@@ -227,24 +227,6 @@
     [ret] #'vundo-confirm)
   (setq vundo-glyph-alist vundo-unicode-symbols))
 
-(use-package undo-tree
-  :disabled
-  :hook ((prog-mode text-mode) . undo-tree-mode)
-  :preface
-  (setq evil-undo-system 'undo-tree)
-  :general
-  (general-nmap
-    "U" #'undo-tree-visualize)
-  :config
-  (setq undo-tree-visualizer-diff t
-        undo-tree-auto-save-history t
-        undo-tree-enable-undo-in-region t
-        undo-limit 800000
-        undo-strong-limit 12000000
-        undo-outer-limit 120000000
-        undo-tree-history-directory-alist
-        `(("." . ,(concat my-var-dir "undo-tree-hist/")))))
-
 (use-package link-hint
   :general
   (general-nmmap
@@ -282,23 +264,6 @@
     "/" #'dired-narrow))
 
 (setq dired-dwim-target t)
-
-(use-package dirvish
-  :straight t
-  :config
-  (general-nmap
-    :keymaps 'dirvish-mode-map
-    "/" #'dirvish-narrow
-    "C-i" #'dirvish-history-go-forward
-    "C-o" #'dirvish-history-go-backward
-    "h" #'dired-up-directory
-    "l" #'dired-find-file)
-  (dirvish-override-dired-mode t))
-
-(use-package vlf
-  :config
-  (require 'vlf-setup)
-  (setq vlf-application 'dont-ask))
 
 (use-package delim-col
   :config
