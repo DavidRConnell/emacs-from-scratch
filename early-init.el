@@ -29,38 +29,46 @@
 ;;; Code:
 
 (setq gc-cons-threshold most-positive-fixnum)
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+(add-hook 'emacs-startup-hook
+	  (lambda ()
+	    (setq file-name-handler-alist default-file-name-handler-alist)))
+
 (setq load-prefer-newer t
-      native-comp-jit-compilation t)
+      native-comp-jit-compilation t
+      native-comp-async-report-warnings-errors 'silent)
 
-(setq frame-resize-pixelwise t)
-(setq default-frame-alist
-      '((font . "Hack:style=Light:size=14")
-        (min-height . 1) '(height . 45)
-        (min-width . 40) '(width . 81)
-        (vertical-scroll-bars . nil)
-        (internal-border-width . 24)
-        (tool-bar-lines . 0)
-        (menu-bar-lines . 0)))
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
 
-(setq native-comp-async-report-warnings-errors nil)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
 
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(tooltip-mode 0)
-(global-hl-line-mode 1)
+(setq frame-inhibit-implied-resize t
+      frame-resize-pixelwise t)
 
-(setq x-underline-at-descent-line t
-      ring-bell-function 'ignore)
-
-;; Vertical window divider
-(setq window-divider-default-right-width 24
-      window-divider-default-places 'right-only)
-(window-divider-mode 1)
+(add-to-list 'default-frame-alist '(font . "Hack:style=Light:size=14"))
+(add-to-list 'default-frame-alist '(min-height . 1))
+(add-to-list 'default-frame-alist '(height . 45))
+(add-to-list 'default-frame-alist '(min-width . 40))
+(add-to-list 'default-frame-alist '(width . 81))
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
 
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)
 
-(setq frame-inhibit-implied-resize t)
+(setq x-underline-at-descent-line t
+     ring-bell-function 'ignore)
+
+;; Vertical window divider
+(setq window-divider-default-right-width 24
+     window-divider-default-places 'right-only)
+(window-divider-mode 1)
 
 (setq package-enable-at-startup nil)
 

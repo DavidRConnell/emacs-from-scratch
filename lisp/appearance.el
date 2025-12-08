@@ -8,6 +8,7 @@
 (setq-default fill-column 79)
 (global-display-fill-column-indicator-mode t)
 (show-paren-mode t)
+(global-hl-line-mode 1)
 
 (use-package visual-fill-column
   :hook (visual-line-mode . visual-fill-column-mode))
