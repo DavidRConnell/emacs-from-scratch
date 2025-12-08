@@ -120,32 +120,58 @@
   :mode ("\\.r\\'" . ess-r-mode)
   :hook (ess-r-mode . format-all-mode)
   :config
+  (require 'ess-r-mode)
+  (general-define-key
+   :keymaps '(ess-r-mode-map inferior-ess-r-mode-map)
+   :prefix "C-c"
+   "C-a" (lambda () (interactive)
+	   (fixup-whitespace)
+	   (insert " <- "))
+   "C-p" (lambda (arg)
+	   (interactive "P")
+	   (if (not arg)
+	       (end-of-line))
+	   (delete-horizontal-space)
+	   (insert " |>")))
+
   (general-define-key
    :keymaps 'ess-r-mode-map
    :prefix "C-c"
    "C-c" #'ess-eval-region-or-function-or-paragraph
-   "C-a" (lambda () (interactive)
-	   (insert "<- "))
-   "C-p" (lambda () (interactive)
-	   (end-of-line)
-	   (insert " %>%")
-	   (evil-normal-state)))
+   "c" #'ess-eval-region-or-function-or-paragraph-and-step
+   "j" #'ess-eval-line-and-step)
+
+  (my-local-leader-def
+    :keymaps 'ess-r-mode-map
+    "," #'R)
+
+  (my-local-leader-def
+    :keymaps 'ess-r-mode-map
+    "t" (lambda ()
+	  (interactive)
+	  (ess-send-string (ess-get-process) (format "use_test(\"%s\")" (buffer-name))))
+    "T" #'ess-r-devtools-test-package
+    "c" #'ess-r-devtools-check-package
+    "l" #'ess-r-devtools-load-package
+    "u" #'ess-r-devtools-unload-package
+    "b" #'ess-r-devtools-build
+    "d" #'ess-r-devtools-document-package)
 
   (add-hook 'ess-help-mode-hook #'evil-motion-state)
 
   (general-nmap
-   :keymaps 'ess-r-mode-map
-   :prefix "g"
-   "K" #'ess-help
-   "V" #'ess-display-vignettes
-   "o" #'ess-display-help-apropos)
+    :keymaps 'ess-r-mode-map
+    :prefix "g"
+    "K" #'ess-help
+    "V" #'ess-display-vignettes
+    "o" #'ess-display-help-apropos)
 
   (general-mmap
-   :keymaps 'ess-help-mode-map
-   "q" #'kill-current-buffer
-   "gK" #'ess-help
-   "gV" #'ess-display-vignettes
-   "go" #'ess-display-help-apropos)
+    :keymaps 'ess-help-mode-map
+    "q" #'kill-current-buffer
+    "gK" #'ess-help
+    "gV" #'ess-display-vignettes
+    "go" #'ess-display-help-apropos)
 
   (advice-add #'ess-eval-region-or-function-or-paragraph
 	      :before #'evil-set-jump)
