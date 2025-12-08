@@ -105,12 +105,6 @@
        prettify
        c-u))))
 
-(use-package polymode
-  :after org
-  :config
-  (use-package poly-org
-    :hook (org-mode . poly-org-mode)))
-
 (use-package format-all
   :config
   (defun my-format-all-setup ()
