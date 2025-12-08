@@ -572,12 +572,12 @@ info is a plist holding export options."
     :general
     (my-leader-def
       :infix "d"
+      "" '(:ignore t :which-key "Dictionary")
       "w" #'wordnut-search)
     :config
     (general-nmap
       :keymaps 'wordnut-mode-map
       "q" #'evil-delete-buffer)
-    ;; (add-hook 'wordnut-mode-hook #'org-mode)
     ))
 
 (use-package org-pomodoro
@@ -605,15 +605,22 @@ info is a plist holding export options."
 
   (set-face-attribute 'jinx-misspelled nil :underline t :inherit 'nano-face-popout))
 
+
 (use-package flyspell
+  :disabled
   :config
   (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+  (remove-hook 'org-mode-hook #'flyspell-mode)
   (setq ispell-program-name (executable-find "aspell")
-	ispell-personal-dictionary "~/.aspell.en.pws")
-  (use-package flyspell-correct
-    :general
-    (general-nmap
-      "z=" #'flyspell-correct-wrapper)))
+	ispell-personal-dictionary "~/.aspell.en.pws"
+	ispell-alternate-dictionary (expand-file-name "dicts/en-common.wl"
+						      my-var-dir)))
+(use-package flyspell-correct
+  :after flyspell
+  :general
+  (general-nmap
+    "z=" #'flyspell-correct-wrapper))
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
