@@ -551,6 +551,36 @@ calling window."
       '(project xref))
 (require 'eglot)
 
+(use-package eglot
+  :commands eglot eglot-ensure
+  :config
+  (general-nmap
+    :keymaps 'eglot-mode-map
+    :prefix "C-e"
+    "r" 'eglot-rename
+    "d" 'eldoc
+    "a" 'eglot-code-actions
+    "f" 'eglot-format
+    "n" 'flymake-goto-next-error
+    "p" 'flymake-goto-prev-error
+    "q" 'eglot-code-action-quickfix)
+
+  (setq flymake-fringe-indicator-position 'right-fringe)
+  (add-to-list 'eglot-server-programs '(nix-mode "nil"))
+  (add-to-list 'eglot-server-programs '((matlab-mode matlab-ts-mode) "matlab-language-server" "--stdio"))
+  (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "pylsp"))
+  (add-to-list 'eglot-server-programs '(scad-mode "openscad-lsp" "--port" :autoport))
+
+  (setq completion-category-overrides '((eglot (styles orderless))))
+  (with-eval-after-load 'eglot
+    (setq completion-category-defaults nil)))
+
+(use-package eglot-booster
+  :straight (eglot-booster :type git :host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :config (eglot-booster-mode))
+
 (use-package cc-mode
   :config
   (use-package lsp-mode
