@@ -28,6 +28,7 @@
 ;; ---------------------------------------------------------------------
 
 ;; When we set a face, we take care of removing any previous settings
+
 (defun set-face (face style)
   "Reset a face and make it inherit style."
   (set-face-attribute face nil
@@ -796,3 +797,4 @@ function is a convenience wrapper used by `describe-package-1'."
   )
 
 (provide 'nano-theme)
+;;; nano-theme.el ends here

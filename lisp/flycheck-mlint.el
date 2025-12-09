@@ -1,4 +1,4 @@
-;;; flycheck-mlint.el --- Flycheck checker using Matlab mlint
+;;; flycheck-mlint.el --- Flycheck checker using Matlab mlint -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015 Andrzej Pronobis
 ;; Author: Andrzej Pronobis <a.pronobis@gmail.com>
@@ -19,8 +19,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
-;; This is extension for Flycheck.
+;; This is an extension for Flycheck.
 ;; To use, add the following to your init:
 ;; (eval-after-load 'flycheck
 ;;   '(require 'flycheck-matlab-mlint))

@@ -17,8 +17,8 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;; Commentary:
 ;; ---------------------------------------------------------------------
-;;; Code:
 
+;;; Code:
 
 ;; Colors from Material design at https://material.io/
 (defvar nano-color-foreground "#37474F") ;; Blue Grey / L800

@@ -1,7 +1,11 @@
 ;;; mode-line.el --- clean nano mode-line -*- lexical-binding: t; -*-
+
 ;;; Commentary:
 ;; From rougier's nano-emacs
 ;; https://github.com/rougier/nano-emacs/blob/master/nano-modeline.el.
+;; With cleanup this will should be integrated back into the vendored nano
+;; package.
+
 ;;; Code:
 
 (require 'subr-x)
