@@ -3,6 +3,7 @@
 ;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
 
 ;; Author: `user-full-name` <`user-mail-address`>
+;; Created: `(format-time-string "%B %d, %Y")`
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
