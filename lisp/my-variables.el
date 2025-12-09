@@ -1,4 +1,4 @@
-;;; variables.el --- Set global variables -*- lexical-binding: t; -*-
+;;; my-variables.el --- Set global variables -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -28,8 +28,6 @@
 
 ;;; Code:
 
-(require 'cl-lib)
-
 (setq user-full-name "David R. Connell"
       user-mail-address "david32@dcon.addy.io")
 
@@ -40,7 +38,7 @@
   "Location to store persistent, non-reproducible data.")
 
 (defvar my-config-dir (expand-file-name "emacs/" (getenv "XDG_CONFIG_HOME"))
-  "Location to store persistent, non-reproducible data.")
+  "Location to store configuration files.")
 
 (dolist (dir (list my-cache-dir my-var-dir my-config-dir))
   (unless (file-exists-p dir)
@@ -61,5 +59,5 @@
 
 (setenv "PATH" (format "%s:%s" (getenv "PATH") "~/bin"))
 
-(provide 'variables)
-;;; variables.el ends here
+(provide 'my-variables)
+;;; my-variables.el ends here

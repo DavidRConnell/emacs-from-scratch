@@ -30,8 +30,8 @@
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
-(require 'variables)
-(require 'packages)
+(require 'my-variables)
+(require 'my-straight-bootstrap)
 (require 'tidy-files)
 (require 'keybindings)
 (require 'ui)

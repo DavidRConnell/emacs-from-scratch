@@ -1,4 +1,4 @@
-;;; packages.el --- Bootstrap straight package manager -*- lexical-binding: t; -*-
+;;; my-straight-bootstrap.el --- Bootstrap straight package manager -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -27,6 +27,8 @@
 
 ;;; Code:
 
+(require 'my-variables)
+
 (defvar straight-base-dir my-cache-dir)
 (defvar bootstrap-version)
 (defvar straight-check-for-modifications '(check-on-save find-when-checking))
@@ -46,5 +48,5 @@
 (eval-when-compile
   (require 'use-package))
 
-(provide 'packages)
-;;; packages.el ends here
+(provide 'my-straight-bootstrap)
+;;; my-straight-bootstrap.el ends here
