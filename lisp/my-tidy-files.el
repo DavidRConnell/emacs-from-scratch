@@ -1,4 +1,4 @@
-;;; tidy-files.el --- Clean up the user directory -*- lexical-binding: t; -*-
+;;; my-tidy-files.el --- Clean up the user directory -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -28,10 +28,12 @@
 
 ;;; Code:
 
-(use-package no-littering
-  :init
-  (setq no-littering-etc-directory my-cache-dir
-	no-littering-var-directory my-var-dir))
+(require 'my-variables)
+
+(eval-and-compile
+  (setq no-littering-etc-directory my-cache-dir)
+  (setq no-littering-var-directory my-var-dir)
+  (require 'no-littering))
 
 (setq my-auto-save-directory
       (expand-file-name "auto-save/" my-var-dir)
@@ -49,7 +51,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq custom-file (expand-file-name "custom.el" my-var-dir))
-(load custom-file)
+(if (file-exists-p custom-file)
+    (load custom-file))
 
-(provide 'tidy-files)
-;;; tidy-files.el ends here
+(provide 'my-tidy-files)
+;;; my-tidy-files.el ends here

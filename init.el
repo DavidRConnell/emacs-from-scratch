@@ -31,8 +31,8 @@
              (expand-file-name "lisp/" user-emacs-directory))
 
 (require 'my-variables)
+(require 'my-tidy-files)
 (require 'my-straight-bootstrap)
-(require 'tidy-files)
 (require 'keybindings)
 (require 'ui)
 (require 'pass)
