@@ -1,9 +1,11 @@
-;;; appearance.el --- Tweak the appearance of emacs -*- lexical-binding: t; -*-
+;;; my-apps.el --- Refuge for random apps -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020 David R. Connell
-;;
+;; Copyright (C) 2025 David R. Connell
+
 ;; Author: David R. Connell <david32@dcon.addy.io>
-;; Created: October 26, 2020
+;; Created: December 09, 2025
+
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This file is not part of GNU Emacs.
 
@@ -23,36 +25,9 @@
 ;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-;; Set the theme and appearance variables.
+;; For setting up any apps that have no where else to go.
 
 ;;; Code:
-
-(load-theme 'modus-operandi t)
-(setq-default mode-line-format nil)
-(blink-cursor-mode -1)
-(setq-default fill-column 79)
-(global-display-fill-column-indicator-mode t)
-(show-paren-mode t)
-(global-hl-line-mode 1)
-
-(use-package visual-fill-column
-  :hook (visual-line-mode . visual-fill-column-mode))
-
-(require 'mode-line)
-(set-face-attribute 'modus-themes-completion-selected nil
-		    :foreground 'unspecified :background nano-color-highlight
-		    :family 'unspecified :slant 'unspecified
-		    :weight 'unspecified :height 'unspecified
-		    :underline 'unspecified :overline 'unspecified
-		    :box 'unspecified :inherit 'bold)
-
-;; Fall back font for glyph missing in Roboto.
-(defface fallback '((t :family "Fira Code" :inherit 'nano-face-faded))
-  "Fallback font.")
-(set-display-table-slot standard-display-table 'truncation
-                        (make-glyph-code ?… 'fallback))
-(set-display-table-slot standard-display-table 'wrap
-                        (make-glyph-code ?↩ 'fallback))
 
 (use-package eww
   :config
@@ -90,5 +65,5 @@ the like."
 	(plist-put eww-data elem (plist-get old-data elem)))
       (eww--after-page-change))))
 
-(provide 'appearance)
-;;; appearance.el ends here
+(provide 'my-apps)
+;;; my-apps.el ends here
