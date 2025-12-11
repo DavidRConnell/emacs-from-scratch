@@ -26,13 +26,23 @@
 
 ;;; Code:
 
-(advice-add 'risky-local-variable-p :override #'ignore)
+(require 'my-variables)
+(require 'my-keybindings)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(winner-mode t)
+
+(general-nmmap
+  :prefix "C-w"
+  "u" #'winner-undo
+  "C-r" #'winner-redo)
 
 (save-place-mode t)
 (recentf-mode t)
 
 (setq inhibit-startup-screen nil
-      initial-buffer-choice "~/notes/zettle/todo.org"
+      initial-buffer-choice (expand-file-name "todo.org" my-zettle-dir)
       inhibit-startup-message t
       inhibit-startup-echo-area-message t
       initial-scratch-message nil)
@@ -49,26 +59,6 @@
   :init
   (setq savehist-file (expand-file-name "savehist.el" my-cache-dir))
   (savehist-mode t))
-
-(use-package which-key
-  :config
-  (setq which-key-popup-type 'minibuffer)
-  (which-key-mode))
-
-(use-package evil-easymotion
-  :general
-  (general-define-key
-   :states '(operator)
-   :keymaps 'override
-   "j" #'evilem-motion-next-line
-   "k" #'evilem-motion-previous-line
-   "C-w" #'evilem-motion-forward-word-begin
-   "C-e" #'evilem-motion-forward-word-end
-   "C-b" #'evilem-motion-backward-word-begin)
-  (general-define-key
-   :keymaps '(normal motion visual)
-   "C-j" #'evilem-motion-next-line
-   "C-k" #'evilem-motion-previous-line))
 
 (use-package avy
   :general (general-define-key
@@ -155,9 +145,6 @@
 	  (?k . avy-action-ispell)
 	  (?z . avy-action-zap-to-char))))
 
-(use-package evil-exchange
-  :general (general-nmap "gx" #'evil-exchange))
-
 (use-package ace-window
   :general (general-nmmap :prefix "C-w"
 	     "C-w" #'ace-window
@@ -206,36 +193,12 @@
 	  compilation-mode))
 
   (setq popper-mode-line nil
+	popper-tab-line-mode nil
 	popper-group-function 'popper-group-by-directory)
 
   (require 'popper-echo)
   (popper-mode t)
   (popper-echo-mode t))
-
-(use-package evil-args
-  :general
-  (general-define-key
-   :keymaps 'evil-inner-text-objects-map
-   "a" #'evil-inner-arg)
-  (general-define-key
-   :keymaps 'evil-outer-text-objects-map
-   "a" #'evil-outer-arg))
-
-(use-package evil-textobj-tree-sitter
-  :general
-  (general-define-key
-   :keymaps 'evil-outer-text-objects-map
-   "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
-  (general-define-key
-   :keymaps 'evil-inner-text-objects-map
-   "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
-
-(use-package evil-lion
-  :general
-  (general-nvmap
-    :prefix "g"
-    "l" #'evil-lion-left
-    "L" #'evil-lion-right))
 
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -250,7 +213,7 @@
   :config
   (use-package undo-fu-session
     :config
-    (global-undo-fu-session-mode t))
+    (undo-fu-session-global-mode))
   (setq undo-fu-allow-undo-in-region t
 	undo-fu-ignore-keyboard-quit t))
 
@@ -310,6 +273,80 @@
   :config
   (setq delimit-columns-str-separator " | "
 	delimit-columns-format 'padding))
+
+;; See ~/clones/doom-emacs/modules/editor/evil/config.el
+(use-package evil-easymotion
+  :general
+  (general-define-key
+   :states '(operator)
+   :keymaps 'override
+   "j" #'evilem-motion-next-line
+   "k" #'evilem-motion-previous-line
+   "C-w" #'evilem-motion-forward-word-begin
+   "C-e" #'evilem-motion-forward-word-end
+   "C-b" #'evilem-motion-backward-word-begin)
+
+  (general-define-key
+   :keymaps '(normal motion visual)
+   "C-j" #'evilem-motion-next-line
+   "C-k" #'evilem-motion-previous-line)
+  :config
+  (evilem-make-motion evilem-motion-search-next #'evil-ex-search-next
+		      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-previous #'evil-ex-search-previous
+		      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-word-forward #'evil-ex-search-word-forward
+		      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-word-backward #'evil-ex-search-word-backward
+		      :bind ((evil-ex-search-highlight-all nil))))
+
+(use-package evil-exchange
+  :general (general-nmap "gx" #'evil-exchange))
+
+(use-package evil-args
+  :general
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "a" #'evil-inner-arg)
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "a" #'evil-outer-arg))
+
+(use-package evil-textobj-tree-sitter
+  :general
+  (general-define-key
+   :keymaps 'evil-outer-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (general-define-key
+   :keymaps 'evil-inner-text-objects-map
+   "f" (evil-textobj-tree-sitter-get-textobj "function.inner")))
+
+(use-package evil-lion
+  :general
+  (general-nvmap
+    :prefix "g"
+    "l" #'evil-lion-left
+    "L" #'evil-lion-right))
+
+(use-package evil-nerd-commenter
+  :commands (evilnc-comment-or-uncomment-lines evilnc-comment-operator)
+  :general
+  (general-nmap
+    :prefix "g"
+    "c" (general-key-dispatch
+	    #'evilnc-comment-operator
+	  "c" #'evilnc-comment-or-uncomment-lines)))
+
+(require 'evil-goggles)
+
+(customize-set-variable 'evil-goggles-duration 0.1)
+(customize-set-variable 'evil-goggles-pulse t)
+(customize-set-variable 'evil-goggles-enable-change nil)
+(customize-set-variable 'evil-goggles-enable-delete nil)
+(evil-goggles-mode)
+
+(use-package evil-surround
+  :config (global-evil-surround-mode 1))
 
 (provide 'ui)
 ;;; ui.el ends here
