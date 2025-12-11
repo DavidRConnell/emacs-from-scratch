@@ -28,7 +28,16 @@
 
 ;;; Code:
 
-(setq gc-cons-threshold most-positive-fixnum)
+;; Set GC threshold to 4GB during initialization to prevent excessive
+;; collection. Gets reset after initialization through GCMH.
+(setq gc-cons-threshold (* 4 (expt 2 30)))
+(add-hook 'emacs-startup-hook (lambda ()
+				(garbage-collect)
+				(require 'gcmh)
+				(setq gcmh-high-cons-threshold
+				      (* 64 (expt 2 20)))
+				(gcmh-mode)))
+
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
@@ -63,11 +72,11 @@
 (setq widget-image-enable nil)
 
 (setq x-underline-at-descent-line t
-     ring-bell-function 'ignore)
+      ring-bell-function 'ignore)
 
 ;; Vertical window divider
 (setq window-divider-default-right-width 24
-     window-divider-default-places 'right-only)
+      window-divider-default-places 'right-only)
 (window-divider-mode 1)
 
 (setq package-enable-at-startup nil)

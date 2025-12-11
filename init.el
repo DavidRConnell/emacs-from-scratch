@@ -47,7 +47,6 @@
 (require 'terminal)
 (require 'rss)
 (require 'completion)
-(require 'speed)
 
 (let ((inhibit-message t))
   (message (format "Initialization time: %s"
