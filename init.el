@@ -43,17 +43,16 @@
 (require 'my-eglot)
 (require 'my-completion)
 (require 'my-snippets)
-(require 'projects)
 (require 'git)
 (require 'development)
 (require 'writting)
 (require 'notes)
 (require 'references)
-(require 'terminal)
 (require 'rss)
+(require 'my-projects)
 
 ;; Apps
-(dolist (app '("pass" "rss" "eww"))
+(dolist (app '(pass rss eww))
   (require (intern (format "my-%s" app))
 	   (format "apps/my-%s" app)))
 
