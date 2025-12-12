@@ -1,4 +1,4 @@
-;;; completion.el --- Setup completion menus -*- lexical-binding: t -*-
+;;; my-completion.el --- Setup completion menus -*- lexical-binding: t -*-
 ;;
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -28,18 +28,31 @@
 
 ;;; Code:
 
-(use-package prescient
-  :custom
-  (prescient-aggressive-file-save t)
-  (prescient-sort-length-enable nil)
-  (prescient-sort-full-matches-first t)
-  (prescient-history-length 200)
-  (prescient-frequency-decay 0.997)
-  (prescient-frequency-threshold 0.05)
-  :config
-  (prescient-persist-mode +1))
+(require 'prescient)
+(require 'orderless)
 
-(require 'vertico-setup)
+(customize-set-variable 'prescient-aggressive-file-save t)
+(customize-set-variable 'prescient-sort-length-enable nil)
+(customize-set-variable 'prescient-sort-full-matches-first t)
+(customize-set-variable 'prescient-history-length 200)
+(customize-set-variable 'prescient-frequency-decay 0.997)
+(customize-set-variable 'prescient-frequency-threshold 0.05)
 
-(provide 'completion)
-;;; completion.el ends here
+(customize-set-variable 'completion-styles '(orderless basic))
+(customize-set-variable 'completion-category-defaults nil)
+(customize-set-variable 'completion-category-overrides
+			'((file (styles partial-completion))
+			  (eglot (styles orderless))
+			  (eglot-capf (styles orderless))))
+
+(prescient-persist-mode)
+
+(let ((load-path (append
+		  (list (expand-file-name "lisp/completion"
+					  user-emacs-directory))
+		  load-path)))
+  (require 'my-vertico)
+  (require 'my-corfu))
+
+(provide 'my-completion)
+;;; my-completion.el ends here

@@ -40,6 +40,8 @@
 (require 'my-appearance)
 (require 'my-keybindings)
 (require 'my-ui)
+(require 'my-eglot)
+(require 'my-completion)
 (require 'my-snippets)
 (require 'projects)
 (require 'git)
@@ -49,7 +51,6 @@
 (require 'references)
 (require 'terminal)
 (require 'rss)
-(require 'completion)
 
 ;; Apps
 (dolist (app '("pass" "rss" "eww"))

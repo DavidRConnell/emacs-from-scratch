@@ -29,10 +29,12 @@
 (require 'my-variables)
 (require 'my-keybindings)
 
-(customize-set-variable 'savehist-file
-			(expand-file-name "savehist.el" my-var-dir))
 (require 'savehist)
 (require 'winner)
+(require 'flymake)
+
+(customize-set-variable 'savehist-file
+			(expand-file-name "savehist.el" my-var-dir))
 
 (savehist-mode)
 (recentf-mode)
@@ -56,6 +58,8 @@
 (customize-set-variable 'minibuffer-prompt-properties
 			'(read-only t cursor-intangible t face minibuffer-prompt))
 
+(customize-set-variable 'flymake-fringe-indicator-position 'right-fringe)
+
 (autoload 'ace-window "ace-window")
 (autoload 'ace-delete-window "ace-window")
 
@@ -77,6 +81,12 @@
 
 (with-eval-after-load 'format-all
   (add-hook 'format-all-mode-hook #'format-all-ensure-formatter))
+
+(straight-use-package '(aggressive-indent-mode
+			:type git
+			:host github
+			:repo "Malabarba/aggressive-indent-mode"))
+(autoload 'aggressive-indent-mode "aggressive-indent")
 
 (require 'popper)
 (require 'popper-echo)
@@ -196,6 +206,13 @@
     "/" 'dired-narrow)
 
   (customize-set-variable 'dired-dwim-target t))
+
+
+(autoload 'flyspell-correct-wrapper "flyspell-correct")
+
+(general-nmap
+  "z=" 'flyspell-correct-wrapper)
+
 
 (require 'delim-col)
 (customize-set-variable 'delimit-columns-str-separator " | ")
