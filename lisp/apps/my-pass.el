@@ -1,4 +1,4 @@
-;;; pass.el --- Use pass for authentication -*- lexical-binding: t; -*-
+;;; my-pass.el --- Use pass for authentication -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2023 David R. Connell
 ;;
@@ -27,11 +27,15 @@
 
 ;;; Code:
 
-(setq auth-source-pass-filename
-      (expand-file-name "password-store" (getenv "XDG_DATA_HOME")))
+(require 'my-variables)
+
+(require 'auth-source)
+
+(customize-set-variable 'auth-source-pass-filename
+			(expand-file-name "password-store" my-var-dir))
 
 (auth-source-pass-enable)
 (auth-source-forget-all-cached)
 
-(provide 'pass)
-;;; pass.el ends here
+(provide 'my-pass)
+;;; my-pass.el ends here

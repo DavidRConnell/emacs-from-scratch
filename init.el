@@ -38,7 +38,6 @@
 (require 'my-tidy-files)
 (require 'my-straight-bootstrap)
 (require 'my-appearance)
-(require 'pass)
 (require 'my-keybindings)
 (require 'my-ui)
 (require 'projects)
@@ -51,6 +50,11 @@
 (require 'terminal)
 (require 'rss)
 (require 'completion)
+
+;; Apps
+(dolist (app '("pass" "rss" "eww"))
+  (require (intern (format "my-%s" app))
+	   (format "apps/my-%s" app)))
 
 (let ((inhibit-message t))
   (message (format "Initialization time: %s"

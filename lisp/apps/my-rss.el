@@ -1,4 +1,4 @@
-;;; rss.el --- RSS feeds -*- lexical-binding: t; -*-
+;;; my-rss.el --- RSS feeds -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -28,38 +28,38 @@
 ;;; Code:
 
 (use-package elfeed
- :general
- (my-leader-def
-   "E" #'elfeed)
+  :general
+  (my-leader-def
+    "E" #'elfeed)
 
- :config
- (general-define-key
-  :keymaps 'elfeed-search-mode-map
-  ;; "r" #'elfeed-update
-  "&" #'elfeed-search-browse-url)
+  :config
+  (general-define-key
+   :keymaps 'elfeed-search-mode-map
+   ;; "r" #'elfeed-update
+   "&" #'elfeed-search-browse-url)
 
- (setq elfeed-search-filter "@2-week-ago"
+  (setq elfeed-search-filter "@2-week-ago"
 	elfeed-show-entry 'display-buffer)
 
- (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
- (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
+  (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
+  (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
 
- (use-package elfeed-org
-   :init
-   (setq rmh-elfeed-org-files (list "~/notes/elfeed.org"))
-   :config
-   (elfeed-org)))
+  (use-package elfeed-org
+    :init
+    (setq rmh-elfeed-org-files (list "~/notes/elfeed.org"))
+    :config
+    (elfeed-org)))
 
 (use-package elpher
- :commands elpher
- :config
- (general-nmmap
-   :keymaps 'elpher-mode-map
-   "C-o" #'elpher-back
-   "C-c C-o" #'elpher-follow-current-link
-   "C-n" #'elpher-next-link
-   "C-p" #'elpher-prev-link)
- (setq elpher-start-page-url "gopher://gopher.floodgap.com/7/v2/vs"))
+  :commands elpher
+  :config
+  (general-nmmap
+    :keymaps 'elpher-mode-map
+    "C-o" #'elpher-back
+    "C-c C-o" #'elpher-follow-current-link
+    "C-n" #'elpher-next-link
+    "C-p" #'elpher-prev-link)
+  (setq elpher-start-page-url "gopher://gopher.floodgap.com/7/v2/vs"))
 
-(provide 'rss)
-;;; rss.el ends here
+(provide 'my-rss)
+;;; my-rss.el ends here

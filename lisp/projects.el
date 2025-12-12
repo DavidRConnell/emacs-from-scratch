@@ -26,6 +26,8 @@
 
 ;;; Code:
 
+(autoload 'my-term "apps/my-terminal")
+
 (defun my-projectile-switch-buffer-other-project ()
   "Switch to a buffer in an open project."
   (interactive)

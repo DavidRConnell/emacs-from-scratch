@@ -1,4 +1,4 @@
-;;; chat.el --- Chat room interfaces -*- lexical-binding: t; -*-
+;;; my-chat.el --- Chat room interfaces -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2025 David R. Connell
 ;;
@@ -84,5 +84,5 @@
     "m" #'ement-list-members
     "r" #'ement-room-retro))
 
-(provide 'chat)
-;;; chat.el ends here
+(provide 'my-chat)
+;;; my-chat.el ends here

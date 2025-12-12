@@ -1,4 +1,4 @@
-;;; terminal.el --- Manage external terminals -*- lexical-binding: t; -*-
+;;; my-terminal.el --- Manage external terminals -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
@@ -31,42 +31,44 @@
 (require 'f)
 
 (defun my--working-directory-name (working-directory)
-  (let* ((parts (f-split working-directory))
-	 (ssh-parts (if (length> parts 1)
-			(string-split (cl-second parts) ":")
-		      (list "nil")))
-	 (ssh-p (string= (cl-first ssh-parts) "ssh"))
-	 (ssh-remote (if ssh-p (cl-second ssh-parts) nil))
-	 (project-name (concat (car (last parts)) (if ssh-remote "-ssh" "")))
+  "Split WORKING-DIRECTORY into a path project name and remote."
+  (let* ((parts (cdr (f-split working-directory)))
+	 (ssh-parts (string-split (car parts) ":"))
+	 (ssh-p (string= (car ssh-parts) "ssh"))
+	 (ssh-remote (if ssh-p (cadr ssh-parts) nil))
+	 (project-name (concat (if ssh-p (concat ssh-remote ":") "")
+			       (car (last parts))))
 	 (stripped-working-directory
-	  (if ssh-remote (mapconcat 'identity
-				    (cl-loop for n from 2 to (- (length parts) 1)
-					     collect (concat "/" (nth n parts))) "")
+	  (if ssh-p
+	      (mapconcat (lambda (p) (concat (f-path-separator) p))
+			 (cdr parts))
 	    working-directory)))
     (list stripped-working-directory project-name ssh-remote)))
 
 (defun my-term (&optional working-directory)
   "Open a new alacritty window in `default-directory' or WORKING-DIRECTORY."
-
   (interactive)
-  (if (not working-directory)
-      (setq working-directory default-directory))
 
-  (let* ((working-directory-parts (my--working-directory-name
+  (let* ((working-directory (or working-directory default-directory))
+	 (working-directory-parts (my--working-directory-name
 				   working-directory))
-	 (working-directory (cl-first working-directory-parts))
-	 (project-name (cl-second working-directory-parts))
-	 (remote-name (cl-third working-directory-parts))
-	 (proc-name (format "alacritty-%s" project-name))
-	 (alacritty-title (format "*project-%s*" project-name)))
-    (message "%s %s" alacritty-title remote-name)
+	 (working-directory (car working-directory-parts))
+	 (project (cadr working-directory-parts))
+	 (remote-name (caddr working-directory-parts))
+	 (proc-name (format "alacritty-%s" project))
+	 (alacritty-title (format "*project-%s*" project))
+	 (common-args (list proc-name nil "alacritty"
+			    (format "--title=%s" alacritty-title)))
+	 (args (append common-args
+		       (if remote-name
+			   (list "--command" "ssh"
+				 "-t" remote-name
+				 "cd" working-directory ";" "zsh" "--login")
+			 (list "--working-directory" working-directory)))))
+
     (if (get-process proc-name)
 	(shell-command (format "stumpish select-window-by-name \"%s\"" alacritty-title))
-      (start-process  proc-name nil "alacritty"
-		      (format "--title=%s" alacritty-title)
-		      (if remote-name
-			  (format "--command=ssh %s" remote-name)
-			(format "--working-directory=%s" working-directory))))))
+      (apply 'start-process args))))
 
-(provide 'terminal)
-;;; terminal.el ends here
+(provide 'my-terminal)
+;;; my-terminal.el ends here
