@@ -37,10 +37,7 @@
 (defvar my-var-dir (expand-file-name "emacs/" (getenv "XDG_DATA_HOME"))
   "Location to store persistent, non-reproducible data.")
 
-(defvar my-config-dir (expand-file-name "emacs/" (getenv "XDG_CONFIG_HOME"))
-  "Location to store configuration files.")
-
-(dolist (dir (list my-cache-dir my-var-dir my-config-dir))
+(dolist (dir (list my-cache-dir my-var-dir))
   (unless (file-exists-p dir)
     (make-directory dir)))
 

@@ -29,8 +29,8 @@
 (require 'my-variables)
 (require 'my-keybindings)
 
-(customize-set-variable 'savehist-file (expand-file-name "savehist.el"
-							 my-cache-dir))
+(customize-set-variable 'savehist-file
+			(expand-file-name "savehist.el" my-var-dir))
 (require 'savehist)
 (require 'winner)
 
