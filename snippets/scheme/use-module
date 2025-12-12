@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: use-module
-# key: module
-# --
-:use-module ($0)

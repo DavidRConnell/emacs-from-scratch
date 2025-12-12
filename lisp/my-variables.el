@@ -51,6 +51,9 @@
 (defvar my-refs-books-dir "~/books/")
 (defvar my-refs-bib (expand-file-name "master.bib" my-refs-notes-dir))
 
+(defvar my-snippets-dir (expand-file-name "snippets/" user-emacs-directory)
+  "Parent directory of snippets.")
+
 (defvar my-personal-dictionary
   (expand-file-name ".aspell.en.pws" (getenv "HOME")))
 
