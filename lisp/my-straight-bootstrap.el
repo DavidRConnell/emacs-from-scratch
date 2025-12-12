@@ -30,12 +30,13 @@
 (require 'my-variables)
 
 (defvar straight-base-dir my-cache-dir)
-(defvar bootstrap-version)
 (defvar straight-check-for-modifications '(check-on-save find-when-checking))
-(setq straight-repository-branch "develop")
+
+(defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
-      (bootstrap-version 6))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el"
+			 straight-base-dir))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
@@ -44,9 +45,6 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
-(eval-when-compile
-  (require 'use-package))
 
 (provide 'my-straight-bootstrap)
 ;;; my-straight-bootstrap.el ends here
