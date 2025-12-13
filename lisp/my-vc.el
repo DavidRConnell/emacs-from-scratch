@@ -33,7 +33,6 @@
 
 (dolist (fn '(magit-status-here
 	      magit-dispatch
-	      magit-diff-buffer-file
 	      magit-branch
 	      magit-commit))
   (autoload fn "magit" nil t))
@@ -42,9 +41,12 @@
   :keymaps 'my-vc-map
   "s" 'magit-status-here
   "g" 'magit-dispatch
-  "d" 'magit-diff-buffer-file
   "b" 'magit-branch
-  "c" 'magit-commit)
+  "c" 'magit-commit
+  "r" 'diff-hl-revert-hunk
+  "a" 'diff-hl-stage-current-hunk
+  "n" '(diff-hl-next-hunk :jump t)
+  "p" '(diff-hl-previous-hunk :jump t))
 
 (with-eval-after-load 'magit
   (require 'magit-todos)
@@ -72,17 +74,28 @@
     "C-n" #'transient-scroll-up
     "C-p" #'transient-scroll-down))
 
-(general-def
-  :keymaps 'my-vc-map
-  "r" 'diff-hl-revert-hunk
-  "a" 'diff-hl-stage-current-hunk
-  "n" '(diff-hl-next-hunk :jump t)
-  "p" '(diff-hl-previous-hunk :jump t))
-
 (customize-set-variable 'diff-hl-draw-borders nil)
 (customize-set-variable 'diff-hl-show-staged-changes nil)
 (customize-set-variable 'diff-hl-update-async t)
 (customize-set-variable 'vc-git-diff-switches '("--histogram"))
+
+(autoload 'diff-hl-show-hunk-buffer "diff-hl-show-hunk" nil t)
+
+(defun my-diff-hl-show-hunk-buffer ()
+  "Show the diff at point in a new buffer."
+  (interactive)
+  (let ((current-major major-mode)
+	(buffer-list (diff-hl-show-hunk-buffer)))
+    (when buffer-list
+      (with-current-buffer (car buffer-list)
+	(funcall current-major))
+      (display-buffer (car buffer-list)))))
+
+(my-popper-add-reference "\\*diff-hl-show-hunk-buffer\\*")
+
+(general-def
+  :keymaps 'my-vc-map
+  "d" 'my-diff-hl-show-hunk-buffer)
 
 (global-diff-hl-mode)
 
