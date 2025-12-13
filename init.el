@@ -30,10 +30,6 @@
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
-(defconst my-extra-evil-jump-commands
-  '()
-  "A list of commands that should (but currently don't) set evil's jump list.")
-
 (require 'my-variables)
 (require 'my-tidy-files)
 (require 'my-straight-bootstrap)

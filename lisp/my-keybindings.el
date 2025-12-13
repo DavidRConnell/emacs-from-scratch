@@ -33,6 +33,8 @@
 ;; Manually set xref later; don't need evil's.
 (customize-set-variable 'evil-collection-want-find-usages-bindings nil)
 
+(require 'my-variables)
+
 (require 'general)
 (require 'evil)
 (require 'evil-collection)
@@ -57,9 +59,6 @@
 
 (general-create-definer general-nmmap :states '(normal motion))
 (general-create-definer general-nmvmap :states '(normal motion visual))
-
-(dolist (command my-extra-evil-jump-commands)
-  (evil-set-command-property command :jump t))
 
 (customize-set-variable 'evil-echo-state nil)
 (customize-set-variable 'evil-mode-line-format nil)
