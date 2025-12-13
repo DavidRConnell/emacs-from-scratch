@@ -210,11 +210,9 @@
 
   (customize-set-variable 'dired-dwim-target t))
 
-
-(autoload 'flyspell-correct-wrapper "flyspell-correct")
-
-(general-nmap
-  "z=" 'flyspell-correct-wrapper)
+;; (autoload 'flyspell-correct-wrapper "flyspell-correct")
+;; (general-nmap
+;;   "z=" 'flyspell-correct-wrapper)
 
 
 (require 'delim-col)

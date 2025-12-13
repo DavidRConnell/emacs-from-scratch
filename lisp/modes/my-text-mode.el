@@ -82,5 +82,10 @@
 		    :underline t
 		    :inherit 'nano-face-popout)
 
+(autoload 'nov-mode "nov")
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(with-eval-after-load 'nov
+  (customize-set-variable 'nov-text-width fill-column))
+
 (provide 'my-text-mode)
 ;;; my-text-mode.el ends here

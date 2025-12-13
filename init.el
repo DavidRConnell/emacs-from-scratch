@@ -40,14 +40,15 @@
 (require 'my-completion)
 (require 'my-snippets)
 (require 'development)
-(require 'writting)
 (require 'my-projects)
 (require 'my-vc)
 (require 'my-references)
 (require 'my-notes)
 
 ;; Modes
-(dolist (mode '(text))
+
+;; Modes
+(dolist (mode '(text org markdown tex))
   (require (intern (format "my-%s-mode" mode))
 	   (format "modes/my-%s-mode" mode)))
 
