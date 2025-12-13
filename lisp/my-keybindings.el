@@ -93,12 +93,12 @@
   "C-m" 'evil-goto-mark
   "C-q" 'evil-execute-macro)
 
-
 (defvar my-project-map (make-sparse-keymap))
 (defvar my-yas-map (make-sparse-keymap))
 (defvar my-vc-map (make-sparse-keymap))
 (defvar my-reference-map (make-sparse-keymap))
 (defvar my-notes-map (make-sparse-keymap))
+(defvar my-dictionary-map (make-sparse-keymap))
 
 (my-leader-def
   "b" 'switch-to-buffer
@@ -112,8 +112,10 @@
 
   "p" '(:keymap my-project-map :which-key "project")
   "y" '(:keymap my-yas-map :which-key "yas")
-  "g" '(:keymap my-vc-map)
-  "r" '(:keymap my-reference-map :which-key "references"))
+  "g" '(:keymap my-vc-map :which-key "git")
+  "r" '(:keymap my-reference-map :which-key "references")
+  "n" '(:keymap my-notes-map :which-key "notes")
+  "d" '(:keymap my-dictionary-map :which-key "dictionary"))
 
 (evil-mode)
 (evil-collection-init)

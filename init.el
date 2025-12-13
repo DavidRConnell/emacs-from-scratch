@@ -41,11 +41,15 @@
 (require 'my-snippets)
 (require 'development)
 (require 'writting)
-(require 'notes)
-(require 'rss)
 (require 'my-projects)
 (require 'my-vc)
 (require 'my-references)
+(require 'my-notes)
+
+;; Modes
+(dolist (mode '(text))
+  (require (intern (format "my-%s-mode" mode))
+	   (format "modes/my-%s-mode" mode)))
 
 ;; Apps
 (dolist (app '(pass rss eww))
