@@ -47,9 +47,9 @@
 (require 'development)
 (require 'writting)
 (require 'notes)
-(require 'references)
 (require 'rss)
 (require 'my-projects)
+(require 'my-references)
 
 ;; Apps
 (dolist (app '(pass rss eww))

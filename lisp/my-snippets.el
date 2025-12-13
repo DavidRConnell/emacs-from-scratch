@@ -43,18 +43,13 @@
 	      yas-visit-snippet-file))
   (autoload fn "yasnippet" nil t))
 
-(general-imap
-  "C-e" 'yas-expand)
+(general-imap "C-e" 'yas-expand)
 
-(defvar my-yas-map (make-sparse-keymap))
 (general-def
   :keymaps 'my-yas-map
   "v" 'yas-visit-snippet-file
   "n" 'yas-new-snippet
   "r" 'yas-reload-all)
-
-(my-leader-def
-  "y" '(:keymap my-yas-map :which-key "yas"))
 
 (with-eval-after-load 'yasnippet
   (let ((load-path (append (list (expand-file-name "doom" my-snippets-dir))

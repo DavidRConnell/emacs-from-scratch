@@ -28,8 +28,8 @@
 
 ;;; Code:
 
-(setq user-full-name "David R. Connell"
-      user-mail-address "david32@dcon.addy.io")
+(customize-set-variable 'user-full-name "David R. Connell")
+(customize-set-variable 'user-mail-address "david32@dcon.addy.io")
 
 (defvar my-cache-dir (expand-file-name "emacs/" (getenv "XDG_CACHE_HOME"))
   "Location to store reproducibly generated files.")
@@ -46,7 +46,10 @@
 (defvar my-refs-notes-dir (expand-file-name "references/" my-zettle-dir))
 (defvar my-refs-pdfs-dir "~/References/")
 (defvar my-refs-books-dir "~/books/")
-(defvar my-refs-bib (expand-file-name "master.bib" my-refs-notes-dir))
+(defvar my-refs-master-bib (expand-file-name "master.bib" my-refs-notes-dir))
+
+(defvar my-refs-stores `(,my-refs-pdfs-dir ,my-refs-books-dir))
+(defvar my-refs-bibs `(,my-refs-master-bib))
 
 (defvar my-snippets-dir (expand-file-name "snippets/" user-emacs-directory)
   "Parent directory of snippets.")

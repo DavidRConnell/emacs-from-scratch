@@ -112,8 +112,8 @@
   "L" 'consult-imenu-multi
   "s" 'consult-outline)
 
-(my-leader-def
-  :infix "p"
+(general-def
+  :keymaps 'my-project-map
   "g" #'consult-ripgrep)
 
 (general-nmmap

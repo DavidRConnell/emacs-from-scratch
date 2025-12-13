@@ -94,6 +94,11 @@
   "C-m" 'evil-goto-mark
   "C-q" 'evil-execute-macro)
 
+(defvar my-project-map (make-sparse-keymap))
+(defvar my-yas-map (make-sparse-keymap))
+(defvar my-notes-map (make-sparse-keymap))
+(defvar my-reference-map (make-sparse-keymap))
+
 (my-leader-def
   "b" 'switch-to-buffer
   "w" 'save-buffer
@@ -101,7 +106,12 @@
   "Q" 'evil-delete-buffer
   "o" 'find-file
   "l" 'imenu
-  ";" 'eval-expression)
+  ";" 'eval-expression
+  "e" 'flymake-show-diagnostics-buffer
+
+  "p" '(:keymap my-project-map :which-key "project")
+  "y" '(:keymap my-yas-map :which-key "yas")
+  "r" '(:keymap my-reference-map :which-key "references"))
 
 (evil-mode)
 (evil-collection-init)

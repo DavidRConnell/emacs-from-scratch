@@ -40,12 +40,13 @@
 	      projectile-compile-project
 	      projectile-test-project
 	      projectile-find-file
+	      projectile-ripgrep
+	      projectile-find-file-in-directory
 	      projectile-project-p))
   (autoload fn "projectile" nil t))
 
-(defvar my-project-keymap (make-sparse-keymap))
 (general-def
-  :keymaps 'my-project-keymap
+  :keymaps 'my-project-map
   "o" 'projectile-switch-project
   "O" 'projectile-switch-open-project
   "b" 'my-projectile-switch-buffer-other-project
@@ -54,9 +55,6 @@
   "q" 'projectile-kill-buffers
   "c" 'projectile-compile-project
   "t" 'projectile-test-project)
-
-(my-leader-def
-  "p" '(:keymap my-project-keymap :which-key "project"))
 
 (my-leader-def
   "SPC" #'projectile-find-file
@@ -74,14 +72,14 @@ Otherwise open in `default-directory'."
 	(interactive)
 	(projectile-find-file-in-directory user-emacs-directory)))
 
-(with-eval-after-load 'projectile
-  (defun my-projectile-switch-buffer-other-project ()
-    "Switch to a buffer in an open project."
-    (interactive)
-    (let ((projectile-switch-project-action
-	   #'(lambda () (consult-buffer '(consult--source-project-buffer)))))
-      (projectile-switch-open-project)))
+(defun my-projectile-switch-buffer-other-project ()
+  "Switch to a buffer in an open project."
+  (interactive)
+  (let ((projectile-switch-project-action
+	 #'(lambda () (consult-buffer '(consult--source-project-buffer)))))
+    (projectile-switch-open-project)))
 
+(with-eval-after-load 'projectile
   (customize-set-variable 'projectile-completion-system 'default)
   (customize-set-variable 'projectile-cache-file
 			  (expand-file-name "projects" my-cache-dir))
