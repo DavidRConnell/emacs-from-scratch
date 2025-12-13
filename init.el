@@ -43,12 +43,12 @@
 (require 'my-eglot)
 (require 'my-completion)
 (require 'my-snippets)
-(require 'git)
 (require 'development)
 (require 'writting)
 (require 'notes)
 (require 'rss)
 (require 'my-projects)
+(require 'my-vc)
 (require 'my-references)
 
 ;; Apps

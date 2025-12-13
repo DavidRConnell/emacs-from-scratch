@@ -67,6 +67,8 @@
 (add-to-list 'default-frame-alist '(min-width . 40))
 (add-to-list 'default-frame-alist '(width . 81))
 (add-to-list 'default-frame-alist '(internal-border-width . 24))
+(add-to-list 'default-frame-alist '(left-fringe . 3))
+(add-to-list 'default-frame-alist '(right-fringe . 3))
 
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)

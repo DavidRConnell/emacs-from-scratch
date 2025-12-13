@@ -58,7 +58,10 @@
 (customize-set-variable 'minibuffer-prompt-properties
 			'(read-only t cursor-intangible t face minibuffer-prompt))
 
+(require 'fringe)
+
 (customize-set-variable 'flymake-fringe-indicator-position 'right-fringe)
+(setq-default fringes-outside-margins t)
 
 (autoload 'ace-window "ace-window")
 (autoload 'ace-delete-window "ace-window")
