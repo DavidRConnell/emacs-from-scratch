@@ -29,30 +29,40 @@
 
 ;;; Code:
 
-(use-package markdown-mode
-  :hook (markdown-mode . visual-line-mode)
-  :mode (("\\.md\\'" . gfm-mode)
-	 ("\\.markdown\\'" . gfm-mode)
-	 ("\\.Rmd\\'" . gfm-mode)
-	 ("README\\.md\\'" . gfm-mode)
-	 ("qutebrowser-editor" . gfm-mode))
-  :config
-  (my-local-leader-def
-    :keymaps '(markdowm-mode-map gfm-mode-map)
-    :infix "l"
-    "l" #'markdown-insert-link)
-  (general-nmap
-    :keymaps '(markdown-mode-map gfm-mode-map)
-    "gj" #'markdown-outline-next
-    "gk" #'markdown-outline-previous
-    "M-j" #'markdown-move-down
-    "M-k" #'markdown-move-up
-    "C-i" #'markdown-demote
-    "C-S-i" #'markdown-promote))
+(require 'my-keybindings)
 
-(use-package poly-markdown
-  :mode (("\\.md\\'" . poly-markdown-mode)
-	 ("\\.Rmd\\'" . poly-markdown-mode)))
+(autoload 'gfm-mode "markdown-mode")
+
+(dolist (ext '(md markdown Rmd))
+  (add-to-list 'auto-mode-alist `(,(format "\\.%s\\'" ext) . gfm-mode)))
+(add-to-list 'auto-mode-alist '("qutebrowser-editor" . gfm-mode))
+
+(defvar my-md-link-map (make-sparse-keymap)
+  "Poor man's org-link mimic.")
+
+(my-local-leader-def
+  :keymaps '(markdowm-mode-map gfm-mode-map)
+  "p" 'markdown-preview
+  "l" '(:keymap my-md-link-map :which-key "links"))
+
+(general-def
+  :keymaps 'my-md-link-map
+  "l" 'markdown-insert-link)
+
+(general-nmap
+  :keymaps '(markdown-mode-map gfm-mode-map)
+  "gj" 'markdown-outline-next
+  "gk" 'markdown-outline-previous
+  "M-j" 'markdown-move-down
+  "M-k" 'markdown-move-up
+  "C-i" 'markdown-demote
+  "C-S-i" 'markdown-promote)
+
+;; REVIEW: Not sure if I use this.
+;; (with-eval-after-load 'markdown-mode
+;;   (require 'poly-markdown)
+;;   (add-hook 'gfm-mode-hook 'poly-markdown-mode)
+;;   (add-hook 'markdown-mode-hook 'poly-markdown-mode))
 
 (provide 'my-markdown-mode)
 ;;; my-markdown-mode.el ends here
