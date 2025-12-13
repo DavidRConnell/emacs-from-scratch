@@ -37,9 +37,11 @@
 
 (require 'my-keybindings)
 (require 'my-straight-bootstrap)
+(require 'my-ui)
 
 (require 'flymake-proselint)
 (add-hook 'text-mode-hook #'flymake-proselint-setup)
+(add-hook 'text-mode-hook #'visual-line-mode)
 
 (straight-use-package
  '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv"))
@@ -48,7 +50,10 @@
 (autoload 'wiki-summary "wiki-summary" nil t)
 (autoload 'wordnut-search "wordnut" nil t)
 
-(my-leader-def
+(my-popper-add-reference "\\*wiki-summary\\*.*")
+(my-popper-add-reference "\\*sdcv\\*")
+
+(general-def
   :keymaps 'my-dictionary-map
   "d" 'sdcv-search
   "k" 'wiki-summary

@@ -27,6 +27,7 @@
 ;;; Code:
 
 (require 'my-keybindings)
+(require 'my-ui)
 
 (require 'vertico)
 (require 'vertico-directory)
@@ -162,6 +163,8 @@
 (with-eval-after-load 'embark
   (require 'embark-consult)
   (require 'wgrep)
+
+  (my-popper-add-reference "\\*Embark Actions\\*")
 
   (general-def
     :keymaps 'grep-mode-map

@@ -106,20 +106,23 @@
   (and (string-match-p "\\*Async Shell Command\\*" (buffer-name buf))
        (= (buffer-size buf) 0)))
 
+(defun my-popper-add-reference (reference)
+  "Add REFERENCE to `popper-reference-buffers'."
+  (if (featurep 'popper)
+      (add-to-list 'popper-reference-buffers reference))
+  (if popper-mode
+      (popper-mode)))
+
 (customize-set-variable 'popper-reference-buffers
 			'(helpful-mode
 			  "\\*Messages\\*"
 			  "Output\\*$"
 			  "\\*Async Shell Command\\*"
 			  (my-popper-shell-output-empty-p . hide)
-			  "\\*wiki-summary\\*.*"
-			  "\\*Embark Actions\\*"
 			  "\\*Backtrace\\*"
-			  "\\*git-gutter:diff\\*"
 			  "\\*MATLAB\\*"
 			  "\\*R:.*\\*"
 			  "\\*Help\\*"
-			  "\\*sdcv\\*"
 			  "\\*lispy-message\\*"
 			  "\\*Org PDF LaTeX Output\\*"
 			  "\\*pytest\\*.*"
