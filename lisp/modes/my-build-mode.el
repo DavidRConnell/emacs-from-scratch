@@ -1,9 +1,9 @@
-;;; `(file-name-nondirectory buffer-file-name)` --- $1 -*- lexical-binding: t; -*-
+;;; my-build-mode.el --- Build type configuration -*- lexical-binding: t; -*-
 
-;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
+;; Copyright (C) 2025 David R. Connell
 
-;; Author: `user-full-name` <`user-mail-address`>
-;; Created: `(format-time-string "%B %d, %Y")`
+;; Author: David R. Connell <david32@dcon.addy.io>
+;; Created: December 13, 2025
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,11 +25,16 @@
 ;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-;; $2
+;; Configuration for various build tools' files.
 
 ;;; Code:
 
-`%`$0
+(autoload 'cmake-ts-mode "cmake-ts-mode")
+(add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-ts-mode))
 
-(provide '`(file-name-base buffer-file-name)`)
-;;; `(file-name-nondirectory buffer-file-name)` ends here
+(add-hook 'cmake-ts-mode-hook #'format-all-mode)
+(add-hook 'cmake-ts-mode-hook #'eglot-ensure)
+(add-hook 'cmake-ts-mode-hook #'aggressive-indent-mode)
+
+(provide 'my-build-mode)
+;;; my-build-mode.el ends here

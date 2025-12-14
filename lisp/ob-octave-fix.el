@@ -94,9 +94,4 @@
                                                                 string rest)))))
 
 (provide 'ob-octave-fix)
-
-;; Testing code
-;; (remove-car-upto-newline '("test;string\nno 1\nyesyes" "no 2\n\n whatever"))
-;; (multi-replace-regexp-in-string '(("\\s-+" . "qq")
-;;                                   ("w"    . "\n"))
-;;                                 "this is a wery wery blank line")
+;;; ob-octave-fix ends here

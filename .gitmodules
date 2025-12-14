@@ -4,3 +4,6 @@
 [submodule "vendor/nano-emacs"]
 	path = vendor/nano-emacs
 	url = https://github.com/rougier/nano-emacs
+[submodule "vendor/doom-snippets"]
+	path = vendor/doom-snippets
+	url = https://github.com/doomemacs/snippets

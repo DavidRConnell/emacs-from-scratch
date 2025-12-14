@@ -1,9 +1,9 @@
-;;; `(file-name-nondirectory buffer-file-name)` --- $1 -*- lexical-binding: t; -*-
+;;; my-tex-mode.el --- TeX config -*- lexical-binding: t; -*-
 
-;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
+;; Copyright (C) 2025 David R. Connell
 
-;; Author: `user-full-name` <`user-mail-address`>
-;; Created: `(format-time-string "%B %d, %Y")`
+;; Author: David R. Connell <david32@dcon.addy.io>
+;; Created: December 13, 2025
 
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -25,11 +25,17 @@
 ;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-;; $2
+;; Configuration for TeX buffers.
 
 ;;; Code:
 
-`%`$0
+(autoload 'tex-mode "tex-mode")
 
-(provide '`(file-name-base buffer-file-name)`)
-;;; `(file-name-nondirectory buffer-file-name)` ends here
+(with-eval-after-load 'tex-mode
+  (add-to-list 'tex-compile-commands
+	       '((concat "latexmk -xelatex" " %f") t "%r.pdf"))
+  (add-to-list 'tex-compile-commands
+	       '((concat "latexmk -lualatex" " %f") t "%r.pdf")))
+
+(provide 'my-tex-mode)
+;;; my-tex-mode.el ends here

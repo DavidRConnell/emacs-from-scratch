@@ -1,12 +1,10 @@
-;;; `(file-name-nondirectory buffer-file-name)` --- $1 -*- lexical-binding: t; -*-
-
-;; Copyright (C) `(format-time-string "%Y")` `user-full-name`
-
-;; Author: `user-full-name` <`user-mail-address`>
-;; Created: `(format-time-string "%B %d, %Y")`
-
-;; SPDX-License-Identifier: GPL-3.0-or-later
-
+;;; my-pass.el --- Use pass for authentication -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2023 David R. Connell
+;;
+;; Author: David R. Connell <davidconnell12@gmail.com>
+;; Created: January 15, 2023
+;;
 ;; This file is not part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or
@@ -25,11 +23,19 @@
 ;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-;; $2
+;; Set up auth-source to use my password-store.
 
 ;;; Code:
 
-`%`$0
+(require 'my-variables)
 
-(provide '`(file-name-base buffer-file-name)`)
-;;; `(file-name-nondirectory buffer-file-name)` ends here
+(require 'auth-source)
+
+(customize-set-variable 'auth-source-pass-filename
+			(expand-file-name "password-store" my-var-dir))
+
+(auth-source-pass-enable)
+(auth-source-forget-all-cached)
+
+(provide 'my-pass)
+;;; my-pass.el ends here
