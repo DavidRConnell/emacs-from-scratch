@@ -39,13 +39,10 @@
 (require 'my-eglot)
 (require 'my-completion)
 (require 'my-snippets)
-(require 'development)
 (require 'my-projects)
 (require 'my-vc)
 (require 'my-references)
 (require 'my-notes)
-
-;; Modes
 
 ;; Modes
 (dolist (mode '(text
@@ -58,6 +55,8 @@
 		conf
 		lisp
 		matlab
+		python
+		ess
 		c
 		sh
 		build))
