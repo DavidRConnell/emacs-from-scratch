@@ -69,7 +69,5 @@
   "Setup matlab flymake backend."
   (add-hook #'flymake-diagnostic-functions #'matlab-codeissues-flymake nil t))
 
-(add-hook 'matlab-mode-hook 'matlab-setup-flymake-backend)
-
 (provide 'flymake-codeissues)
 ;;; flymake-codeissues.el ends here

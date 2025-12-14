@@ -57,6 +57,7 @@
 		nix
 		conf
 		lisp
+		matlab
 		c
 		sh
 		build))
