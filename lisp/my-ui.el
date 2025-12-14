@@ -94,10 +94,16 @@
 (require 'popper)
 (require 'popper-echo)
 
+(defvar my-popper-map (make-sparse-keymap))
+
 (my-leader-def
-  :infix "u"
+  "u" '(:keymap my-popper-map :which-key "pop-ups"))
+
+(general-def
+  :keymaps 'my-popper-map
   "u" 'popper-toggle
   "n" 'popper-cycle
+  "p" 'popper-cycle-backwards
   "q" 'popper-kill-latest-popup
   "t" 'popper-toggle-type)
 
@@ -120,18 +126,17 @@
 			  "\\*Async Shell Command\\*"
 			  (my-popper-shell-output-empty-p . hide)
 			  "\\*Backtrace\\*"
-			  "\\*MATLAB\\*"
-			  "\\*R:.*\\*"
 			  "\\*Help\\*"
 			  "\\*Org PDF LaTeX Output\\*"
-			  "\\*pytest\\*.*"
-			  "\\*Python\\*"
-			  "\\*python\\*"
 			  "\\*eldoc.*\\*"
-			  "\\*readable.*\\*"
-			  Man-mode
-			  compilation-mode))
+			  "\\*readable.*\\*"))
 
+(defun my-popper-fit-window-height (win)
+  (fit-window-to-buffer win
+			(floor (frame-height) 2)
+			(floor (frame-height) 3)))
+
+(customize-set-variable 'popper-window-height #'my-popper-fit-window-height)
 (customize-set-variable 'popper-mode-line nil)
 (customize-set-variable 'popper-tab-line-mode nil)
 (customize-set-variable 'popper-group-function 'popper-group-by-directory)
