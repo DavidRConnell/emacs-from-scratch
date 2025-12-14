@@ -123,7 +123,6 @@
 			  "\\*MATLAB\\*"
 			  "\\*R:.*\\*"
 			  "\\*Help\\*"
-			  "\\*lispy-message\\*"
 			  "\\*Org PDF LaTeX Output\\*"
 			  "\\*pytest\\*.*"
 			  "\\*Python\\*"

@@ -48,7 +48,7 @@
 ;; Modes
 
 ;; Modes
-(dolist (mode '(text org markdown tex))
+(dolist (mode '(text org markdown tex prog emacs-lisp nix conf lisp))
   (require (intern (format "my-%s-mode" mode))
 	   (format "modes/my-%s-mode" mode)))
 
