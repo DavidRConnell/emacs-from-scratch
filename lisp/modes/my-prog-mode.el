@@ -76,6 +76,13 @@
   (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
     [16 48 112 240 112 48 16] nil nil 'center))
 
+(autoload 'manual-entry "man" nil t)
+
+(with-eval-after-load 'man
+  (general-def
+    :keymaps Man-mode-map
+    "gK" 'my-man-at-point))
+
 ;; REVIEW: Not sure if I want this to be a pop up or regular?
 ;; If a pop up, possibly wrap manual call in `save-selected-window'.
 ;; (my-popper-add-reference 'Man-mode)

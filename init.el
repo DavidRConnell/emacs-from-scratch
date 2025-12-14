@@ -48,7 +48,18 @@
 ;; Modes
 
 ;; Modes
-(dolist (mode '(text org markdown tex prog emacs-lisp nix conf lisp build sh))
+(dolist (mode '(text
+		org
+		markdown
+		tex
+		prog
+		emacs-lisp
+		nix
+		conf
+		lisp
+		c
+		sh
+		build))
   (require (intern (format "my-%s-mode" mode))
 	   (format "modes/my-%s-mode" mode)))
 
