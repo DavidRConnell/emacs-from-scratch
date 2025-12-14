@@ -70,7 +70,6 @@
   "n" 'org-roam-dailies-goto-next-note
   "p" 'org-roam-dailies-goto-previous-note)
 
-;; FIXME: Determine what is triggering org-ref when org-roam is loaded
 (with-eval-after-load 'org-roam
   (customize-set-variable 'org-roam-directory my-zettle-dir)
   (customize-set-variable 'org-roam-db-gc-threshold (expt 2 30))
