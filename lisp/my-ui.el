@@ -408,5 +408,23 @@
 	  'evilnc-comment-operator
 	"c" 'evilnc-comment-or-uncomment-lines))
 
+(require 'hl-todo)
+(with-eval-after-load 'flymake
+  (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
+
+(customize-set-variable 'hl-todo-highlight-punctuation ":")
+(customize-set-variable
+ 'hl-todo-keyword-faces
+ '(("TODO"       nano-face-header-default bold)
+   ("FIXME"      next-error bold)
+   ("HACK"       font-lock-constant-face bold)
+   ("REVIEW"     hydra-face-red bold)
+   ("NOTE"       success bold)
+   ("WARNING"    hydra-face-red bold)
+   ("DEPRECATED" font-lock-doc-face bold)
+   ("TEMP"       modus-themes-prominent-warning bold)))
+
+(global-hl-todo-mode)
+
 (provide 'my-ui)
 ;;; my-ui.el ends here
