@@ -125,5 +125,10 @@
 (customize-set-variable 'cape-dict-file
 			(list my-personal-dictionary my-alternate-dictionary))
 
+;; Needed for corfu's spelling completion.
+(with-eval-after-load 'ispell
+  (customize-set-variable 'ispell-personal-dictionary my-personal-dictionary)
+  (customize-set-variable 'ispell-alternate-dictionary my-alternate-dictionary))
+
 (provide 'my-corfu)
 ;;; my-corfu.el ends here
