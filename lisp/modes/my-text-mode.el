@@ -43,6 +43,23 @@
 (add-hook 'text-mode-hook #'flymake-proselint-setup)
 (add-hook 'text-mode-hook #'visual-line-mode)
 
+(customize-set-variable 'flymake-proselint-disable
+			;; Tends to catch preamble/header arguments.
+			'(typography.exclamation))
+
+(defun my-maybe-turn-on-flymake ()
+  "Selectively turn on flymake in `text-mode'.
+
+Prevents `flymake-proselint' from showing errors in note files."
+  (let* ((current-file (file-name-nondirectory (buffer-file-name)))
+	 (in-roam-note-p (or (string= current-file "todo.org")
+			     (and (featurep 'org-roam)
+				  (org-roam-file-p current-file)))))
+    (unless in-roam-note-p
+      (flymake-mode))))
+
+(add-hook 'text-mode-hook #'my-maybe-turn-on-flymake)
+
 (straight-use-package
  '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv"))
 
