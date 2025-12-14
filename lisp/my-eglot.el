@@ -29,12 +29,7 @@
 
 ;;; Code:
 
-;; (require 'xref)
-;; (require 'project)
-
-;; (mapc (lambda (x) (require-with-check x nil 'reload))
-;;       '(project xref))
-;; (require 'eglot)
+(require 'my-keybindings)
 
 (autoload 'eglot "eglot")
 (autoload 'eglot-ensure "eglot")
