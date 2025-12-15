@@ -31,6 +31,7 @@
 
 (require 'my-ui)
 (require 'my-keybindings)
+(require 'my-completion)
 (require 'my-lisp-mode "modes/my-lisp-mode")
 
 (require 'elisp-def)
@@ -46,6 +47,11 @@
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 
 (add-hook 'emacs-lisp-mode-hook #'format-all-mode)
+
+(add-hook 'emacs-lisp-mode-hook
+	  (defun my-elisp-mode-add-capfs ()
+	    (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+	    (add-to-list 'completion-at-point-functions #'elisp-completion-at-point)))
 
 (general-nmap
   :keymaps 'emacs-lisp-mode-map

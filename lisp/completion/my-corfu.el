@@ -66,7 +66,6 @@
   :keymaps 'corfu-map
   "C-s" 'corfu-quick-complete)
 
-
 (evil-make-overriding-map corfu-map)
 
 (corfu-echo-mode)
@@ -93,39 +92,21 @@
 
 (corfu-prescient-mode)
 
-(defun my-cape-completion-generator (funcs)
-  (let ((result))
-    (dolist (element funcs result)
-      (add-to-list 'completion-at-point-functions element 'append))))
-
-(add-hook 'text-mode-hook
-	  (defun my-text-mode-capfs ()
-	    (my-cape-completion-generator
-	     (list #'cape-dict
-		   #'cape-dabbrev))))
-
-(add-hook 'prog-mode-hook (defun my-prog-mode-capfs ()
-			    (my-cape-completion-generator
-			     (list #'cape-dabbrev
-				   #'cape-file
-				   #'cape-keyword))))
-
-(add-hook 'emacs-lisp-mode-hook (defun my-emacs-mode-capfs ()
-				  (add-to-list 'completion-at-point-functions
-					       #'cape-elisp-symbol)))
-
-(add-hook 'minibuffer-mode-hook (defun my-minibuffer-mode-capfs ()
-				  (setq-local completion-at-point-functions
-					      (list #'cape-dabbrev #'cape-history))))
+(add-hook 'minibuffer-mode-hook
+	  (defun my-minibuffer-mode-capfs ()
+	    (setq-local completion-at-point-functions
+			(list #'cape-dabbrev #'cape-history))))
 
 (general-imap
-  "C-x C-f" #'cape-file
-  "C-x C-k" #'cape-dict)
+  "C-x C-f" 'cape-file
+  "C-x C-k" 'cape-dict)
 
 (customize-set-variable 'cape-dict-file
 			(list my-personal-dictionary my-alternate-dictionary))
 
-;; Needed for corfu's spelling completion.
+;; Prefer ispell's capf to `cape-dict' since it matches from start of word
+;; while `cape-dict' will find substrings in word.
+(autoload 'ispell-completion-at-point "ispell" nil t)
 (with-eval-after-load 'ispell
   (customize-set-variable 'ispell-personal-dictionary my-personal-dictionary)
   (customize-set-variable 'ispell-alternate-dictionary my-alternate-dictionary))

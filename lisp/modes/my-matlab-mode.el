@@ -105,8 +105,8 @@ calling window."
 		 #'semantic-analyze-completion-at-point-function
 		 #'semantic-analyze-notc-completion-at-point-function
 		 #'semantic-analyze-nolongprefix-completion-at-point-function
-		 #'cape-keyword
-		 #'cape-dabbrev)
+		 (cape-capf-super #'cape-keyword #'cape-dabbrev)
+		 #'cape-file)
 
 		cape-keyword-list '((matlab-mode
 				     "break" "case" "catch" "classdef" "continue"

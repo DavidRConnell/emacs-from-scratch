@@ -32,6 +32,7 @@
 
 (require 'my-keybindings)
 (require 'my-ui)
+(require 'my-completion)
 
 (defvar my-gud-map (make-sparse-keymap))
 
@@ -48,6 +49,12 @@
   "l" 'gud-refresh
   "p" 'gud-print
   "q" 'gud-finish)
+
+(add-hook 'prog-mode-hook
+	  (defun my-prog-mode-capfs ()
+	    (setq-local completion-at-point-functions
+			(list #'pcomplete-completions-at-point
+			      #'cape-dabbrev #'cape-keyword #'cape-file))))
 
 (require 'ansi-color)
 (defun my-colorize-compilation-buffer ()

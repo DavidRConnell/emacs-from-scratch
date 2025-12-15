@@ -38,6 +38,7 @@
 (require 'my-keybindings)
 (require 'my-straight-bootstrap)
 (require 'my-ui)
+(require 'my-completion)
 
 (require 'flymake-proselint)
 (add-hook 'text-mode-hook #'flymake-proselint-setup)
@@ -59,6 +60,13 @@ Prevents `flymake-proselint' from showing errors in note files."
       (flymake-mode))))
 
 (add-hook 'text-mode-hook #'my-maybe-turn-on-flymake)
+
+(add-hook 'text-mode-hook
+	  (defun my-text-mode-capfs ()
+	    (setq-local completion-at-point-functions
+			(list (cape-capf-sort
+			       (cape-capf-super #'cape-dabbrev
+						#'ispell-completion-at-point))))))
 
 (straight-use-package
  '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv"))

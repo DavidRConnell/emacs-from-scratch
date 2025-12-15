@@ -37,13 +37,14 @@
 					 (rx bol (in "0-9" "a-z" "A-Z"))))
 
 (dolist (fn '(yas-expand
+	      yasnippet-capf
 	      yas-lookup-snippet
 	      yas-insert-snippet
 	      yas-new-snippet
 	      yas-visit-snippet-file))
   (autoload fn "yasnippet" nil t))
 
-(general-imap "C-e" 'yas-expand)
+(general-imap "C-e" 'yasnippet-capf)
 
 (general-def
   :keymaps 'my-yas-map
@@ -52,6 +53,8 @@
   "r" 'yas-reload-all)
 
 (with-eval-after-load 'yasnippet
+  (require 'yasnippet-capf)
+
   (let ((load-path (append (list (expand-file-name "doom" my-snippets-dir))
 			   load-path)))
     (require 'doom-snippets))
@@ -60,10 +63,6 @@
     :keymaps 'yas-keymap
     "M-n" 'yas-next-field-or-maybe-expand
     "M-p" 'yas-prev-field)
-
-  (with-eval-after-load 'cape
-    (require 'yasnippet-capf)
-    (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
   (yas-global-mode))
 
