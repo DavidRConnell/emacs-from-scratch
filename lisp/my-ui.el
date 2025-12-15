@@ -61,6 +61,13 @@
 (require 'fringe)
 
 (customize-set-variable 'flymake-fringe-indicator-position 'right-fringe)
+(with-eval-after-load 'diff-hl
+  (customize-set-variable 'flymake-error-bitmap
+			  '(diff-hl-bmp-insert modus-themes-prominent-error))
+  (customize-set-variable 'flymake-warning-bitmap
+			  '(diff-hl-bmp-insert modus-themes-prominent-warning))
+  (customize-set-variable 'flymake-note-bitmap
+			  '(diff-hl-bmp-insert modus-themes-prominent-note)))
 (setq-default fringes-outside-margins t)
 
 (autoload 'ace-window "ace-window")
