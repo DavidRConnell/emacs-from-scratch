@@ -83,7 +83,7 @@
 
 (general-imap
   "C-u" 'evil-delete-back-to-indentation
-  "C-SPC" #'completion-at-point)
+  "C-SPC" 'completion-at-point)
 
 (general-nmvmap
   "gj" 'evil-join

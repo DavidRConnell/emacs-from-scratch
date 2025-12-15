@@ -22,7 +22,7 @@
 ;; Boston, MA 02111-1307, USA.
 
 ;;; Commentary:
-;; Vertico related setup.
+;; Vertico (and consult, embark, marginalia) related setup.
 
 ;;; Code:
 
@@ -37,19 +37,17 @@
 (require 'vertico-buffer)
 
 (require 'consult)
-(require 'consult-imenu)
-(require 'consult-flymake)
 (require 'consult-xref)
 
 (require 'marginalia)
 
 (general-def
   :keymaps 'vertico-map
-  "C-n" #'vertico-next
-  "C-p" #'vertico-previous
-  "M-SPC" #'minibuffer-complete
-  "M-RET" #'minibuffer-force-complete-and-exit
-  "C-w" #'backward-kill-word)
+  "C-n" 'vertico-next
+  "C-p" 'vertico-previous
+  "M-SPC" 'minibuffer-complete
+  "M-RET" 'minibuffer-force-complete-and-exit
+  "C-w" 'backward-kill-word)
 
 (customize-set-variable 'vertico-cycle t)
 
@@ -80,8 +78,8 @@
 
 (general-nmmap
   :prefix "C-c"
-  "C-r" #'vertico-repeat-last
-  "R" #'vertico-repeat-select)
+  "C-r" 'vertico-repeat-last
+  "R" 'vertico-repeat-select)
 
 (customize-set-variable 'vertico-buffer-display-action
 			'(display-buffer-in-direction
@@ -102,11 +100,16 @@
 (vertico-multiform-mode)
 (vertico-mode)
 
-(global-set-key [remap switch-to-buffer] #'consult-buffer)
-(global-set-key [remap project-switch-to-buffer] #'consult-project-buffer)
-(global-set-key [remap imenu] #'consult-imenu)
-(global-set-key [remap flymake-show-diagnostics-buffer] #'consult-flymake)
-(global-set-key [remap recentf-open-files] #'consult-recent-file)
+(autoload 'consult-flymake "consult-flymake")
+(autoload 'consult-imenu "consult-imenu")
+(autoload 'consult-imenu-multi "consult-imenu")
+
+(general-def
+  [remap switch-to-buffer] 'consult-buffer
+  [remap project-switch-to-buffer] 'consult-project-buffer
+  [remap imenu] 'consult-imenu
+  [remap flymake-show-diagnostics-buffer] 'consult-flymake
+  [remap recentf-open-files] 'consult-recent-file)
 
 (my-leader-def
   "O" 'consult-fd
@@ -115,7 +118,7 @@
 
 (general-def
   :keymaps 'my-project-map
-  "g" #'consult-ripgrep)
+  "g" 'consult-ripgrep)
 
 (general-nmmap
   :prefix "g"
@@ -135,6 +138,12 @@
 (customize-set-variable 'consult-narrow-key "<")
 (customize-set-variable 'xref-show-xrefs-function #'consult-xref)
 (customize-set-variable 'xref-show-definitions-function #'consult-xref)
+
+(with-eval-after-load 'compile
+  (require 'consult-compile)
+
+  (my-leader-def
+    "c" 'consult-compile-error))
 
 (dolist (fn '(embark-act
 	      embark-act-all
@@ -158,7 +167,7 @@
 (general-nmmap
   "RET" 'embark-dwim)
 
-(global-set-key [remap describe-bindings] #'embark-bindings)
+(global-set-key [remap describe-bindings] 'embark-bindings)
 
 (with-eval-after-load 'embark
   (require 'embark-consult)

@@ -89,9 +89,9 @@
   (general-def
     ;; Used by org-roam-buffer
     :keymaps 'magit-section-mode-map
-    "C-j" #'magit-section-forward
-    "C-k" #'magit-section-backward
-    "C-i" #'magit-section-cycle)
+    "C-j" 'magit-section-forward
+    "C-k" 'magit-section-backward
+    "C-i" 'magit-section-cycle)
 
   (general-def
     :keymaps 'org-roam-node-map

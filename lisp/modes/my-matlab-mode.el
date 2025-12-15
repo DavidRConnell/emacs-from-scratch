@@ -161,12 +161,12 @@ calling window."
 
   (general-def
     :keymaps 'my-matlab-profile-map
-    "o" '(lambda () (interactive)
-	   (mt-run-command "profile clear; profile on"))
-    "s" '(lambda () (interactive)
-	   (mt-run-command "profile off; profsave(profile('info'), '/tmp/matlab/profile_results')"))
-    "v" '(lambda () (interactive)
-	   (consult-file-externally "/tmp/matlab/profile_results/file0.html")))
+    "o" (lambda () (interactive)
+	  (mt-run-command "profile clear; profile on"))
+    "s" (lambda () (interactive)
+	  (mt-run-command "profile off; profsave(profile('info'), '/tmp/matlab/profile_results')"))
+    "v" (lambda () (interactive)
+	  (consult-file-externally "/tmp/matlab/profile_results/file0.html")))
 
   (dolist (fn '(mlgud-break
 		mlgud-remove

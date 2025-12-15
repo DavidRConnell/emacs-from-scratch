@@ -71,8 +71,8 @@
 (with-eval-after-load 'transient
   (general-def
     :keymaps 'transient-map
-    "C-n" #'transient-scroll-up
-    "C-p" #'transient-scroll-down))
+    "C-n" 'transient-scroll-up
+    "C-p" 'transient-scroll-down))
 
 (customize-set-variable 'diff-hl-draw-borders nil)
 (customize-set-variable 'diff-hl-show-staged-changes nil)
