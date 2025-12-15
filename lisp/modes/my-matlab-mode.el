@@ -37,15 +37,18 @@
 ;; Do not use matlab-ts-mode because the tree-sitter grammar is not installed.
 (add-to-list 'auto-mode-alist '("\\.m\\'" . matlab-mode))
 
-(add-hook 'matlab-mode-hook #'flymake-mode)
-
 (with-eval-after-load 'matlab
   (require 'matlab-shell)
   (require 'matlab-topic)
 
-  (require 'flymake-codeissues)
+  (let ((load-path (append (list (expand-file-name "vendor/flymake-matlab"
+						   user-emacs-directory))
+			   load-path)))
+    (require 'flymake-matlab))
 
-  (add-hook 'matlab-mode-hook 'matlab-setup-flymake-backend)
+  (add-hook 'matlab-mode-hook #'flymake-mode)
+  (customize-set-variable 'flymake-matlab-backend 'auto)
+  (add-hook 'matlab-mode-hook #'flymake-matlab-setup)
 
   ;; `matlab-mode' mode is not a derivative of `prog-mode'.
   (cl-loop for hk in prog-mode-hook
