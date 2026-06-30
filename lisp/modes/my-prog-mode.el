@@ -79,15 +79,6 @@
 (add-to-list 'auto-mode-alist '("\\direnvrc'" . direnv-envrc-mode))
 (direnv-mode)
 
-;; REVIEW: Do I need both flycheck and flymake?
-(use-package flycheck
-  :disabled t
-  :hook (prog-mode . flycheck-mode)
-  :config
-  (setq flycheck-indication-mode 'right-fringe)
-  (define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
-    [16 48 112 240 112 48 16] nil nil 'center))
-
 (autoload 'manual-entry "man" nil t)
 (autoload 'Man-default-man-entry "man" nil t)
 (general-mmap
