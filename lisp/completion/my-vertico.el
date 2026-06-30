@@ -111,6 +111,17 @@
   [remap flymake-show-diagnostics-buffer] 'consult-flymake
   [remap recentf-open-files] 'consult-recent-file)
 
+(defun my-move-evil-command-to-consult ()
+  "Move a partial `evil-ex' search to `consult-line'."
+  (interactive)
+  (let ((search-term (minibuffer-contents)))
+    (run-at-time 0.1 nil #'consult-line search-term)
+    (exit-minibuffer)))
+
+(general-def
+  :keymaps 'evil-command-line-map
+  "C-o" 'my-move-evil-command-to-consult)
+
 (my-leader-def
   "O" 'consult-fd
   "L" 'consult-imenu-multi
