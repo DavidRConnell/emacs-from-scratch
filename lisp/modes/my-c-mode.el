@@ -36,14 +36,14 @@
 (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
 (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
 
-(with-eval-after-load 'c-ts-base-mode
-  (general-nmmap
-    :keymaps 'c-ts-base-mode-map
-    "gK" 'my-man-at-point)
+(general-nmap
+  :keymaps 'c-ts-base-mode-map
+  :prefix "g"
+  "K" 'my-man-at-point)
 
-  (my-local-leader-def
-    :keymaps 'c-ts-base-mode-map
-    "d" '(:keymap my-gud-map :which-key "debug")))
+(my-local-leader-def
+  :keymaps 'c-ts-base-mode-map
+  "d" '(:keymap my-gud-map :which-key "debug"))
 
 (add-hook 'c-ts-base-mode-hook #'eglot-ensure)
 (add-hook 'c-ts-base-mode-hook

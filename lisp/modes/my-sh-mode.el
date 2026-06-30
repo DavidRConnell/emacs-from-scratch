@@ -43,12 +43,18 @@
 (add-hook 'sh-base-mode-hook #'format-all-mode)
 
 (with-eval-after-load 'bash-ts-mode
- (customize-set-variable 'sh-indent-after-continuation 'always)
- (general-nmmap
-   :keymaps 'sh-base-mode-map
-   "gK" (lambda (arg)
-	   (interactive "P")
-	   (my-man-at-point arg 1))))
+  (customize-set-variable 'sh-indent-after-continuation 'always)
+  (general-nmap
+    :keymaps 'sh-base-mode-map
+    :prefix "g"
+    "K" (lambda (arg)
+	  (interactive "P")
+	  (my-man-at-point arg 1))))
+
+(my-local-leader-def
+  :keymaps 'bash-ts-mode-map
+  "," 'shell)
+
 
 (dolist (fn '(bats-run-current-test
 	      bats-run-current-file
@@ -72,14 +78,14 @@
 
 (with-eval-after-load 'bats-mode
   (general-nmap
-   :keymaps 'bats-mode-map
-   :prefix "C-c"
-   "C-c" 'bats-run-current-test
-   "C-b" 'bats-run-current-file)
+    :keymaps 'bats-mode-map
+    :prefix "C-c"
+    "C-c" 'bats-run-current-test
+    "C-b" 'bats-run-current-file)
 
   (my-local-leader-def
-   :keymaps 'bats-mode-map
-   "t" '(:keymap my-bats-map :which-key "test")))
+    :keymaps 'bash-ts-mode-map
+    "t" '(:keymap my-bats-map :which-key "test")))
 
 (provide 'my-sh-mode)
 ;;; my-sh-mode.el ends here

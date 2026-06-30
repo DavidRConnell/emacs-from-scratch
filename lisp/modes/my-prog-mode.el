@@ -50,6 +50,11 @@
   "p" 'gud-print
   "q" 'gud-finish)
 
+(general-def
+  :keymaps 'prog-mode-map
+  :prefix "C-c"
+  "C-o" 'xref-find-references)
+
 (add-hook 'prog-mode-hook
 	  (defun my-prog-mode-capfs ()
 	    (setq-local completion-at-point-functions
@@ -84,6 +89,11 @@
     [16 48 112 240 112 48 16] nil nil 'center))
 
 (autoload 'manual-entry "man" nil t)
+(autoload 'Man-default-man-entry "man" nil t)
+(general-mmap
+  :keymaps 'Man-mode-map
+  :prefix "g"
+  "K" 'my-man-at-point)
 
 (with-eval-after-load 'man
   (general-def
@@ -103,6 +113,10 @@
 		      (format "-a %s" base-command)))
 	   (buff-name (format "*Man %s*" command)))
       (manual-entry command))))
+
+(general-imap
+  :keymaps 'comint-mode-map
+  [return] 'comint-send-input)
 
 (require 'smartparens)
 (require 'smartparens-config)

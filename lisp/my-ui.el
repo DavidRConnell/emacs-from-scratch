@@ -204,7 +204,7 @@
 (customize-set-variable 'xref-show-definitions-function
 			#'xref-show-definitions-completing-read)
 
-(general-nmmap
+(general-nmap
   :prefix "g"
   "D" 'xref-find-definitions)
 

@@ -78,7 +78,7 @@
 
 (general-nmmap
   :prefix "C-c"
-  "C-r" 'vertico-repeat-last
+  "C-r" 'vertico-repeat
   "R" 'vertico-repeat-select)
 
 (customize-set-variable 'vertico-buffer-display-action
@@ -92,7 +92,8 @@
 			  ;; (consult-imenu buffer)
 			  ;; (consult-outline buffer)
 			  ;; (consult-xref buffer)
-			  (projectile-find-file grid)))
+			  (projectile-find-file grid)
+			  (project-find-file grid)))
 
 (customize-set-variable 'vertico-multiform-categories
 			'((file grid)))
@@ -131,7 +132,7 @@
   :keymaps 'my-project-map
   "g" 'consult-ripgrep)
 
-(general-nmmap
+(general-nmap
   :prefix "g"
   "n" (defun my-find-symbol ()
 	(interactive)

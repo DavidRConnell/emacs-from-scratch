@@ -81,14 +81,15 @@ calling window."
 
   (advice-add #'matlab-shell :around #'my-wrap-matlab-shell)
 
-  (general-nmmap
+  (general-nmap
     :keymaps '(matlab-mode-map matlab-shell-mode-map matlab-shell-help-mode-map)
-    "gK" (defun my-matlab-help-at-point ()
-	   (interactive)
-	   (matlab-shell-describe-command
-	    (matlab-read-word-at-point)))
-    "gD" 'matlab-shell-locate-fcn
-    "gr" 'xref-find-references)
+    :prefix "g"
+    "K" (defun my-matlab-help-at-point ()
+	  (interactive)
+	  (matlab-shell-describe-command
+	   (matlab-read-word-at-point)))
+    "D" 'matlab-shell-locate-fcn
+    "r" 'xref-find-references)
 
   (general-nvmap
     :keymaps 'matlab-mode-map

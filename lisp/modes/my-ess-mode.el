@@ -92,7 +92,7 @@
   (autoload 'ess-help "ess-help" nil t)
   (autoload 'ess-display-vignettes "ess-help" nil t)
   (autoload 'ess-display-help-apropos "ess-help" nil t)
-  (general-nmmap
+  (general-nmap
     :keymaps '(ess-r-mode-map ess-help-mode-map)
     :prefix "g"
     "K" 'ess-help
