@@ -35,18 +35,17 @@
 (autoload 'cython-mode "cython-mode")
 (add-to-list 'auto-mode-alist '("\\.pyx\\'" . cython-mode))
 
-(autoload 'python-ts-mode "python-ts-mode")
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
-(with-eval-after-load 'python-ts-mode
+(with-eval-after-load 'python
   (add-hook 'python-ts-mode-hook #'eglot-ensure)
+  (add-hook 'python-ts-mode-hook
+	    (lambda ()
+	      (setq-local format-all-formatters '(("Python" ruff (ruff "check" "--fix-only"))))))
   (add-hook 'python-ts-mode-hook #'format-all-mode)
 
   (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '(python-ts-mode "pylsp")))
-
-  (with-eval-after-load 'format-all
-    (lambda () (setq-local format-all-formatters '(("Python" isort black)))))
+    (add-to-list 'eglot-server-programs '(python-ts-mode "rass" "python")))
 
   (customize-set-variable 'python-indent-guess-indent-offset-verbose nil)
   (customize-set-variable 'python-shell-interpreter "ipython")
@@ -75,12 +74,12 @@
     "Open python in project root instead of `default-directory' and return to
 calling window."
 
-   (let ((old-dir default-directory)
+    (let ((old-dir default-directory)
 	  (win (selected-window)))
-     (cd (projectile-project-root))
-     (apply fun args)
-     (select-window win)
-     (cd old-dir)))
+      (cd (projectile-project-root))
+      (apply fun args)
+      (select-window win)
+      (cd old-dir)))
 
   (advice-add 'run-python :around #'my-wrap-run-python)
 
