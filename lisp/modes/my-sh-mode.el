@@ -55,6 +55,7 @@
   :keymaps 'bash-ts-mode-map
   "," 'shell)
 
+(my-popper-add-reference "\\*shell\\*")
 
 (dolist (fn '(bats-run-current-test
 	      bats-run-current-file
