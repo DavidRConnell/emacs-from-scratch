@@ -52,14 +52,14 @@
   "Selectively turn on flymake in `text-mode'.
 
 Prevents `flymake-proselint' from showing errors in note files."
-  (let* ((current-file (file-name-nondirectory (buffer-file-name)))
+  (let* ((current-file (file-name-nondirectory (or (buffer-file-name) "")))
 	 (in-roam-note-p (or (string= current-file "todo.org")
 			     (and (featurep 'org-roam)
 				  (org-roam-file-p current-file)))))
     (unless in-roam-note-p
       (flymake-mode))))
 
-(add-hook 'text-mode-hook #'my-maybe-turn-on-flymake)
+;; (add-hook 'text-mode-hook #'my-maybe-turn-on-flymake)
 
 (add-hook 'text-mode-hook
 	  (defun my-text-mode-capfs ()
