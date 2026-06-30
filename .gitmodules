@@ -3,7 +3,7 @@
 	url = https://github.com/DavidRConnell/tempel-collection
 [submodule "vendor/nano-emacs"]
 	path = vendor/nano-emacs
-	url = https://github.com/rougier/nano-emacs
+	url = https://github.com/DavidRConnell/nano-emacs.git
 [submodule "vendor/doom-snippets"]
 	path = vendor/doom-snippets
 	url = https://github.com/doomemacs/snippets
