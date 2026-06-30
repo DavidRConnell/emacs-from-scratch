@@ -224,11 +224,6 @@
 
   (customize-set-variable 'dired-dwim-target t))
 
-;; (autoload 'flyspell-correct-wrapper "flyspell-correct")
-;; (general-nmap
-;;   "z=" 'flyspell-correct-wrapper)
-
-
 (require 'delim-col)
 (customize-set-variable 'delimit-columns-str-separator " | ")
 (customize-set-variable 'delimit-columns-format 'padding)
