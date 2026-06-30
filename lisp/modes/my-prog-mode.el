@@ -86,18 +86,9 @@
   :prefix "g"
   "K" 'my-man-at-point)
 
-(with-eval-after-load 'man
-  (general-def
-    :keymaps Man-mode-map
-    "gK" 'my-man-at-point))
-
-;; REVIEW: Not sure if I want this to be a pop up or regular?
-;; If a pop up, possibly wrap manual call in `save-selected-window'.
-;; (my-popper-add-reference 'Man-mode)
 (defun my-man-at-point (arg &optional section)
   (interactive "P")
-  (if arg
-      (call-interactively #'manual-entry)
+  (if arg (call-interactively #'manual-entry)
     (let* ((base-command (Man-default-man-entry))
 	   (command (if section
 			(format "%d %s" section base-command)
