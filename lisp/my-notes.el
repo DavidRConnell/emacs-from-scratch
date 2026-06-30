@@ -108,13 +108,13 @@
   (customize-set-variable 'org-roam-completion-everywhere t)
   (customize-set-variable
    'org-roam-capture-templates
-   '(("d" "default" plain "%?"
-      :target (file+head (format "%%<%s>.org" my-note-naming-format)
+   `(("d" "default" plain "%?"
+      :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
 			 "#+TITLE: ${title}\n\n- tags :: ")
       :jump-to-captured t
       :unnarrowed t)
      ("i" "immediate" plain "%?"
-      :target (file+head (format "%%<%s>.org" my-note-naming-format)
+      :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
 			 "#+TITLE: ${title}\n")
       :unnarrowed t
       :immediate-finish t)
@@ -143,15 +143,15 @@
 
     (customize-set-variable
      'citar-notes-sources
-     '((citar-file :name "Notes"
-		   :category file
-		   :items citar-file--get-notes
-		   :hasitems citar-file--has-notes
-		   :open find-file
-		   :create orb-citar-edit-note
-		   :transform file-name-nondirectory)))
+     '((citar-org-roam :name "Notes"
+		       :category file
+		       :items citar-file--get-notes
+		       :hasitems citar-file--has-notes
+		       :open find-file
+		       :create orb-citar-edit-note
+		       :transform file-name-nondirectory)))
 
-    (customize-set-variable 'citar-org-roam-capture-template-key "r")
+   (customize-set-variable 'citar-org-roam-capture-template-key "r")
     (citar-org-roam-mode))
 
   (with-eval-after-load 'org-roam-dailies
