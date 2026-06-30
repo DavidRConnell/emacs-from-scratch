@@ -30,21 +30,23 @@
 (require 'my-variables)
 (require 'my-keybindings)
 
-(autoload 'bibtex-completion-add-pdf-to-library "bibtex-completion")
-(autoload 'org-ref-clean-bibtex-entry "org-ref-bibtex" nil t)
+(add-to-list 'load-path
+	     (expand-file-name "vendor/org-ref-bibtex" user-emacs-directory))
 
+(autoload 'bibtex-completion-add-pdf-to-library "bibtex-completion")
 (with-eval-after-load 'bibtex-completion
   (customize-set-variable 'bibtex-completion-bibliography my-refs-master-bib)
   (customize-set-variable 'bibtex-completion-notes-path my-refs-notes-dir)
   (customize-set-variable 'bibtex-completion-library-path my-refs-stores))
 
+(autoload 'org-ref-clean-bibtex-entry "org-ref-bibtex" nil t)
+(general-nmap
+  :keymaps 'bibtex-mode-map
+  :prefix "C-c"
+  "C-c" 'org-ref-clean-bibtex-entry)
+
 (with-eval-after-load 'org-ref-bibtex
   (require 'bibtex-completion)
-
-  (general-nmap
-    :keymaps 'bibtex-mode-map
-    :prefix "C-c"
-    "C-c" 'org-ref-clean-bibtex-entry)
 
   (add-to-list 'org-ref-bibtex-journal-abbreviations
 	       '("CC" "Cerebral Cortex" "Cereb. Cortex")))
@@ -52,6 +54,7 @@
 (autoload 'arxiv-get-pdf-add-bibtex-entry "org-ref-arxiv" nil t)
 (autoload 'doi-utils-add-bibtex-entry-from-doi "doi-utils" nil t)
 (autoload 'isbn-to-bibtex "org-ref-isbn" nil t)
+(autoload 'org-ref-possible-bibfiles "org-ref-core" nil t)
 
 (general-def
   :keymaps 'my-reference-map

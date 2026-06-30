@@ -30,6 +30,12 @@
 (add-to-list 'load-path
              (expand-file-name "lisp/" user-emacs-directory))
 
+;; Prevent packages from loading org-ref.
+(setq load-path (remq nil
+		      (mapcar (lambda (p)
+				(if (string-match-p "org-ref-20" p) nil p))
+			      load-path)))
+
 (require 'my-variables)
 (require 'my-tidy-files)
 (require 'my-straight-bootstrap)

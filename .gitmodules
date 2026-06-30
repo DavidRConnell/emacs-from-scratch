@@ -10,3 +10,6 @@
 [submodule "vendor/flymake-matlab"]
 	path = vendor/flymake-matlab
 	url = https://github.com/DavidRConnell/flymake-matlab
+[submodule "vendor/org-ref-bibtex"]
+	path = vendor/org-ref-bibtex
+	url = https://github.com/DavidRConnell/min-org-ref.git
