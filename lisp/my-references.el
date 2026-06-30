@@ -109,6 +109,27 @@
   (customize-set-variable 'org-cite-follow-processor 'citar)
   (customize-set-variable 'org-cite-activate-processor 'citar)
 
+  (defun my-org-roam-citation-finder ()
+    "Return the citation keys for the currently visited org-roam reference note."
+    (when-let (property (and (eq major-mode 'org-mode)
+			     (car (org-property-values "ROAM_REFS"))))
+      (if (string-match org-element-citation-key-re property)
+	  (let ((key (match-string 1 property)))
+	    (cons 'citar-key key)))))
+
+  (with-eval-after-load 'embark
+    (require 'citar-embark)
+
+    (customize-set-variable 'citar-at-point-function 'embark-act)
+    (add-to-list 'embark-target-finders #'my-org-roam-citation-finder)
+    (citar-embark-mode)))
+
+(autoload 'citar-open "citar")
+(with-eval-after-load 'citar
+  (general-def
+    :keymaps 'my-reference-map
+    "c" 'citar-open)
+
   (customize-set-variable 'citar-bibliography my-refs-bibs)
   (customize-set-variable 'citar-library-paths my-refs-stores)
   (customize-set-variable 'citar-file-additional-files-separator "_supp-")
@@ -128,22 +149,7 @@
 	  "Add a file to reference library associated with KEY."
 	  (interactive (list (citar-select-ref)))
 	  (message "%s" key)
-	  (bibtex-completion-add-pdf-to-library (list key))))
-
-  (defun my-org-roam-citation-finder ()
-    "Return the citation keys for the currently visited org-roam reference note."
-    (when-let (property (and (eq major-mode 'org-mode)
-			     (car (org-property-values "ROAM_REFS"))))
-      (if (string-match org-element-citation-key-re property)
-	  (let ((key (match-string 1 property)))
-	    (cons 'citar-key key)))))
-
-  (with-eval-after-load 'embark
-    (require 'citar-embark)
-
-    (customize-set-variable 'citar-at-point-function 'embark-act)
-    (add-to-list 'embark-target-finders #'my-org-roam-citation-finder)
-    (citar-embark-mode)))
+	  (bibtex-completion-add-pdf-to-library (list key)))))
 
 (autoload 'ebib "ebib")
 
