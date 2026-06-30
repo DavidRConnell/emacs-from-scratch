@@ -50,23 +50,21 @@
   :keymaps 'my-project-map
   "o" 'projectile-switch-project
   "O" 'projectile-switch-open-project
-  "b" 'my-projectile-switch-buffer-other-project
+  "b" 'project-switch-to-buffer
   "w" 'projectile-save-project-buffers
   "-" 'project-dired
-  "q" 'projectile-kill-buffers
+  "q" 'project-kill-buffers
   "c" 'projectile-compile-project
   "t" 'projectile-test-project)
 
 (my-leader-def
-  "SPC" #'projectile-find-file
+  "SPC" 'project-find-file
   "," (defun my-open-term-in-project-or-dir ()
 	"If in a projectile recognized directory open term in project root.
 Otherwise open in `default-directory'."
 
 	(interactive)
-	(if (projectile-project-p)
-	    (my-term (projectile-project-root))
-	  (my-term)))
+	(my-term (projectile-project-root)))
 
   "." (defun my-find-dot-file ()
 	"Find a file in `user-emacs-directory'."
@@ -84,8 +82,15 @@ Otherwise open in `default-directory'."
   (customize-set-variable 'projectile-completion-system 'default)
   (customize-set-variable 'projectile-cache-file
 			  (expand-file-name "projects" my-cache-dir))
-  (customize-set-variable ' projectile-git-submodule-command nil)
-  (customize-set-variable ' projectile-git-use-fd nil)
+  (customize-set-variable 'projectile-git-submodule-command nil)
+  (customize-set-variable 'projectile-git-use-fd nil)
+
+  (defun my-projectile-test-prefix (project-type)
+    "Find default test files prefix based on PROJECT-TYPE."
+    (projectile-project-type-attribute project-type 'test-prefix "test_"))
+
+  (customize-set-variable
+   'projectile-test-prefix-function #'my-projectile-test-prefix)
 
   (projectile-cleanup-known-projects)
 
