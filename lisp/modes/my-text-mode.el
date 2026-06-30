@@ -71,7 +71,8 @@ Prevents `flymake-proselint' from showing errors in note files."
 (straight-use-package
  '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv"))
 
-(autoload 'sdcv-search "sdcv-mode" nil t)
+(autoload 'sdcv-search "sdcv" nil t)
+(autoload 'sdcv-search-input "sdcv" nil t)
 (autoload 'wiki-summary "wiki-summary" nil t)
 (autoload 'wordnut-search "wordnut" nil t)
 
@@ -80,11 +81,11 @@ Prevents `flymake-proselint' from showing errors in note files."
 
 (general-def
   :keymaps 'my-dictionary-map
-  "d" 'sdcv-search
+  "d" 'sdcv-search-input
   "k" 'wiki-summary
   "w" 'wordnut-search)
 
-(with-eval-after-load 'sdcv-mode
+(with-eval-after-load 'sdcv
   (general-nmap
     :keymaps 'sdcv-mode-map
     "q" 'evil-delete-buffer
