@@ -48,6 +48,7 @@
   "n" '(diff-hl-next-hunk :jump t)
   "p" '(diff-hl-previous-hunk :jump t))
 
+(setq forge-add-default-bindings t)
 (with-eval-after-load 'magit
   (require 'magit-todos)
 
@@ -56,11 +57,9 @@
 
   (add-hook 'magit-mode-hook #'magit-todos-mode)
 
-  (autoload 'forge-notifications-menu "forge")
-  (autoload 'forge-topic-menu "forge")
-
-  (with-eval-after-load 'forge
-    (set forge-add-default-bindings nil)))
+  (autoload 'forge-dispatch "forge")
+  (autoload 'forge-pull "forge")
+  (autoload 'forge-pull-notifications "forge"))
 
 (with-eval-after-load 'git-rebase
   (general-def
