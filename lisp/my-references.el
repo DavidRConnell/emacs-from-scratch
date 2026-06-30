@@ -94,9 +94,11 @@
   (defun my-citar-insert ()
     "Use citar to insert a citation but use the local bib file if available."
     (interactive)
-    (let* ((bib (citar-org-local-bib-files))
-	   (citar-bibliography (if bib
-				   bib citar-bibliography)))
+    (let* ((bibs (mapcar (lambda (relpath)
+			   (expand-file-name relpath (projectile-project-root)))
+			 (omnix-search-get-candidates
+			  (omnix-search-keyword-re "BIBLIOGRAPHY" "\\(.*\\)"))))
+	   (citar-bibliography (or bibs citar-bibliography)))
 
       (call-interactively #'org-cite-insert)))
 
