@@ -40,12 +40,8 @@
   "d" '(:keymap my-dailies-map :which-key dailies)
   "m" '(:keymap my-roam-map :which-key dailies))
 
-(dolist (fn '(org-roam-capture
-	      org-roam-node-find
-	      org-roam-node-insert
-	      org-roam-buffer-toggle
-	      org-roam-buffer-display-dedicated))
-  (autoload fn "org-roam" nil t))
+(require 'org-roam)
+
 (general-def
   :keymaps 'my-roam-map
   "x" 'org-roam-capture
