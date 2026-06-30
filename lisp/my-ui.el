@@ -275,8 +275,8 @@
 (general-nmap
   "gx" 'evil-exchange)
 
-(autoload 'evil-inner-text-objects-map "evil-args")
-(autoload 'evil-outer-text-objects-map "evil-args")
+(autoload 'evil-inner-arg "evil-args")
+(autoload 'evil-outer-arg "evil-args")
 
 (general-define-key
  :keymaps 'evil-inner-text-objects-map
