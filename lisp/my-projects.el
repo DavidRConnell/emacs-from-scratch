@@ -40,6 +40,7 @@
 	      projectile-compile-project
 	      projectile-test-project
 	      projectile-find-file
+	      projectile-project-root
 	      projectile-ripgrep
 	      projectile-find-file-in-directory
 	      projectile-project-p))
