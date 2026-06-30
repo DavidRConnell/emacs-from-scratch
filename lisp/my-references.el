@@ -79,6 +79,10 @@
 			  (expand-file-name "csl/styles"
 					    (getenv "XDG_DATA_HOME"))))
 
+(with-eval-after-load 'markdown-mode
+  (require 'citar)
+  (require 'citar-markdown))
+
 (with-eval-after-load 'oc
   (require 'citar)
   (require 'citar-org)
