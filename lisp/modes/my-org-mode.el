@@ -1,4 +1,4 @@
-;;; writting.el --- packages for writing -*- lexical-binding: t; -*-
+;;; my-org-mode.el --- packages for writing -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 David R. Connell
 ;;
