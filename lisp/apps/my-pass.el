@@ -32,7 +32,8 @@
 (require 'auth-source)
 
 (customize-set-variable 'auth-source-pass-filename
-			(expand-file-name "password-store" my-var-dir))
+			(expand-file-name "password-store"
+					  (getenv "XDG_DATA_HOME")))
 
 (auth-source-pass-enable)
 (auth-source-forget-all-cached)
