@@ -34,6 +34,9 @@
 (autoload 'eglot "eglot")
 (autoload 'eglot-ensure "eglot")
 
+(setq-default eglot-workspace-configuration
+	      '(:ty (:completions (:autoImport :json-false))))
+
 (with-eval-after-load 'eglot
   (require 'straight)
 
