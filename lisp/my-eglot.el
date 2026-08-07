@@ -56,6 +56,8 @@
     "p" 'flymake-goto-prev-error
     "q" 'eglot-code-action-quickfix)
 
+  (add-to-list 'eglot-stay-out-of 'imenu)
+
   (require 'eglot-booster)
   (eglot-booster-mode))
 
