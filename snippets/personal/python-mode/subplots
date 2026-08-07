@@ -1,0 +1,4 @@
+# key: plt
+# name: subplots
+# --
+fig, ax = plt.subplots()

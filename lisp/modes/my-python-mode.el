@@ -40,7 +40,8 @@
 (defun my-python-imenu-setup ()
   (setq-local imenu-create-index-function 'treesit-simple-imenu)
   (setq-local treesit-simple-imenu-settings
-	      `(("Functions" ,(rx "function_definition")
+	      `(("Cells" ,(rx "comment") my-python-cell-p my-python-cell-name)
+		("Functions" ,(rx "function_definition")
 		 (lambda (node) (not (my-python-method-p node))) nil)
 		("Classes" ,(rx "class_definition") nil nil)
 		("Methods" ,(rx "function_definition") my-python-method-p my-python-method-name)
@@ -156,7 +157,8 @@ calling window."
 					  (?c "Classes" font-lock-type-face)
 					  (?i "Imports" font-lock-property-name-face)
 					  (?m "Methods" font-lock-function-name-face)
-					  (?v "Variables" font-lock-variable-name-face)))))
+					  (?v "Variables" font-lock-variable-name-face)
+					  (?l "Cells" font-lock-comment-face)))))
 
   ;; REVIEW: Which help is better.
   (general-nmap
@@ -210,6 +212,13 @@ calling window."
 	(value-name
 	 (treesit-node-text (treesit-node-child-by-field-name node "right"))))
     (format "%s = %s" var-name value-name)))
+
+(defun my-python-cell-p (node)
+  (s-starts-with-p "##" (treesit-node-text node)))
+
+(defun my-python-cell-name (node)
+  (let ((val (treesit-node-text node)))
+    (string-clean-whitespace (s-chop-prefix "##" val))))
 
 
 (provide 'my-python-mode)
