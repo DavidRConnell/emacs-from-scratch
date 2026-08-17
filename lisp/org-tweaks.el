@@ -27,83 +27,40 @@
 
 ;;; Code:
 
-(defun +org--insert-item (direction)
-  (let ((context (org-element-lineage
-                  (org-element-context)
-                  '(table table-row headline inlinetask item plain-list)
-                  t)))
-    (pcase (org-element-type context)
-      ;; Add a new list item (carrying over checkboxes if necessary)
-      ((or `item `plain-list)
-       ;; Position determines where org-insert-todo-heading and org-insert-item
-       ;; insert the new list item.
-       (org-beginning-of-item)
-       ;; (if (eq direction 'above)
-       ;; 	   (progn
-       ;; 	     (org-end-of-item)
-       ;; 	     (backward-char 2)))
-       (let ((element (org-element-property :checkbox context)))
-	 (if (eq direction 'below)
-	     (org-end-of-item))
-	 (org-insert-item element))
-       ;; Handle edge case where current item is empty and bottom of list is
-       ;; flush against a new heading.
-       (when (and (eq direction 'below)
-		  (eq (org-element-property :contents-begin context)
-		      (org-element-property :contents-end context)))
-	 (org-end-of-item)
-	 (org-end-of-line)))
+(defun my-org-insert-item (direction)
+  (cond ((org-at-item-p)
+	 (org-beginning-of-item)
+	 (org-insert-item (org-element-property :checkbox
+						(org-element-at-point))))
+	((org-at-table-p) (org-table-insert-row))
+	(t
+	 (let ((level (or (org-current-level) 1)))
+           ;; I intentionally avoid `org-insert-heading' and the like because they
+           ;; impose unpredictable whitespace rules depending on the cursor
+           ;; position. It's simpler to express this command's responsibility at a
+           ;; lower level than work around all the quirks in org's API.
+	   (let ((todo-keyword (org-element-property :todo-keyword
+						     (org-element-at-point))))
+             (org-back-to-heading)
+             (insert (make-string level ?*) " ")
+             (save-excursion (insert "\n"))
+	     (when (string= todo-keyword "DONE")
+	       (setq todo-keyword "TODO"))
+	     (when (stringp todo-keyword) (insert todo-keyword " "))))))
 
-      ;; Add a new table row
-      ((or `table `table-row)
-       (pcase direction
-         ('below (save-excursion (org-table-insert-row t))
-                 (org-table-next-row))
-         ('above (save-excursion (org-shiftmetadown))
-                 (+org/table-previous-row))))
-
-      ;; Otherwise, add a new heading, carrying over any todo state, if
-      ;; necessary.
-      (_
-       (let ((level (or (org-current-level) 1)))
-         ;; I intentionally avoid `org-insert-heading' and the like because they
-         ;; impose unpredictable whitespace rules depending on the cursor
-         ;; position. It's simpler to express this command's responsibility at a
-         ;; lower level than work around all the quirks in org's API.
-         (pcase direction
-           (`below
-            (let (org-insert-heading-respect-content)
-              (goto-char (line-end-position))
-              (org-end-of-subtree)
-              (insert "\n" (make-string level ?*) " ")))
-           (`above
-            (org-back-to-heading)
-            (insert (make-string level ?*) " ")
-            (save-excursion (insert "\n"))))
-         (when-let* ((todo-keyword (org-element-property :todo-keyword context))
-                     (todo-type    (org-element-property :todo-type context)))
-           (org-todo
-            (cond ((eq todo-type 'done)
-                   ;; Doesn't make sense to create more "DONE" headings
-                   (car (+org-get-todo-keywords-for todo-keyword)))
-                  (todo-keyword)
-                  ('todo)))))))
-
-    (when (org-invisible-p)
-      (org-show-hidden-entry))
-    (when (and (bound-and-true-p evil-local-mode)
-               (not (evil-emacs-state-p)))
-      (evil-insert 1))))
+  (when (eq direction 'below)
+    (message "metadown")
+    (org-metadown)))
 
 (defun +org/insert-item-below (count)
   "Inserts a new heading, table cell or item below the current one."
   (interactive "p")
-  (dotimes (_ count) (+org--insert-item 'below)))
+  (dotimes (_ count) (my-org-insert-item 'below)))
 
 (defun +org/insert-item-above (count)
   "Inserts a new heading, table cell or item above the current one."
   (interactive "p")
-  (dotimes (_ count) (+org--insert-item 'above)))
+  (dotimes (_ count) (my-org-insert-item 'above)))
 
 (provide 'org-tweaks)
 ;;; org-tweaks.el ends here
