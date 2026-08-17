@@ -54,7 +54,8 @@
     "f" 'eglot-format
     "n" 'flymake-goto-next-error
     "p" 'flymake-goto-prev-error
-    "q" 'eglot-code-action-quickfix)
+    "q" 'eglot-code-action-quickfix
+    "h" 'eglot-inlay-hints-mode)
 
   (add-to-list 'eglot-stay-out-of 'imenu)
 
