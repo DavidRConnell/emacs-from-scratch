@@ -40,13 +40,14 @@
 (defun my-python-imenu-setup ()
   (setq-local imenu-create-index-function 'treesit-simple-imenu)
   (setq-local treesit-simple-imenu-settings
-	      `(("Cells" ,(rx "comment") my-python-cell-p my-python-cell-name)
-		("Functions" ,(rx "function_definition")
+	      `(("Cells" "comment" my-python-cell-p my-python-cell-name)
+		("Functions" "function_definition"
 		 (lambda (node) (not (my-python-method-p node))) nil)
-		("Classes" ,(rx "class_definition") nil nil)
-		("Methods" ,(rx "function_definition") my-python-method-p my-python-method-name)
-		("Variables" ,(rx "assignment") my-python-global-var-p my-python-global-var-name)
-		("Imports" ,(rx "import_" (? "from_") "statement") nil my-python-import-name))))
+		("Classes" "class_definition" nil nil)
+		("Methods" "function_definition" my-python-method-p my-python-method-name)
+		("Variables" "assignment" my-python-global-var-p my-python-global-var-name)
+		("Imports" ,(rx "import_" (? "from_") "statement") nil my-python-import-name)
+		("TODOs" "comment" my-python-todo-p my-python-todo-name))))
 
 (with-eval-after-load 'python
   (require 'python-cell)
@@ -137,19 +138,6 @@ calling window."
 	(goto-line 1))
       (switch-to-buffer-other-window buff)))
 
-  ;; (defun my-python-imenu-format-item-label (type name)
-  ;;   (format "ITEM %s: %s" type name))
-
-  ;; (defun my-python-imenu-format-parent-item-label (type name)
-  ;;   (format "PARENT %s: %s" type name))
-
-  ;; (defun my-python-imenu-format-parent-item-jump-label (type name)
-  ;;   (format "JUMP %s: %s" type name))
-
-  ;; (setq python-imenu-format-item-label-function 'my-python-imenu-format-item-label)
-  ;; (setq python-imenu-format-parent-item-label-function 'my-python-imenu-format-parent-item-label)
-  ;; (setq python-imenu-format-parent-item-jump-label-function 'my-python-imenu-format-parent-item-jump-label)
-
   (with-eval-after-load 'consult-imenu
     (add-to-list 'consult-imenu-config
 		 '(python-ts-mode :toplevel "Functions"
@@ -158,7 +146,8 @@ calling window."
 					  (?i "Imports" font-lock-property-name-face)
 					  (?m "Methods" font-lock-function-name-face)
 					  (?v "Variables" font-lock-variable-name-face)
-					  (?l "Cells" font-lock-comment-face)))))
+					  (?l "Cells" font-lock-comment-face)
+					  (?t "TODOs" font-lock-keyword-face)))))
 
   ;; REVIEW: Which help is better.
   (general-nmap
@@ -203,7 +192,6 @@ calling window."
 	 (treesit-parent-until node (lambda (item)
 				      (string= (treesit-node-type item)
 					       "block")))))
-    (message "Parent %s" parent-node)
     (not parent-node)))
 
 (defun my-python-global-var-name (node)
@@ -214,11 +202,28 @@ calling window."
     (format "%s = %s" var-name value-name)))
 
 (defun my-python-cell-p (node)
-  (s-starts-with-p "##" (treesit-node-text node)))
+  (and (string-prefix-p "##" (treesit-node-text node))
+       (not (my-python-todo-p node))))
 
 (defun my-python-cell-name (node)
   (let ((val (treesit-node-text node)))
-    (string-clean-whitespace (s-chop-prefix "##" val))))
+    (string-clean-whitespace (string-remove-prefix "##" val))))
+
+(defun my-python-todo-p (node)
+  (let ((context (treesit-node-text node))
+	(keyword-re (rx bol (* whitespace)
+			(+ "#") (* whitespace)
+			(or "TODO" "FIXME" "BUG" "NOTE" "WARNING")
+			":")))
+    (string-match-p keyword-re context)))
+
+(defun my-python-todo-name (node)
+  (let ((val (string-clean-whitespace (treesit-node-text node)))
+	(comment-chars 0))
+    (while (string-prefix-p "#"
+			    (substring val comment-chars (+ comment-chars 1)))
+      (setq comment-chars (+ comment-chars 1)))
+    (substring val comment-chars)))
 
 
 (provide 'my-python-mode)

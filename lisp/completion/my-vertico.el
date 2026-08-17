@@ -128,9 +128,14 @@
   "L" 'consult-imenu-multi
   "s" 'consult-outline)
 
+(defun my-consult-todo-ripgrep (&optional dir)
+  (interactive "P")
+  (consult-ripgrep dir (rx (or "TODO" "WARNING" "FIXME" "BUG" "NOTE") ":")))
+
 (general-def
   :keymaps 'my-project-map
-  "g" 'consult-ripgrep)
+  "g" 'consult-ripgrep
+  "k" 'my-consult-todo-ripgrep)
 
 (general-nmap
   :prefix "g"
