@@ -40,6 +40,7 @@
 (with-eval-after-load 'eglot
   (require 'straight)
 
+  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (straight-use-package '(eglot-booster
 			  :type git
 			  :host github
