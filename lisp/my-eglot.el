@@ -57,6 +57,7 @@
     "q" 'eglot-code-action-quickfix
     "h" 'eglot-inlay-hints-mode)
 
+  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
   (add-to-list 'eglot-stay-out-of 'imenu)
 
   (require 'eglot-booster)
