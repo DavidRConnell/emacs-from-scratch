@@ -426,6 +426,8 @@
    ("DEPRECATED" font-lock-doc-face bold)
    ("TEMP"       modus-themes-prominent-warning bold)))
 
+(setq my-todo-keywords (mapcar (lambda (x) (car x)) hl-todo-keyword-faces))
+
 (global-hl-todo-mode)
 
 (provide 'my-ui)

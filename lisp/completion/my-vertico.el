@@ -130,7 +130,8 @@
 
 (defun my-consult-todo-ripgrep (&optional dir)
   (interactive "P")
-  (consult-ripgrep dir (rx (or "TODO" "WARNING" "FIXME" "BUG" "NOTE") ":")))
+  (let ((regex (rx-to-string `(seq (or ,@my-todo-keywords) ":"))))
+    (consult-ripgrep dir regex)))
 
 (general-def
   :keymaps 'my-project-map

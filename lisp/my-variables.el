@@ -60,6 +60,8 @@
 (defvar my-alternate-dictionary
   (expand-file-name "dicts/en-common.wl" my-var-dir))
 
+(defvar my-todo-keywords '("TODO" "WARNING" "FIXME" "BUG" "NOTE"))
+
 (setenv "PATH" (format "%s:%s" (getenv "PATH") "~/bin"))
 
 (provide 'my-variables)

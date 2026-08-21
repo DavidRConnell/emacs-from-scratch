@@ -211,10 +211,10 @@ calling window."
 
 (defun my-python-todo-p (node)
   (let ((context (treesit-node-text node))
-	(keyword-re (rx bol (* whitespace)
-			(+ "#") (* whitespace)
-			(or "TODO" "FIXME" "BUG" "NOTE" "WARNING")
-			":")))
+	(keyword-re (rx-to-string
+		     `(seq  bol (* whitespace)
+			    (+ "#") (* whitespace)
+			    (or ,@my-todo-keywords) ":"))))
     (string-match-p keyword-re context)))
 
 (defun my-python-todo-name (node)
