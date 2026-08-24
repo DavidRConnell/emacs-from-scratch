@@ -42,8 +42,7 @@
 
 (fset 'yes-or-no-p #'y-or-n-p)
 
-(customize-set-variable 'inhibit-startup-screen nil)
-(customize-set-variable 'inhibit-startup-message t)
+(customize-set-variable 'inhibit-startup-screen t)
 (customize-set-variable 'inhibit-startup-echo-area-message t)
 (customize-set-variable 'initial-scratch-message nil)
 
