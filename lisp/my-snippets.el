@@ -66,15 +66,23 @@
 
   (yas-global-mode))
 
-(require 'yatemplate)
-(with-eval-after-load 'yatemplate
-  (require 'yasnippet)
+(defun my-yatemplate-lazy-init ()
+  "Defer loading yatemplate until an empty/new file is opened."
+  (when (and buffer-file-name
+             (not (file-exists-p buffer-file-name)))
+    (remove-hook 'find-file-hook #'my/yatemplate-lazy-init)
 
-  (customize-set-variable 'yatemplate-dir
-			  (expand-file-name "file-templates"
-					    user-emacs-directory))
-  (auto-insert-mode)
-  (yatemplate-fill-alist))
+    (require 'yatemplate)
+    (customize-set-variable 'yatemplate-dir
+                            (expand-file-name "file-templates"
+					      user-emacs-directory))
+    (yatemplate-fill-alist)
+    (auto-insert-mode)
+
+    ;; Trigger auto-insert for the current new file that triggered the load
+    (auto-insert)))
+
+(add-hook 'find-file-hook #'my-yatemplate-lazy-init)
 
 (provide 'my-snippets)
 ;;; my-snippets.el ends here
