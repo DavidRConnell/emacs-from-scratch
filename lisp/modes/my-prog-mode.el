@@ -104,7 +104,7 @@
 (require 'smartparens-config)
 (require 'evil-smartparens)
 
-(setq-default smartparens-strict-mode t)
+(setq-default smartparens-strict-mode nil)
 (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 
 (smartparens-global-mode)
