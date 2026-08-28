@@ -69,7 +69,7 @@
   (customize-set-variable 'python-shell-interpreter "ipython")
   (customize-set-variable 'python-shell-interpreter-args
 			  "-i --simple-prompt --InteractiveShell.display_page=True")
-  (customize-set-variable 'python-shell-completion-native-enable nil)
+  (customize-set-variable 'python-shell-completion-native-enable t)
 
   (my-popper-add-reference "\\*pytest\\*.*")
   (my-popper-add-reference "\\*Python\\*")
