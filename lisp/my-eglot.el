@@ -41,6 +41,7 @@
   (require 'straight)
 
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
+
   (straight-use-package '(eglot-booster
 			  :type git
 			  :host github
@@ -62,6 +63,8 @@
   (add-to-list 'eglot-stay-out-of 'imenu)
 
   (require 'eglot-booster)
+  (customize-set-variable 'eglot-booster-no-remote-boost t)
+
   (eglot-booster-mode))
 
 (provide 'my-eglot)
