@@ -31,6 +31,12 @@
 
 (require 'eww)
 
+(with-eval-after-load 'browse-url
+  (customize-set-variable 'browse-url-browser-function 'eww-browse-url))
+
+(with-eval-after-load 'shr
+  (customize-set-variable 'shr-use-fonts nil))
+
 (defun mozilla-readable (url)
   (let ((buff (format "*readable-%s*" url)))
     (with-current-buffer (get-buffer-create buff)
