@@ -1,15 +1,21 @@
 [submodule "packages/tempel-collection"]
 	path = vendor/tempel-collection
-	url = https://github.com/DavidRConnell/tempel-collection
+	url = https://gitlab.com/mhelpa/tempel-collection
 [submodule "vendor/nano-emacs"]
 	path = vendor/nano-emacs
-	url = https://github.com/DavidRConnell/nano-emacs.git
+	url = https://gitlab.com/mhelpa/nano-emacs
 [submodule "vendor/doom-snippets"]
 	path = vendor/doom-snippets
-	url = https://github.com/doomemacs/snippets
+	url = https://gitlab.com/mhelpa/doom-snippets
 [submodule "vendor/flymake-matlab"]
 	path = vendor/flymake-matlab
 	url = https://github.com/DavidRConnell/flymake-matlab
 [submodule "vendor/org-ref-bibtex"]
 	path = vendor/org-ref-bibtex
-	url = https://github.com/DavidRConnell/min-org-ref.git
+	url = https://gitlap.com/mhelpa/min-org-ref
+[submodule "vendor/lispy"]
+	path = vendor/lispy
+	url = https://gitlab.com/mhelpa/lispy
+[submodule "vendor/lispyville"]
+	path = vendor/lispyville
+	url = https://gitlab.com/mhelpa/lispyville
