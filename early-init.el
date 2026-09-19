@@ -49,26 +49,25 @@
       native-comp-jit-compilation t
       native-comp-async-report-warnings-errors 'silent)
 
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t)
 
-(add-to-list 'default-frame-alist '(font . "Hack:style=Light:size=14"))
-(add-to-list 'default-frame-alist '(min-height . 1))
-(add-to-list 'default-frame-alist '(height . 45))
-(add-to-list 'default-frame-alist '(min-width . 40))
-(add-to-list 'default-frame-alist '(width . 81))
-(add-to-list 'default-frame-alist '(internal-border-width . 24))
-(add-to-list 'default-frame-alist '(left-fringe . 3))
-(add-to-list 'default-frame-alist '(right-fringe . 3))
+(setq default-frame-alist
+      (append  '((font . "Hack:style=Light:size=14")
+		 (min-height . 1)
+		 (height . 45)
+		 (min-width . 40)
+		 (width . 81)
+		 (internal-border-width . 24)
+		 (left-fringe . 3)
+		 (right-fringe . 3)
+		 (menu-bar-lines . 0)
+		 (tool-bar-lines . 0)
+		 (vertical-scroll-bars . nil))
+	       default-frame-alist))
+
+(scroll-bar-mode -1)
+(tooltip-mode -1)
 
 ;; No ugly button for checkboxes
 (setq widget-image-enable nil)
