@@ -118,6 +118,10 @@
   "d" '(:keymap my-dictionary-map :which-key "dictionary"))
 
 (evil-mode)
+(customize-set-variable
+ 'evil-collection-mode-list
+ (mapcar (lambda (x) (unless (and (symbolp x) (eq x 'lispy)) x))
+						    evil-collection-mode-list))
 (evil-collection-init)
 
 ;; Which key should be activated after `evil-mode' since it detects evil mode

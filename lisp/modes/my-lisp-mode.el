@@ -33,8 +33,13 @@
 (require 'my-keybindings)
 (require 'my-ui)
 
-(require 'lispy)
-(require 'lispyville)
+(let ((load-path (append (list (expand-file-name "vendor/lispy"
+						 user-emacs-directory)
+			       (expand-file-name "vendor/lispyville"
+						 user-emacs-directory))
+			 load-path)))
+  (require 'lispy)
+  (require 'lispyville))
 
 (add-hook 'emacs-lisp-mode-hook #'lispy-mode)
 (add-hook 'lisp-mode-hook #'lispy-mode)
