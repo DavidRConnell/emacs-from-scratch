@@ -29,47 +29,42 @@
 
 ;;; Code:
 
+(setq eww-readable-urls '(".*"))
+
 (require 'eww)
+(require 'cl-lib)
 
-(with-eval-after-load 'browse-url
-  (customize-set-variable 'browse-url-browser-function 'eww-browse-url))
+(setq browse-url-browser-function 'eww-browse-url)
+(setq shr-use-fonts nil)
 
-(with-eval-after-load 'shr
-  (customize-set-variable 'shr-use-fonts nil))
+(defun my-eww-heading-face-p (face)
+  "Return non-nil if FACE includes an `shr' heading face."
+  (let ((faces (if (listp face) face (list face))))
+    (cl-some (lambda (f)
+               (memq f '(shr-h1 shr-h2 shr-h3 shr-h4 shr-h5 shr-h6)))
+             faces)))
 
-(defun mozilla-readable (url)
-  (let ((buff (format "*readable-%s*" url)))
-    (with-current-buffer (get-buffer-create buff)
-      (pop-to-buffer (current-buffer))
-      (shell-command (format "readable %s" url) (current-buffer))
-      (eww-display-html 'utf-8 (buffer-name) nil (point-min) (current-buffer)))))
+(defun my-eww-imenu-create-index ()
+  "Generate an Imenu index for headings in `eww-mode' buffers."
+  (let (index)
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (back-to-indentation)
+        (let ((face (get-text-property (point) 'face)))
+          (when (my-eww-heading-face-p face)
+            (let ((title (string-trim (buffer-substring-no-properties
+                                       (line-beginning-position)
+                                       (line-end-position))))
+                  (pos (line-beginning-position)))
+              (unless (string-empty-p title)
+                (push (cons title pos) index)))))
+        (forward-line 1)))
+    (nreverse index)))
 
-(defun eww-readable ()
-  "View the main \"readable\" parts of the current web page.
-This command uses heuristics to find the parts of the web page that
-contains the main textual portion, leaving out navigation menus and
-the like."
-  (interactive nil eww-mode)
-  (let* ((old-data eww-data)
-	 (dom (with-temp-buffer
-		(insert (plist-get old-data :source))
-		(condition-case nil
-		    (decode-coding-region (point-min) (point-max) 'utf-8)
-		  (coding-system-error nil))
-		(shell-command-on-region (point-min) (point-max)
-					 "readable" nil t)
-                (eww--preprocess-html (point-min) (point-max))
-		(libxml-parse-html-region (point-min) (point-max))))
-         (base (plist-get eww-data :url)))
-    (eww-score-readability dom)
-    (eww-save-history)
-    (eww-display-html nil nil
-		      (list 'base (list (cons 'href base))
-                            (eww-highest-readability dom))
-		      nil (current-buffer))
-    (dolist (elem '(:source :url :title :next :previous :up :peer))
-      (plist-put eww-data elem (plist-get old-data elem)))
-    (eww--after-page-change)))
+(add-hook 'eww-mode-hook
+          (lambda ()
+            (setq-local imenu-create-index-function #'my-eww-imenu-create-index)))
 
 (provide 'my-eww)
 ;;; my-eww.el ends here
