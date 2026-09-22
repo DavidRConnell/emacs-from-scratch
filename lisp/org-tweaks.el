@@ -49,7 +49,6 @@
 	     (when (stringp todo-keyword) (insert todo-keyword " "))))))
 
   (when (eq direction 'below)
-    (message "metadown")
     (org-metadown)))
 
 (defun +org/insert-item-below (count)

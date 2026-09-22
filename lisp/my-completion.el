@@ -28,22 +28,22 @@
 
 ;;; Code:
 
+(setq prescient-aggressive-file-save t
+      prescient-sort-length-enable nil
+      prescient-sort-full-matches-first t
+      prescient-history-length 200
+      prescient-frequency-decay 0.997
+      prescient-frequency-threshold 0.05)
+
 (require 'prescient)
 (require 'orderless)
 
-(customize-set-variable 'prescient-aggressive-file-save t)
-(customize-set-variable 'prescient-sort-length-enable nil)
-(customize-set-variable 'prescient-sort-full-matches-first t)
-(customize-set-variable 'prescient-history-length 200)
-(customize-set-variable 'prescient-frequency-decay 0.997)
-(customize-set-variable 'prescient-frequency-threshold 0.05)
-
-(customize-set-variable 'completion-styles '(orderless basic))
-(customize-set-variable 'completion-category-defaults nil)
-(customize-set-variable 'completion-category-overrides
-			'((file (styles partial-completion))
-			  (eglot (styles orderless))
-			  (eglot-capf (styles orderless))))
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides
+      '((file (styles partial-completion))
+	(eglot (styles orderless))
+	(eglot-capf (styles orderless))))
 
 (prescient-persist-mode)
 

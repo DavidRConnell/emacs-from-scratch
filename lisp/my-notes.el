@@ -37,8 +37,13 @@
 
 (my-local-leader-def
   :keymaps 'org-mode-map
-  "d" '(:keymap my-dailies-map :which-key dailies)
-  "m" '(:keymap my-roam-map :which-key dailies))
+  "d" '(:keymap my-dailies-map :which-key "dailies")
+  "m" '(:keymap my-roam-map :which-key "roam"))
+
+(setq org-roam-directory my-zettle-dir
+      org-roam-db-gc-threshold (expt 2 30)
+      org-roam-db-location (expand-file-name "org-roam.db" my-var-dir)
+      org-roam-completion-everywhere t)
 
 (require 'org-roam)
 
@@ -66,105 +71,100 @@
   "n" 'org-roam-dailies-goto-next-note
   "p" 'org-roam-dailies-goto-previous-note)
 
-(with-eval-after-load 'org-roam
-  (customize-set-variable 'org-roam-directory my-zettle-dir)
-  (customize-set-variable 'org-roam-db-gc-threshold (expt 2 30))
-  (customize-set-variable 'org-roam-db-location
-			  (expand-file-name "org-roam.db" my-var-dir))
+(org-roam-db-autosync-mode)
 
-  (org-roam-db-autosync-mode)
+(add-to-list 'display-buffer-alist
+	     '("\\*org-roam\\*"
+	       (display-buffer-in-direction)
+	       (direction . right)
+	       (window-width . 0.33)
+	       (window-height . frame-height)))
 
-  (add-to-list 'display-buffer-alist
-	       '("\\*org-roam\\*"
-		 (display-buffer-in-direction)
-		 (direction . right)
-		 (window-width . 0.33)
-		 (window-height . frame-height)))
+(require 'magit-section)
+(general-def
+  ;; Used by org-roam-buffer
+  :keymaps 'magit-section-mode-map
+  "C-j" 'magit-section-forward
+  "C-k" 'magit-section-backward
+  "C-i" 'magit-section-cycle)
 
-  (require 'magit-section)
-  (general-def
-    ;; Used by org-roam-buffer
-    :keymaps 'magit-section-mode-map
-    "C-j" 'magit-section-forward
-    "C-k" 'magit-section-backward
-    "C-i" 'magit-section-cycle)
+(general-def
+  :keymaps 'org-roam-node-map
+  "C-c C-o" (lambda ()
+	      (interactive)
+	      (org-roam-node-visit
+	       (org-roam-node-at-point t) t t)))
 
-  (general-def
-    :keymaps 'org-roam-node-map
-    "C-c C-o" (lambda ()
-		(interactive)
-		(org-roam-node-visit
-		 (org-roam-node-at-point t) t t)))
+(general-def
+  :keymaps 'org-roam-preview-map
+  "C-c C-o" (lambda ()
+	      (interactive)
+	      (org-roam-preview-visit
+	       (org-roam-buffer-file-at-point 'assert)
+	       (oref (magit-current-section) point)
+	       t)))
 
-  (general-def
-    :keymaps 'org-roam-preview-map
-    "C-c C-o" (lambda ()
-		(interactive)
-		(org-roam-preview-visit
-		 (org-roam-buffer-file-at-point 'assert)
-		 (oref (magit-current-section) point)
-		 t)))
+(setq org-roam-capture-templates
+      `(("d" "default" plain "%?"
+	 :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
+			    "#+TITLE: ${title}\n\n- tags :: ")
+	 :jump-to-captured t
+	 :unnarrowed t)
+	("i" "immediate" plain "%?"
+	 :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
+			    "#+TITLE: ${title}\n")
+	 :unnarrowed t
+	 :immediate-finish t)
+	("f" "fleeting" entry "* ${title}%?"
+	 :target (node "Inbox")
+	 :unnarrowed t)))
 
-  (customize-set-variable 'org-roam-completion-everywhere t)
-  (customize-set-variable
+(setq orb-roam-ref-format 'org-cite
+      orb-insert-link-description 'citation-org-cite
+      org-roam-mode-sections (list #'org-roam-backlinks-section
+				   #'orb-section-abstract
+				   #'org-roam-reflinks-section))
+(require 'org-roam-bibtex)
+
+(with-eval-after-load 'citar
+  (require 'citar-org-roam)
+
+  (add-to-list
    'org-roam-capture-templates
-   `(("d" "default" plain "%?"
-      :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
-			 "#+TITLE: ${title}\n\n- tags :: ")
-      :jump-to-captured t
-      :unnarrowed t)
-     ("i" "immediate" plain "%?"
-      :target (file+head ,(format "%%<%s>.org" my-note-naming-format)
-			 "#+TITLE: ${title}\n")
-      :unnarrowed t
-      :immediate-finish t)
-     ("f" "fleeting" entry "* ${title}%?"
-      :target (node "Inbox")
-      :unnarrowed t)))
+   '("r" "reference" plain "%?"
+     :target (file+head "references/${citar-citekey}.org"
+			"#+TITLE: ${citar-title}\n#+AUTHOR: ${citar-author}\n#+YEAR: ${citar-date}\n")
+     :jump-to-captured t
+     :unnarrowed t))
 
-  (require 'org-roam-bibtex)
-  (customize-set-variable 'orb-roam-ref-format 'org-cite)
-  (customize-set-variable 'orb-insert-link-description 'citation-org-cite)
-  (customize-set-variable 'org-roam-mode-sections
-			  (list #'org-roam-backlinks-section
-				#'orb-section-abstract
-				#'org-roam-reflinks-section))
+  (customize-set-variable
+   'citar-notes-sources
+   '((citar-org-roam :name "Notes"
+		     :category file
+		     :items citar-file--get-notes
+		     :hasitems citar-file--has-notes
+		     :open find-file
+		     :create orb-citar-edit-note
+		     :transform file-name-nondirectory)))
 
-  (with-eval-after-load 'citar
-    (require 'citar-org-roam)
+  (customize-set-variable 'citar-org-roam-capture-template-key "r")
+  (citar-org-roam-mode))
 
-    (add-to-list
-     'org-roam-capture-templates
-     '("r" "reference" plain "%?"
-       :target (file+head "references/${citar-citekey}.org"
-			  "#+TITLE: ${citar-title}\n#+AUTHOR: ${citar-author}\n#+YEAR: ${citar-date}\n")
-       :jump-to-captured t
-       :unnarrowed t))
-
-    (customize-set-variable
-     'citar-notes-sources
-     '((citar-org-roam :name "Notes"
-		       :category file
-		       :items citar-file--get-notes
-		       :hasitems citar-file--has-notes
-		       :open find-file
-		       :create orb-citar-edit-note
-		       :transform file-name-nondirectory)))
-
-   (customize-set-variable 'citar-org-roam-capture-template-key "r")
-    (citar-org-roam-mode))
-
-  (with-eval-after-load 'org-roam-dailies
-    (customize-set-variable 'org-roam-dailies-directory "dailies/")
-    (customize-set-variable 'org-roam-dailies-capture-templates
-			    '(("d" "default" entry "* %?"
-			       :target (file+head "%<%Y%m%d>.org"
-						  "#+TITLE: %<%Y-%m-%d>\n"))))))
+(setq org-roam-dailies-directory "dailies/"
+      org-roam-dailies-capture-templates
+      '(("d" "default" entry "* %?"
+	 :target (file+head "%<%Y%m%d>.org"
+			    "#+TITLE: %<%Y-%m-%d>\n"))))
 
 (autoload 'deft "deft")
 (general-def
   :keymaps 'my-notes-map
   "d" 'deft)
+
+(setq deft-default-extension "org"
+      deft-new-file-format my-note-naming-format
+      deft-use-filter-string-for-filename nil
+      deft-directory my-zettle-dir)
 
 (with-eval-after-load 'deft
   (defun deft-parse-title (file contents)
@@ -179,11 +179,6 @@ CONTENTS. With `org-roam' files, the title is below some other metadata."
 	(if begin
 	    (funcall deft-parse-title-function
 		     (substring contents begin (match-end 0)))))))
-
-  (setq deft-default-extension "org")
-  (customize-set-variable 'deft-new-file-format my-note-naming-format)
-  (customize-set-variable 'deft-use-filter-string-for-filename nil)
-  (customize-set-variable 'deft-directory my-zettle-dir)
 
   (general-imap
     :keymaps 'deft-mode-map

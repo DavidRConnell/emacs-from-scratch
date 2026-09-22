@@ -40,20 +40,21 @@
 (require 'my-ui)
 (require 'my-completion)
 
+(setq flymake-proselint-disable
+      ;; Tends to catch preamble/header arguments.
+      '(typography.exclamation))
+
 (require 'flymake-proselint)
 (add-hook 'text-mode-hook #'flymake-proselint-setup)
 (add-hook 'text-mode-hook #'visual-line-mode)
-
-(customize-set-variable 'flymake-proselint-disable
-			;; Tends to catch preamble/header arguments.
-			'(typography.exclamation))
 
 (defun my-maybe-turn-on-flymake ()
   "Selectively turn on flymake in `text-mode'.
 
 Prevents `flymake-proselint' from showing errors in note files."
-  (let* ((current-file (file-name-nondirectory (or (buffer-file-name) "")))
-	 (in-roam-note-p (or (string= current-file "todo.org")
+  (let* ((current-file (or (buffer-file-name) ""))
+	 (in-roam-note-p (or (string= (file-name-nondirectory current-file)
+				      "todo.org")
 			     (and (featurep 'org-roam)
 				  (org-roam-file-p current-file)))))
     (unless in-roam-note-p
@@ -113,10 +114,9 @@ Prevents `flymake-proselint' from showing errors in note files."
 		    :underline t
 		    :inherit 'nano-face-popout)
 
+(setq nov-text-width fill-column)
 (autoload 'nov-mode "nov")
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(with-eval-after-load 'nov
-  (customize-set-variable 'nov-text-width fill-column))
 
 (provide 'my-text-mode)
 ;;; my-text-mode.el ends here

@@ -68,7 +68,7 @@
 
     (if (get-process proc-name)
 	(shell-command (format "stumpish select-window-by-name \"%s\"" alacritty-title))
-      (apply 'start-process args))))
+      (apply #'start-process args))))
 
 (provide 'my-terminal)
 ;;; my-terminal.el ends here

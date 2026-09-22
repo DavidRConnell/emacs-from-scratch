@@ -70,7 +70,7 @@
   "Defer loading yatemplate until an empty/new file is opened."
   (when (and buffer-file-name
              (not (file-exists-p buffer-file-name)))
-    (remove-hook 'find-file-hook #'my/yatemplate-lazy-init)
+    (remove-hook 'find-file-hook #'my-yatemplate-lazy-init)
 
     (require 'yatemplate)
     (customize-set-variable 'yatemplate-dir

@@ -33,9 +33,9 @@
 
 (with-eval-after-load 'tex-mode
   (add-to-list 'tex-compile-commands
-	       '((concat "latexmk -xelatex" " %f") t "%r.pdf"))
+	       '("latexmk -xelatex %f" t "%r.pdf"))
   (add-to-list 'tex-compile-commands
-	       '((concat "latexmk -lualatex" " %f") t "%r.pdf")))
+	       '("latexmk -lualatex %f" t "%r.pdf")))
 
 (provide 'my-tex-mode)
 ;;; my-tex-mode.el ends here

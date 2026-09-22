@@ -30,24 +30,30 @@
 ;;; Code:
 (require 'my-keybindings)
 
+(setq corfu-cycle t
+      corfu-auto nil
+      corfu-separator ?\s
+      corfu-quit-at-boundary nil
+      corfu-quit-no-match nil
+      corfu-preview-current t
+      corfu-preselect 'first
+      corfu-on-exact-match nil
+      corfu-min-width 25)
+
+(setq corfu-prescient-enable-sorting t
+      corfu-prescient-override-sorting nil
+      corfu-prescient-enable-filtering nil) ;; deferred to orderless
+
 (require 'corfu)
 (require 'corfu-info)
 (require 'corfu-popupinfo)
 (require 'corfu-echo)
 (require 'corfu-prescient)
 
+(setq cape-dict-file (list my-personal-dictionary my-alternate-dictionary))
+
 (require 'cape)
 (require 'cape-keyword)
-
-(customize-set-variable 'corfu-cycle t)
-(customize-set-variable 'corfu-auto nil)
-(customize-set-variable 'corfu-separator ?\s)
-(customize-set-variable 'corfu-quit-at-boundary nil)
-(customize-set-variable 'corfu-quit-no-match nil)
-(customize-set-variable 'corfu-preview-current t)
-(customize-set-variable 'corfu-preselect 'first)
-(customize-set-variable 'corfu-on-exact-match nil)
-(customize-set-variable 'corfu-min-width 25)
 
 (general-def
   :keymaps 'corfu-map
@@ -58,9 +64,10 @@
   "M-g" 'corfu-info-location
   "M-h" 'corfu-info-documentation)
 
+(setq corfu-quick1 "aoeu"
+      corfu-quick2 "snth")
+
 (autoload 'corfu-quick-complete "corfu-quick")
-(customize-set-variable 'corfu-quick1 "aoeu")
-(customize-set-variable 'corfu-quick2 "snth")
 
 (general-def
   :keymaps 'corfu-map
@@ -86,13 +93,9 @@
 
 (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
 
-(customize-set-variable 'corfu-prescient-enable-sorting t)
-(customize-set-variable 'corfu-prescient-override-sorting nil)
-(customize-set-variable 'corfu-prescient-enable-filtering nil) ;; deferred to orderless
-
 (corfu-prescient-mode)
 
-(add-hook 'minibuffer-mode-hook
+(add-hook 'minibuffer-setup-hook
 	  (defun my-minibuffer-mode-capfs ()
 	    (setq-local completion-at-point-functions
 			(list #'cape-dabbrev #'cape-history))))
@@ -100,9 +103,6 @@
 (general-imap
   "C-x C-f" 'cape-file
   "C-x C-k" 'cape-dict)
-
-(customize-set-variable 'cape-dict-file
-			(list my-personal-dictionary my-alternate-dictionary))
 
 ;; Prefer ispell's capf to `cape-dict' since it matches from start of word
 ;; while `cape-dict' will find substrings in word.

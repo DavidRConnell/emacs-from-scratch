@@ -28,10 +28,22 @@
 ;;; Code:
 
 ;; Must be set before loading evil. Needed to work with evil-collections.
-(customize-set-variable 'evil-want-keybinding nil)
+(setq evil-want-keybinding nil)
 
 ;; Manually set xref later; don't need evil's.
-(customize-set-variable 'evil-collection-want-find-usages-bindings nil)
+(setq evil-collection-want-find-usages-bindings nil)
+
+(setq evil-echo-state nil
+      evil-mode-line-format nil
+      evil-symbol-word-search t
+      evil-ex-search-vim-style-regexp t
+      evil-undo-system 'undo-redo
+      evil-echo-area-message nil
+      evil-visual-state-cursor nano-color-salient
+      evil-emacs-state-cursor nano-color-critical
+      evil-normal-state-cursor nano-color-foreground)
+
+(setq which-key-popup-type 'minibuffer)
 
 (require 'my-variables)
 
@@ -59,17 +71,6 @@
 
 (general-create-definer general-nmmap :states '(normal motion))
 (general-create-definer general-nmvmap :states '(normal motion visual))
-
-(customize-set-variable 'evil-echo-state nil)
-(customize-set-variable 'evil-mode-line-format nil)
-(customize-set-variable 'evil-symbol-word-search t)
-(customize-set-variable 'evil-ex-search-vim-style-regexp t)
-(customize-set-variable 'evil-undo-system 'undo-redo)
-
-(setq evil-echo-area-message nil
-      evil-visual-state-cursor nano-color-salient
-      evil-emacs-state-cursor nano-color-critical
-      evil-normal-state-cursor nano-color-foreground)
 
 (evil-select-search-module 'evil-search-module 'evil-search)
 
@@ -103,7 +104,7 @@
 (my-leader-def
   "b" 'switch-to-buffer
   "w" 'save-buffer
-  "q" (defun my-kill-buffer () (interactive) (kill-buffer))
+  "q" 'kill-current-buffer
   "Q" 'evil-delete-buffer
   "o" 'find-file
   "l" 'imenu
@@ -118,16 +119,13 @@
   "d" '(:keymap my-dictionary-map :which-key "dictionary"))
 
 (evil-mode)
-(customize-set-variable
- 'evil-collection-mode-list
- (mapcar (lambda (x) (unless (and (symbolp x) (eq x 'lispy)) x))
-						    evil-collection-mode-list))
+(setq evil-collection-mode-list
+      (delq 'lispy evil-collection-mode-list))
 (evil-collection-init)
 
 ;; Which key should be activated after `evil-mode' since it detects evil mode
 ;; and changes some defaults. Could also just set
 ;; `which-key-allow-evil-operators' manually.
-(customize-set-variable 'which-key-popup-type 'minibuffer)
 (which-key-mode)
 
 (provide 'my-keybindings)

@@ -31,6 +31,17 @@
 
 (require 'my-keybindings)
 (require 'my-variables)
+
+(setq org-directory my-zettle-dir
+      org-startup-folded t
+      org-hide-emphasis-markers t
+      org-catch-invisible-edits 'smart
+      org-list-allow-alphabetical t
+      org-agenda-files '("todo.org" "habits.org" "meetings.org")
+      org-tag-alist '(("ignore") ("noexport") ("export"))
+      org-ellipsis "…"
+      org-hide-leading-stars t)
+
 (require 'org)
 
 (defvar my-ol-map (make-sparse-keymap))
@@ -84,34 +95,23 @@
 
 (add-hook 'org-mode-hook #'org-indent-mode)
 
-(customize-set-variable 'org-directory my-zettle-dir)
-(customize-set-variable 'org-startup-folded t)
-(customize-set-variable 'org-hide-emphasis-markers t)
-(customize-set-variable 'org-catch-invisible-edits 'smart)
-(customize-set-variable 'org-list-allow-alphabetical t)
-(customize-set-variable 'org-agenda-files '("todo.org" "habits.org" "meetings.org"))
-(customize-set-variable 'org-tag-alist
-			'(("ignore") ("noexport") ("export")))
-(customize-set-variable 'org-ellipsis "…")
-(customize-set-variable 'org-hide-leading-stars t)
+(setq org-superstar-leading-bullet ?\s
+      org-superstar-leading-fallback ?\s
+      org-superstar-headline-bullets-list '(?▶ ?▷ ?◉ ?○)
+      org-superstar-todo-bullet-alist
+      '(("TODO" . 9744) ("[ ]" . 9744)
+	("DONE" . 9745) ("[X]" . 9745)))
 
 (require 'org-superstar)
 (add-hook 'org-mode-hook #'org-superstar-mode)
 (set-face-attribute 'org-level-3 nil :foreground "black")
 
-(customize-set-variable 'org-superstar-leading-bullet ?\s)
-(customize-set-variable 'org-superstar-leading-fallback ?\s)
-(customize-set-variable 'org-superstar-headline-bullets-list '(?▶ ?▷ ?◉ ?○))
-(customize-set-variable 'org-superstar-todo-bullet-alist
-			'(("TODO" . 9744) ("[ ]" . 9744)
-			  ("DONE" . 9745) ("[X]" . 9745)))
-
 (add-to-list 'org-file-apps '("\\.pdf\\'" . "xdg-open %s"))
 
 (add-hook 'org-after-todo-state-change-hook
-	  #'(lambda ()
-	      (if (org-entry-is-todo-p)
-		  (org-reset-checkbox-state-subtree))))
+	  (lambda ()
+	    (if (org-entry-is-todo-p)
+		(org-reset-checkbox-state-subtree))))
 
 (defun my-org-toggle-emphasis-markers-display ()
   (interactive)
@@ -124,7 +124,7 @@
   (my-org-toggle-emphasis-markers-display))
 
 (my-leader-def
-  "A" '(lambda (arg) (interactive "P") (org-agenda arg "a")))
+  "A" (lambda (arg) (interactive "P") (org-agenda arg "a")))
 
 (general-def
   :keymaps 'org-mode-map
@@ -170,14 +170,14 @@
   :keymaps 'my-ol-map
   "c" 'org-cliplink)
 
+(setq org-appear-trigger 'always
+      org-appear-autoentities t
+      org-appear-autoemphasis t)
+
 (require 'org-appear)
 (add-hook 'org-mode-hook #'org-appear-mode)
-(add-hook 'evil-insert-state-entry-hook #'org-appear-manual-start nil t)
-(add-hook 'evil-insert-state-exit-hook #'org-appear-manual-stop nil t)
-
-(customize-set-variable 'org-appear-trigger 'always)
-(customize-set-variable 'org-appear-autoentities t)
-(customize-set-variable 'org-appear-autoemphasis t)
+;; (add-hook 'evil-insert-state-entry-hook #'org-appear-manual-start)
+;; (add-hook 'evil-insert-state-exit-hook #'org-appear-manual-stop)
 
 (autoload 'org-pomodoro "org-pomodoro")
 (my-local-leader-def
@@ -309,7 +309,7 @@
 			     ("\\paragraph{%s}" . "\\paragraph*{%s}")
 			     ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 			    ("book"
-			     "\\documentclass{srcbook}"
+			     "\\documentclass{scrbook}"
 			     ("\\chapter{%s}" . "\\chapter{%s}")
 			     ("\\section{%s}" . "\\section*{%s}")
 			     ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -336,7 +336,7 @@
   }
 
   p {
-    font-size 11pt;
+    font-size: 11pt;
     font-weight: normal;
     color: #222222;
     text-indent: 4ex;

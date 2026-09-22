@@ -170,7 +170,7 @@ If there is more than one local bib file ask."
 		 ((not potential-bibs)
 		  nil)
 		 ((= (length potential-bibs) 1)
-		  (cl-first potential-bibs))
+		  (car potential-bibs))
 		 ((> (length potential-bibs) 1)
 		  (completing-read "Select bib" potential-bibs)))))
 	  (if local-bib-file

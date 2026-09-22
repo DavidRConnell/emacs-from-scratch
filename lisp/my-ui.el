@@ -29,12 +29,11 @@
 (require 'my-variables)
 (require 'my-keybindings)
 
+(setq savehist-file (expand-file-name "savehist.el" my-var-dir))
+
 (require 'savehist)
 (require 'winner)
 (require 'flymake)
-
-(customize-set-variable 'savehist-file
-			(expand-file-name "savehist.el" my-var-dir))
 
 (savehist-mode)
 (recentf-mode)
@@ -57,9 +56,11 @@
 (customize-set-variable 'minibuffer-prompt-properties
 			'(read-only t cursor-intangible t face minibuffer-prompt))
 
+
+(setq flymake-fringe-indicator-position 'right-fringe)
+
 (require 'fringe)
 
-(customize-set-variable 'flymake-fringe-indicator-position 'right-fringe)
 (with-eval-after-load 'diff-hl
   (customize-set-variable 'flymake-error-bitmap
 			  '(diff-hl-bmp-insert modus-themes-prominent-error))
@@ -69,6 +70,9 @@
 			  '(diff-hl-bmp-insert modus-themes-prominent-note)))
 (setq-default fringes-outside-margins t)
 
+(setq aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
+      aw-scope 'global)
+
 (autoload 'ace-window "ace-window")
 (autoload 'ace-delete-window "ace-window")
 
@@ -77,10 +81,6 @@
   "C-c" 'ace-delete-window
   "u" 'winner-undo
   "C-r" 'winner-redo)
-
-(with-eval-after-load 'ace-window
-  (customize-set-variable 'aw-keys '(?u ?h ?e ?t ?o ?n ?a ?s))
-  (customize-set-variable 'aw-scope 'global))
 
 (autoload 'format-all-buffer "format-all")
 (autoload 'format-all-mode "format-all")
@@ -96,6 +96,23 @@
 			:host github
 			:repo "Malabarba/aggressive-indent-mode"))
 (autoload 'aggressive-indent-mode "aggressive-indent")
+
+(setq popper-reference-buffers
+      '(helpful-mode
+	"\\*Messages\\*"
+	"Output\\*$"
+	"\\*Async Shell Command\\*"
+	(my-popper-shell-output-empty-p . hide)
+	"\\*Backtrace\\*"
+	"\\*Help\\*"
+	"\\*Org PDF LaTeX Output\\*"
+	"\\*eldoc.*\\*"
+	"\\*readable.*\\*"))
+
+(setq popper-window-height #'my-popper-fit-window-height
+      popper-mode-line nil
+      popper-tab-line-mode nil
+      popper-group-function 'popper-group-by-directory)
 
 (require 'popper)
 (require 'popper-echo)
@@ -122,30 +139,12 @@
   "Add REFERENCE to `popper-reference-buffers'."
   (if (featurep 'popper)
       (add-to-list 'popper-reference-buffers reference))
-  (if popper-mode
-      (popper-mode)))
-
-(customize-set-variable 'popper-reference-buffers
-			'(helpful-mode
-			  "\\*Messages\\*"
-			  "Output\\*$"
-			  "\\*Async Shell Command\\*"
-			  (my-popper-shell-output-empty-p . hide)
-			  "\\*Backtrace\\*"
-			  "\\*Help\\*"
-			  "\\*Org PDF LaTeX Output\\*"
-			  "\\*eldoc.*\\*"
-			  "\\*readable.*\\*"))
+  (when popper-mode (popper-mode 1)))
 
 (defun my-popper-fit-window-height (win)
   (fit-window-to-buffer win
 			(floor (frame-height) 2)
 			(floor (frame-height) 3)))
-
-(customize-set-variable 'popper-window-height #'my-popper-fit-window-height)
-(customize-set-variable 'popper-mode-line nil)
-(customize-set-variable 'popper-tab-line-mode nil)
-(customize-set-variable 'popper-group-function 'popper-group-by-directory)
 
 (popper-mode)
 (popper-echo-mode)
@@ -194,14 +193,15 @@
   "C-/" 'link-hint-open-link
   "M-/" 'link-hint-copy-link)
 
+(setq highlight-indent-guides-method 'character)
+
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-(customize-set-variable 'highlight-indent-guides-method 'character)
+
+(setq xref-show-definitions-function
+      #'xref-show-definitions-completing-read)
 
 (autoload 'xref-find-definitions "xref")
-
-(customize-set-variable 'xref-show-definitions-function
-			#'xref-show-definitions-completing-read)
 
 (general-nmap
   :prefix "g"
@@ -215,17 +215,16 @@
 (general-nmap
   "C-;" 'iedit-mode)
 
+(setq dired-dwim-target t)
 (with-eval-after-load 'dired
   (autoload 'dired-narrow "dired-narrow")
   (general-nmap
     :keymaps 'dired-mode-map
-    "/" 'dired-narrow)
+    "/" 'dired-narrow))
 
-  (customize-set-variable 'dired-dwim-target t))
-
+(setq delimit-columns-str-separator " | "
+      delimit-columns-format 'padding)
 (require 'delim-col)
-(customize-set-variable 'delimit-columns-str-separator " | ")
-(customize-set-variable 'delimit-columns-format 'padding)
 
 (dolist (fn '(evilem-motion-next-line
 	      evilem-motion-previous-line
@@ -282,7 +281,6 @@
 
 (with-eval-after-load 'treesit
   (autoload 'evil-textobj-tree-sitter-get-textobj "evil-textobj-tree-sitter")
-  (autoload 'evil-textobj-tree-sitter-get-textobj "evil-textobj-tree-sitter")
 
   (general-define-key
    :keymaps 'evil-outer-text-objects-map
@@ -306,13 +304,26 @@
   "T" (lambda () (interactive)
 	(evil-my-avy-goto-char-backward-in-line)))
 
-(with-eval-after-load 'avy
-  (setq avy-keys-alist '((avy-goto-char . (?a ?o ?e ?u ?h ?t ?n ?s)))
-	avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
-	avy-enter-times-out t
-	avy-timeout-seconds 0.3
-	avy-flyspell-correct-function #'flyspell-correct-at-point)
+(setq avy-dispatch-alist
+      '((?c . my-avy-action-kill-move)
+	(?w . my-avy-action-define)
+	(?H . my-avy-action-helpful)
+	(?i . my-avy-action-embark)
+	(?d . avy-action-kill-stay)
+	(?g . avy-action-teleport)
+	(?m . avy-action-mark)
+	(?n . avy-action-copy)
+	(?y . avy-action-yank)
+	(?k . avy-action-ispell)
+	(?z . avy-action-zap-to-char)))
 
+(setq avy-keys-alist '((avy-goto-char . (?a ?o ?e ?u ?h ?t ?n ?s)))
+      avy-keys '(?u ?h ?e ?t ?o ?n ?a ?s)
+      avy-enter-times-out t
+      avy-timeout-seconds 0.3
+      avy-flyspell-correct-function #'flyspell-correct-at-point)
+
+(with-eval-after-load 'avy
   (defun my-avy-goto-char-forward-in-line (char)
     "Jump to the currently visible CHAR in the current line."
     (interactive (list (read-char "char: " t)))
@@ -340,7 +351,6 @@
     (avy-forward-item)
     (kill-region pt (point))
     (message "Killed: %s" (current-kill 0))
-    (point)
     (evil-insert-state))
 
   (defun my-avy-action-define (pt)
@@ -368,26 +378,16 @@
        (cdr (ring-ref avy-ring 0))))
     t)
 
-  (setq avy-dispatch-alist
-	'((?c . my-avy-action-kill-move)
-	  (?w . my-avy-action-define)
-	  (?H . my-avy-action-helpful)
-	  (?i . my-avy-action-embark)
-	  (?d . avy-action-kill-stay)
-	  (?g . avy-action-teleport)
-	  (?m . avy-action-mark)
-	  (?n . avy-action-copy)
-	  (?y . avy-action-yank)
-	  (?k . avy-action-ispell)
-	  (?z . avy-action-zap-to-char))))
+  )
+
+(setq evil-goggles-duration 0.1
+      evil-goggles-pulse t
+      evil-goggles-enable-change nil
+      evil-goggles-enable-delete nil)
 
 (require 'evil-goggles)
 (require 'evil-surround)
 
-(customize-set-variable 'evil-goggles-duration 0.1)
-(customize-set-variable 'evil-goggles-pulse t)
-(customize-set-variable 'evil-goggles-enable-change nil)
-(customize-set-variable 'evil-goggles-enable-delete nil)
 (evil-goggles-mode)
 
 (global-evil-surround-mode)
@@ -409,23 +409,22 @@
 	  'evilnc-comment-operator
 	"c" 'evilnc-comment-or-uncomment-lines))
 
+(setq hl-todo-highlight-punctuation ":")
+(setq hl-todo-keyword-faces
+      '(("TODO"       nano-face-header-default bold)
+	("FIXME"      next-error bold)
+	("HACK"       font-lock-constant-face bold)
+	("REVIEW"     hydra-face-red bold)
+	("NOTE"       success bold)
+	("WARNING"    hydra-face-red bold)
+	("DEPRECATED" font-lock-doc-face bold)
+	("TEMP"       modus-themes-prominent-warning bold)))
+
+(setq my-todo-keywords (mapcar (lambda (x) (car x)) hl-todo-keyword-faces))
+
 (require 'hl-todo)
 (with-eval-after-load 'flymake
   (add-hook 'flymake-diagnostic-functions #'hl-todo-flymake))
-
-(customize-set-variable 'hl-todo-highlight-punctuation ":")
-(customize-set-variable
- 'hl-todo-keyword-faces
- '(("TODO"       nano-face-header-default bold)
-   ("FIXME"      next-error bold)
-   ("HACK"       font-lock-constant-face bold)
-   ("REVIEW"     hydra-face-red bold)
-   ("NOTE"       success bold)
-   ("WARNING"    hydra-face-red bold)
-   ("DEPRECATED" font-lock-doc-face bold)
-   ("TEMP"       modus-themes-prominent-warning bold)))
-
-(setq my-todo-keywords (mapcar (lambda (x) (car x)) hl-todo-keyword-faces))
 
 (global-hl-todo-mode)
 

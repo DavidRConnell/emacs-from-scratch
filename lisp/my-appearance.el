@@ -33,14 +33,13 @@
 (load-theme 'modus-operandi t)
 
 (blink-cursor-mode -1)
-(show-paren-mode)
-(global-hl-line-mode)
+(show-paren-mode 1)
+(global-hl-line-mode 1)
 
 (setq frame-title-format "%b")
 
-(global-display-fill-column-indicator-mode)
-(customize-set-variable 'mode-line-format "%-")
 (customize-set-variable 'fill-column 79)
+(global-display-fill-column-indicator-mode 1)
 
 (autoload 'visual-fill-column-mode "visual-fill-column")
 (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)

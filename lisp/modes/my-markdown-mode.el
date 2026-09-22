@@ -41,7 +41,7 @@
   "Poor man's org-link mimic.")
 
 (my-local-leader-def
-  :keymaps '(markdowm-mode-map gfm-mode-map)
+  :keymaps '(markdown-mode-map gfm-mode-map)
   "p" 'markdown-preview
   "l" '(:keymap my-md-link-map :which-key "links"))
 
@@ -57,12 +57,6 @@
   "M-k" 'markdown-move-up
   "C-i" 'markdown-demote
   "C-S-i" 'markdown-promote)
-
-;; REVIEW: Not sure if I use this.
-;; (with-eval-after-load 'markdown-mode
-;;   (require 'poly-markdown)
-;;   (add-hook 'gfm-mode-hook 'poly-markdown-mode)
-;;   (add-hook 'markdown-mode-hook 'poly-markdown-mode))
 
 (provide 'my-markdown-mode)
 ;;; my-markdown-mode.el ends here

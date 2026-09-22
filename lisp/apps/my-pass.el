@@ -29,11 +29,10 @@
 
 (require 'my-variables)
 
-(require 'auth-source)
+(setq auth-source-pass-filename (expand-file-name "password-store"
+						  (getenv "XDG_DATA_HOME")))
 
-(customize-set-variable 'auth-source-pass-filename
-			(expand-file-name "password-store"
-					  (getenv "XDG_DATA_HOME")))
+(require 'auth-source)
 
 (auth-source-pass-enable)
 (auth-source-forget-all-cached)

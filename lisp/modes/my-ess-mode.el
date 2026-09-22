@@ -45,13 +45,14 @@
 (with-eval-after-load 'ess-r-mode
   (require 'ess-custom)
 
-  (add-hook ess-r-mode-hook #'format-all-mode)
+  (add-hook 'ess-r-mode-hook #'format-all-mode)
   (my-popper-add-reference "\\*R:.*\\*")
 
   (general-def
     :keymaps '(ess-r-mode-map inferior-ess-r-mode-map)
     :prefix "C-c"
-    "C-a" (lambda () (interactive)
+    "C-a" (lambda ()
+	    (interactive)
 	    (fixup-whitespace)
 	    (insert " <- "))
     "C-p" (lambda (arg)
@@ -79,7 +80,8 @@
     "," 'R
     "t" (lambda ()
 	  (interactive)
-	  (ess-send-string (ess-get-process) (format "use_test(\"%s\")" (buffer-name))))
+	  (ess-send-string (ess-get-process)
+			   (format "use_test(\"%s\")" (buffer-name))))
     "T" 'ess-r-devtools-test-package
     "c" 'ess-r-devtools-check-package
     "l" 'ess-r-devtools-load-package

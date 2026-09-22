@@ -29,6 +29,19 @@
 (require 'my-keybindings)
 (require 'my-ui)
 
+(setq vertico-cycle t)
+
+(setq vertico-buffer-display-action
+      '(display-buffer-in-direction
+	(direction . right)
+	(window-width . 0.26)))
+
+(setq vertico-multiform-commands
+      '((projectile-find-file grid)
+	(project-find-file grid)))
+
+(setq vertico-multiform-categories '((file grid)))
+
 (require 'vertico)
 (require 'vertico-directory)
 (require 'vertico-repeat)
@@ -49,21 +62,19 @@
   "M-RET" 'minibuffer-force-complete-and-exit
   "C-w" 'backward-kill-word)
 
-(customize-set-variable 'vertico-cycle t)
-
 (with-eval-after-load 'prescient
-  (require 'vertico-prescient)
-  (customize-set-variable 'vertico-prescient-enable-sorting t)
-  (customize-set-variable 'vertico-prescient-override-sorting nil)
-  (customize-set-variable 'vertico-prescient-enable-filtering nil) ;; deferred to orderless
+  (setq vertico-prescient-enable-sorting t
+	vertico-prescient-override-sorting nil
+	vertico-prescient-enable-filtering nil) ;; deferred to orderless
 
+  (require 'vertico-prescient)
   (vertico-prescient-mode))
+
+(setq vertico-quick1 "aoeu"
+      vertico-quick2 "snth")
 
 (autoload 'vertico-quick-exit "vertico-quick")
 (autoload 'vertico-quick-insert "vertico-quick")
-
-(customize-set-variable 'vertico-quick1 "aoeu")
-(customize-set-variable 'vertico-quick2 "snth")
 
 (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
@@ -80,23 +91,6 @@
   :prefix "C-c"
   "C-r" 'vertico-repeat
   "R" 'vertico-repeat-select)
-
-(customize-set-variable 'vertico-buffer-display-action
-			'(display-buffer-in-direction
-			  (direction . right)
-			  (window-width . 0.26)))
-
-(customize-set-variable 'vertico-multiform-commands
-			'(
-			  ;; Not sure if I Want these.
-			  ;; (consult-imenu buffer)
-			  ;; (consult-outline buffer)
-			  ;; (consult-xref buffer)
-			  (projectile-find-file grid)
-			  (project-find-file grid)))
-
-(customize-set-variable 'vertico-multiform-categories
-			'((file grid)))
 
 (vertico-multiform-mode)
 (vertico-mode)
@@ -144,14 +138,12 @@
 	(interactive)
 	(consult-line (format "%s" (symbol-at-point)))))
 
-(defun crm-indicator (args)
+(define-advice completing-read-multiple (:filter-args (args) crm-indicator)
   (cons (format "[CRM%s] %s" (replace-regexp-in-string
 			      "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
 			      crm-separator)
 		(car args))
 	(cdr args)))
-
-(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
 (customize-set-variable 'consult-narrow-key "<")
 (customize-set-variable 'xref-show-xrefs-function #'consult-xref)

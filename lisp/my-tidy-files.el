@@ -51,8 +51,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq custom-file (expand-file-name "custom.el" my-var-dir))
-(if (file-exists-p custom-file)
-    (load custom-file))
+(load custom-file 'noerror)
 
 (provide 'my-tidy-files)
 ;;; my-tidy-files.el ends here

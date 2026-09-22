@@ -29,6 +29,16 @@
 (require 'my-keybindings)
 (require 'my-variables)
 
+(setq projectile-completion-system 'default
+      projectile-cache-file (expand-file-name "projects" my-cache-dir)
+      projectile-git-submodule-command nil
+      projectile-git-use-fd nil
+      projectile-test-prefix-function #'my-projectile-test-prefix)
+
+(defun my-projectile-test-prefix (project-type)
+  "Find default test files prefix based on PROJECT-TYPE."
+  (projectile-project-type-attribute project-type 'test-prefix "test_"))
+
 (require 'project)
 
 (autoload 'my-term "apps/my-terminal")
@@ -43,6 +53,7 @@
 	      projectile-project-root
 	      projectile-ripgrep
 	      projectile-find-file-in-directory
+	      projectile-project-type-attribute
 	      projectile-project-p))
   (autoload fn "projectile" nil t))
 
@@ -79,24 +90,12 @@ Otherwise open in `default-directory'."
     (projectile-switch-open-project)))
 
 (with-eval-after-load 'projectile
-  (customize-set-variable 'projectile-completion-system 'default)
-  (customize-set-variable 'projectile-cache-file
-			  (expand-file-name "projects" my-cache-dir))
-  (customize-set-variable 'projectile-git-submodule-command nil)
-  (customize-set-variable 'projectile-git-use-fd nil)
-
-  (defun my-projectile-test-prefix (project-type)
-    "Find default test files prefix based on PROJECT-TYPE."
-    (projectile-project-type-attribute project-type 'test-prefix "test_"))
-
-  (customize-set-variable
-   'projectile-test-prefix-function #'my-projectile-test-prefix)
-
   (projectile-cleanup-known-projects)
 
-  (let ((prefix (expand-file-name "clones" (getenv "HOME"))))
-    (dolist (dir (directory-files prefix 'full (rx bol (not "."))))
-      (projectile-add-known-project dir)))
+  (let ((parent (expand-file-name "clones" "~/")))
+    (when (file-directory-p parent)
+      (dolist (dir (directory-files parent 'full (rx bol (not "."))))
+	(projectile-add-known-project dir))))
 
   (projectile-mode))
 

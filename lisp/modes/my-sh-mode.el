@@ -32,9 +32,9 @@
 (require 'my-keybindings)
 (require 'my-prog-mode "modes/my-prog-mode")
 
-(autoload 'bash-ts-mode "bash-ts-mode")
+(autoload 'bash-ts-mode "sh-script")
 (add-to-list 'major-mode-remap-alist '(sh-mode . bash-ts-mode))
-(add-to-list 'magic-mode-alist '("#!/usr/bin/env bash\\'" . sh-mode))
+(add-to-list 'interpreter-mode-alist '("bash" . sh-mode))
 (add-hook 'sh-base-mode-hook #'eglot-ensure)
 
 (add-hook 'sh-base-mode-hook

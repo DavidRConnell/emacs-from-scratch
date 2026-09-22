@@ -29,6 +29,10 @@
 
 (require 'my-keybindings)
 
+(setq diff-hl-draw-borders nil
+      diff-hl-show-staged-changes nil
+      diff-hl-update-async t)
+
 (require 'diff-hl)
 
 (dolist (fn '(magit-status-here
@@ -49,11 +53,11 @@
   "p" '(diff-hl-previous-hunk :jump t))
 
 (setq forge-add-default-bindings t)
+(setq magit-display-buffer-function
+      #'magit-display-buffer-fullframe-status-v1)
+
 (with-eval-after-load 'magit
   (require 'magit-todos)
-
-  (customize-set-variable 'magit-display-buffer-function
-			  #'magit-display-buffer-fullframe-status-v1)
 
   (add-hook 'magit-mode-hook #'magit-todos-mode)
 
@@ -73,9 +77,6 @@
     "C-n" 'transient-scroll-up
     "C-p" 'transient-scroll-down))
 
-(customize-set-variable 'diff-hl-draw-borders nil)
-(customize-set-variable 'diff-hl-show-staged-changes nil)
-(customize-set-variable 'diff-hl-update-async t)
 (customize-set-variable 'vc-git-diff-switches '("--histogram"))
 
 (autoload 'diff-hl-show-hunk-buffer "diff-hl-show-hunk" nil t)

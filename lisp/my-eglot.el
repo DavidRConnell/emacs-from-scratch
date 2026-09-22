@@ -42,11 +42,6 @@
 
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
 
-  (straight-use-package '(eglot-booster
-			  :type git
-			  :host github
-			  :repo "jdtsmith/eglot-booster"))
-
   (general-nmap
     :keymaps 'eglot-mode-map
     :prefix "C-e"
@@ -59,13 +54,7 @@
     "q" 'eglot-code-action-quickfix
     "h" 'eglot-inlay-hints-mode)
 
-  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
-  (add-to-list 'eglot-stay-out-of 'imenu)
-
-  (require 'eglot-booster)
-  (customize-set-variable 'eglot-booster-no-remote-boost t)
-
-  (eglot-booster-mode))
+  (add-to-list 'eglot-stay-out-of 'imenu))
 
 (provide 'my-eglot)
 ;;; my-eglot.el ends here

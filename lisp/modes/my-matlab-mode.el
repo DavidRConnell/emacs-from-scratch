@@ -41,13 +41,13 @@
   (require 'matlab-shell)
   (require 'matlab-topic)
 
+  (setq 'flymake-matlab-backend 'auto)
   (let ((load-path (append (list (expand-file-name "vendor/flymake-matlab"
 						   user-emacs-directory))
 			   load-path)))
     (require 'flymake-matlab))
 
   (add-hook 'matlab-mode-hook #'flymake-mode)
-  (customize-set-variable 'flymake-matlab-backend 'auto)
   (add-hook 'matlab-mode-hook #'flymake-matlab-setup)
 
   ;; `matlab-mode' mode is not a derivative of `prog-mode'.
@@ -192,7 +192,6 @@ calling window."
     "c" 'mlgud-cont
     "q" 'mlgud-finish)
 
-  (autoload 'mozilla-readable "apps/my-eww")
   (my-local-leader-def
     :keymaps 'matlab-mode-map
     "," 'matlab-shell
@@ -203,12 +202,12 @@ calling window."
     "?" (lambda ()
 	  (interactive)
 	  (let ((mathworks-ref-prefix "https://www.mathworks.com/help/matlab/ref/"))
-	    (mozilla-readable (concat mathworks-ref-prefix (matlab-read-word-at-point) ".html")))))
+	    (eww (concat mathworks-ref-prefix (matlab-read-word-at-point) ".html")))))
 
   (defun my-matlab-insert-function-snippet ()
     "Add snippet for matlab function when opening a new .m file."
     (if (and (equal 0 (buffer-size))
-	     (not (string-match-p "^\s*\\*.*\\*\s*$" (buffer-name))))
+	     (not (string-prefix-p "*" (buffer-name))))
 	(insert (concat "function " (file-name-sans-extension (buffer-name)) "\nend"))))
 
   (defun my-matlab-fix-imenu-generic-expression ()

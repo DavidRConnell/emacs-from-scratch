@@ -28,8 +28,8 @@
 
 ;;; Code:
 
-(customize-set-variable 'user-full-name "David R. Connell")
-(customize-set-variable 'user-mail-address "david32@dcon.addy.io")
+(setq user-full-name "David R. Connell"
+      user-mail-address "david32@dcon.addy.io")
 
 (defvar my-cache-dir (expand-file-name "emacs/" (getenv "XDG_CACHE_HOME"))
   "Location to store reproducibly generated files.")
@@ -59,8 +59,6 @@
 
 (defvar my-alternate-dictionary
   (expand-file-name "dicts/en-common.wl" my-var-dir))
-
-(defvar my-todo-keywords '("TODO" "WARNING" "FIXME" "BUG" "NOTE"))
 
 (setenv "PATH" (format "%s:%s" (getenv "PATH") "~/bin"))
 

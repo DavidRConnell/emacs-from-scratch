@@ -50,8 +50,10 @@
 
 (add-hook 'emacs-lisp-mode-hook
 	  (defun my-elisp-mode-add-capfs ()
-	    (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-	    (add-to-list 'completion-at-point-functions #'elisp-completion-at-point)))
+	    (add-hook 'completion-at-point-functions
+		      #'cape-elisp-symbol nil t)
+	    (add-hook 'completion-at-point-functions
+		      #'elisp-completion-at-point nil t)))
 
 (general-nmap
   :keymaps 'emacs-lisp-mode-map
@@ -78,7 +80,7 @@
 	  (lambda ()
 	    (let ((require-regex
 		   (rx "(require '" (group (* (not space))) (? (* (not ")"))) ")")))
-	      (add-to-list 'imenu-generic-expression
+	      (add-to-list 'lisp-imenu-generic-expression
 			   `("Package" ,require-regex 1)))))
 
 (provide 'my-emacs-lisp-mode)

@@ -41,7 +41,7 @@
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-mode))
 (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.clang-format\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\flake.lock\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("flake\\.lock\\'" . js-mode))
 
 (with-eval-after-load 'yaml-ts-mode
   (add-hook 'yaml-ts-mode-hook #'format-all-mode)

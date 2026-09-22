@@ -62,12 +62,9 @@
 			      #'cape-dabbrev #'cape-keyword #'cape-file))))
 
 (require 'ansi-color)
-(defun my-colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
 
+(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
 (my-popper-add-reference 'compilation-mode)
-(add-hook 'compilation-filter-hook #'my-colorize-compilation-buffer)
 (customize-set-variable 'compilation-scroll-output 'first-error)
 (customize-set-variable 'compilation-auto-jump-to-first-error nil)
 
@@ -80,7 +77,7 @@
 (direnv-mode)
 
 (autoload 'manual-entry "man" nil t)
-(autoload 'Man-default-man-entry "man" nil t)
+(autoload 'Man-default-man-entry "man" nil)
 (general-mmap
   :keymaps 'Man-mode-map
   :prefix "g"

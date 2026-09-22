@@ -27,13 +27,14 @@
 
 ;;; Code:
 
-(add-to-list 'load-path
-             (expand-file-name "lisp/" user-emacs-directory))
+(eval-and-compile
+  (add-to-list 'load-path
+               (expand-file-name "lisp/" user-emacs-directory)))
 
 ;; Prevent packages from loading org-ref.
 (setq load-path (remq nil
 		      (mapcar (lambda (p)
-				(if (string-match-p "org-ref-20" p) nil p))
+				(if (string-match-p "org-ref" p) nil p))
 			      load-path)))
 
 (require 'my-variables)
@@ -51,21 +52,8 @@
 (require 'my-notes)
 
 ;; Modes
-(dolist (mode '(text
-		org
-		markdown
-		tex
-		prog
-		emacs-lisp
-		nix
-		conf
-		lisp
-		matlab
-		python
-		ess
-		c
-		sh
-		build))
+(dolist (mode '(text org markdown tex prog emacs-lisp nix conf lisp matlab
+		     python ess c sh build))
   (require (intern (format "my-%s-mode" mode))
 	   (format "modes/my-%s-mode" mode)))
 

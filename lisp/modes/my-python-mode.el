@@ -50,6 +50,8 @@
 		("TODOs" "comment" my-python-todo-p my-python-todo-name))))
 
 (with-eval-after-load 'python
+  (setq python-cell-highlight-cell nil)
+
   (require 'python-cell)
 
   (add-hook 'python-ts-mode-hook #'eglot-ensure)
@@ -59,8 +61,6 @@
   (add-hook 'python-ts-mode-hook #'format-all-mode)
   (add-hook 'python-ts-mode-hook #'python-cell-mode)
   (add-hook 'python-ts-mode-hook #'my-python-imenu-setup)
-
-  (customize-set-variable 'python-cell-highlight-cell nil)
 
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(python-ts-mode "rass" "python")))
@@ -134,8 +134,8 @@ calling window."
       (with-current-buffer buff
 	(insert
 	 (python-shell-send-string-no-output (concat "help(" thing ")")))
-	(python-mode)
-	(goto-line 1))
+	(python-ts-mode)
+	(goto-char (point-min)))
       (switch-to-buffer-other-window buff)))
 
   (with-eval-after-load 'consult-imenu
@@ -168,10 +168,10 @@ calling window."
       name)))
 
 (defun my-python-method-p (node)
-  (let ((class-node
-	 (treesit-parent-until node (lambda (item)
-				      (string= (treesit-node-type item)
-					       "class_definition")))))
+  (when-let ((class-node
+	      (treesit-parent-until node (lambda (item)
+					   (string= (treesit-node-type item)
+						    "class_definition")))))
     (treesit-node-text (treesit-node-child-by-field-name class-node "name"))))
 
 (defun my-python-method-name (node)
