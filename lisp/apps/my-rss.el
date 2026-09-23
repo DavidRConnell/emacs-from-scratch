@@ -51,24 +51,6 @@
     "&" 'elfeed-search-browse-url)
 
   (set-face-attribute 'elfeed-search-title-face nil :weight 'light)
-  (add-hook 'elfeed-show-mode-hook #'visual-line-mode)
-
-  (define-advice elfeed-show-entry (:after (_entry) my-elfeed-unfill-summaries)
-    "Strip single newlines to allow `visual-line-mode' to wrap naturally."
-    (when-let ((buf (get-buffer "*elfeed-entry*")))
-      (with-current-buffer buf
-        (let ((inhibit-read-only t))
-          (save-excursion
-            (goto-char (point-min))
-	    (search-forward "Link:" nil t)
-	    (search-forward "\n" nil t)
-            (while (search-forward "\n" nil t)
-              ;; If the character before the matched newline is not a newline,
-              ;; and the character after is not a newline, it's a hard line break.
-              (unless (or (eq (char-before (1- (point))) ?\n)
-                          (eq (char-after (point)) ?\n))
-                (replace-match " "))))))))
-
   (elfeed-org))
 
 (provide 'my-rss)

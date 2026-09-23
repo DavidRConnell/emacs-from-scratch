@@ -35,7 +35,9 @@
 (require 'cl-lib)
 
 (setq browse-url-browser-function 'eww-browse-url)
-(setq shr-use-fonts nil)
+(setq shr-use-fonts nil
+      shr-max-width 79)
+
 
 (defun my-eww-heading-face-p (face)
   "Return non-nil if FACE includes an `shr' heading face."
