@@ -29,6 +29,8 @@
 
 ;;; Code:
 
+(require 'my-keybindings)
+
 (setq eww-readable-urls '(".*"))
 
 (require 'eww)
@@ -38,6 +40,49 @@
 (setq shr-use-fonts nil
       shr-max-width 79)
 
+(my-local-leader-def
+  :keymaps 'eww-mode-map
+  "i" 'eww-toggle-images
+  "y" 'eww-copy-page-url
+  "b" 'eww-list-buffers
+  "r" 'my-eww-add-doi-to-bib)
+
+(general-nmmap
+  :keymaps 'eww-mode-map
+  "C-o" 'eww-back-url
+  "C-i" 'eww-forward-url
+  "C-j" 'eww-next-url
+  "C-k" 'eww-previous-url)
+
+(require 'dom)
+(require 'subr-x)
+(require 'url-util)
+
+(defun my--eww-doi-candidates ()
+  "Return unique DOIs linked from the current EWW DOM."
+  (let ((dom (plist-get eww-data :dom))
+        (case-fold-search t)
+        dois)
+    (when dom
+      (dolist (node (dom-by-tag dom 'a))
+        (let ((href (string-trim (or (dom-attr node 'href) ""))))
+          (when (string-match
+                 (concat "\\`\\(?:https?:\\)?//\\(?:dx\\.\\)?doi\\.org/"
+                         "\\([^?#]+\\)")
+                 href)
+            (let ((doi (url-unhex-string (match-string 1 href))))
+              (when (string-match-p
+                     "\\`10\\.[0-9]\\{4,9\\}/[^[:space:]]+\\'" doi)
+                (push doi dois)))))))
+    (delete-dups (nreverse dois))))
+
+(defun my-eww-add-doi-to-bib ()
+  (interactive)
+  (let ((canidates (my--eww-doi-candidates)))
+    (unless canidates
+      (user-error "No DOI found on current page"))
+    (let ((doi (completing-read "Article DOI: " canidates nil t)))
+      (doi-utils-add-bibtex-entry-from-doi doi))))
 
 (defun my-eww-heading-face-p (face)
   "Return non-nil if FACE includes an `shr' heading face."
