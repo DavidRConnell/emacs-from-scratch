@@ -34,7 +34,12 @@
 (setq eww-readable-urls '(".*"))
 
 (require 'eww)
+
+(require 'pixel-scroll)
 (require 'cl-lib)
+(require 'dom)
+(require 'subr-x)
+(require 'url-util)
 
 (setq browse-url-browser-function 'eww-browse-url)
 (setq shr-use-fonts nil
@@ -54,9 +59,19 @@
   "C-j" 'eww-next-url
   "C-k" 'eww-previous-url)
 
-(require 'dom)
-(require 'subr-x)
-(require 'url-util)
+(general-nmmap
+  :keymaps 'override
+  :predicat '(derived-mode-p 'eww-mode)
+  "J" 'my-eww-scroll-line-down
+  "K" 'my-eww-scroll-line-up)
+
+(defun my-eww-scroll-line-down ()
+  (interactive)
+  (pixel-scroll-precision-scroll-down (frame-char-height)))
+
+(defun my-eww-scroll-line-up ()
+  (interactive)
+  (pixel-scroll-precision-scroll-up (frame-char-height)))
 
 (defun my--eww-doi-candidates ()
   "Return unique DOIs linked from the current EWW DOM."
