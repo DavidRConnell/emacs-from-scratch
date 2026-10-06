@@ -58,7 +58,7 @@
 	   (format "modes/my-%s-mode" mode)))
 
 ;; Apps
-(dolist (app '(pass rss eww))
+(dolist (app '(pass rss eww chat))
   (require (intern (format "my-%s" app))
 	   (format "apps/my-%s" app)))
 

@@ -27,62 +27,68 @@
 
 ;;; Code:
 
-(use-package ellama
-  :general
-  (my-leader-def
-    "a" #'ellama-transient-main-menu)
-  :config
-  (require 'llm-ollama)
-  (setopt ellama-coding-provider
-	  (make-llm-ollama
-	   :chat-model "qwen2.5-coder:14b"
-	   :embedding-model "nomic-embed-text"
-	   :default-chat-non-standard-params '(("num_ctx" . 32768))))
-  (setq ellama-provider "qwen2.5:14b"))
+(require 'my-ui)
+(require 'my-keybindings)
 
-(use-package gptel
-  :disabled
-  :general
-  (my-leader-def
-    :infix "a"
-    "s" #'gptel-menu
-    "c" #'gptel
-    "p" #'gptel-system-prompt)
-  :config
-  (require 'gptel-ollama)
+(setq gptel-default-mode 'org-mode
+      gptel-org-branching-context t
+      gptel-use-header-line nil)
+
+(autoload 'gptel-menu "gptel-transient")
+(autoload 'gptel "gptel")
+(autoload 'gptel-system-prompt "gptel")
+
+(defvar my-chat-map (make-sparse-keymap))
+
+(my-leader-def
+  "a" '(:keymap my-chat-map :which-key "chat"))
+
+(defun my-gptel-scratch ()
+  (interactive)
+  (let* ((project (project-name (project-current)))
+	 (scratch-buffer-name (format "*GPTel %s scratch*" project)))
+    (with-current-buffer (get-buffer-create scratch-buffer-name)
+      (org-mode)
+      (when (equal 0 (buffer-size))
+	(insert (format "* Scratch\n%s"
+			(alist-get 'org-mode gptel-prompt-prefix-alist)))
+	(gptel-org-set-properties 0 nil)))
+    (gptel scratch-buffer-name nil nil t)))
+
+(defun my-gptel-open-workspace ()
+  (interactive)
+  (let* ((ws-dir (expand-file-name "chatgpt" "~/notes"))
+	 (ws (completing-read "File: "
+			      (directory-files ws-dir
+					       nil
+					       (rx ".org" eos)))))
+    (gptel (find-file (expand-file-name ws ws-dir)))))
+
+(general-def
+  :keymaps 'my-chat-map
+  "s" 'gptel-menu
+  "c" 'my-gptel-scratch
+  "p" 'gptel-system-prompt
+  "w" (lambda () (interactive) (my-gptel-open-workspace)
+	(popper-lower-to-popup))
+  "W" 'my-gptel-open-workspace)
+
+(with-eval-after-load 'gptel
   (require 'gptel-org)
+  (require 'gptel-openai-oauth)
   (require 'gptel-context)
-  (require 'gptel-curl)
-  (setq gptel-model 'qwen2.5:14b
-	gptel-backend (gptel-make-ollama "Ollama"
-					 :host "localhost:11434"
-					 :stream t
-					 :models '(qwen2.5:14b
-						   phi4:latest
-						   qwen2.5-coder:14b
-						   starcoder2:15b
-						   codellama:13b))))
 
-(use-package ement
-  :disabled
-  :general
-  (my-leader-def
-    :infix "c"
-    "c" #'ement-connect
-    "C" #'ement-disconnect
-    "l" #'ement-list-rooms
-    "v" #'ement-view-room
-    "j" #'ement-join-room)
-  :config
-  (my-local-leader-def
-    :keymaps 'ement-room-mode-map
-    "/" #'ement-room-occur
-    "e" #'ement-room-edit-message
-    "f" #'ement-room-send-file
-    "i" #'ement-room-send-image
-    "l" #'ement-leave-room
-    "m" #'ement-list-members
-    "r" #'ement-room-retro))
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@User: ")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@Assistant: ")
+
+  (my-popper-add-reference "\\*GPTel .*\\*")
+
+  (customize-set-variable 'gptel-model 'gpt-6-astra)
+  (customize-set-variable 'gptel-backend
+			  (gptel-make-openai-oauth "OpenAI"
+			    :stream t
+			    :models '(gpt-6-astra
+				      gpt-5.6-sol))))
 
 (provide 'my-chat)
 ;;; my-chat.el ends here
