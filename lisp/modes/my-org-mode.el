@@ -171,13 +171,11 @@
   "c" 'org-cliplink)
 
 (setq org-appear-trigger 'always
-      org-appear-autoentities t
-      org-appear-autoemphasis t)
+      org-appear-autoemphasis t
+      org-appear-autolinks t)
 
 (require 'org-appear)
 (add-hook 'org-mode-hook #'org-appear-mode)
-;; (add-hook 'evil-insert-state-entry-hook #'org-appear-manual-start)
-;; (add-hook 'evil-insert-state-exit-hook #'org-appear-manual-stop)
 
 (autoload 'org-pomodoro "org-pomodoro")
 (my-local-leader-def

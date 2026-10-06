@@ -100,7 +100,7 @@
 (setq popper-reference-buffers
       '(helpful-mode
 	"\\*Messages\\*"
-	"Output\\*$"
+	"Output.*$"
 	"\\*Async Shell Command\\*"
 	(my-popper-shell-output-empty-p . hide)
 	"\\*Backtrace\\*"

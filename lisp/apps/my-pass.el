@@ -27,8 +27,6 @@
 
 ;;; Code:
 
-(require 'my-variables)
-
 (setq auth-source-pass-filename (expand-file-name "password-store"
 						  (getenv "XDG_DATA_HOME")))
 
