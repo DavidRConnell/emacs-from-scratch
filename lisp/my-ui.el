@@ -412,11 +412,11 @@
 (setq hl-todo-highlight-punctuation ":")
 (setq hl-todo-keyword-faces
       '(("TODO"       nano-face-header-default bold)
-	("FIXME"      next-error bold)
+	("FIXME"      modus-themes-intense-red bold)
 	("HACK"       font-lock-constant-face bold)
-	("REVIEW"     hydra-face-red bold)
+	("REVIEW"     modus-themes-fg-red bold)
 	("NOTE"       success bold)
-	("WARNING"    hydra-face-red bold)
+	("WARNING"    modus-themes-fg-red bold)
 	("DEPRECATED" font-lock-doc-face bold)
 	("TEMP"       modus-themes-prominent-warning bold)))
 
