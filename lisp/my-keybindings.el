@@ -76,11 +76,30 @@
 
 (general-nmvmap
   :keymaps 'override
-  "J" 'evil-scroll-line-down
-  "K" 'evil-scroll-line-up
   "H" 'evil-beginning-of-visual-line
   "L" 'evil-end-of-line-or-visual-line
   "M" 'evil-goto-mark)
+
+(require 'pixel-scroll)
+
+(defun my-pixel-scroll-line-down ()
+  "Replacement for `evil-scroll-line-down' to handle images better."
+  (interactive)
+  (pixel-scroll-precision-scroll-down (frame-char-height)))
+
+(defun my-pixel-scroll-line-up ()
+  "Replacement for `evil-scroll-line-up' to handle images better."
+  (interactive)
+  (pixel-scroll-precision-scroll-up (frame-char-height)))
+
+(general-nmvmap
+  :keymaps 'override
+  "J" (general-predicate-dispatch 'evil-scroll-line-down
+        (derived-mode-p 'eww-mode 'elfeed-show-mode)
+        'my-pixel-scroll-line-down)
+  "K" (general-predicate-dispatch 'evil-scroll-line-up
+        (derived-mode-p 'eww-mode 'elfeed-show-mode)
+        'my-pixel-scroll-line-up))
 
 (general-imap
   "C-u" 'evil-delete-back-to-indentation
