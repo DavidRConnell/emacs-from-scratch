@@ -31,7 +31,7 @@
 (require 'my-keybindings)
 
 (setq gptel-default-mode 'org-mode
-      gptel-org-branching-context t
+      gptel-org-branching-context nil
       gptel-use-header-line nil)
 
 (autoload 'gptel-menu "gptel-transient")
@@ -45,6 +45,8 @@
 
 (defun my-gptel-scratch ()
   (interactive)
+
+  (require 'gptel)
   (let* ((project (project-name (project-current)))
 	 (scratch-buffer-name (format "*GPTel %s scratch*" project)))
     (with-current-buffer (get-buffer-create scratch-buffer-name)
@@ -78,17 +80,17 @@
   (require 'gptel-openai-oauth)
   (require 'gptel-context)
 
-  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@User: ")
-  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@Assistant: ")
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "** ")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "** ")
 
   (my-popper-add-reference "\\*GPTel .*\\*")
 
-  (customize-set-variable 'gptel-model 'gpt-6-astra)
+  (customize-set-variable 'gptel-model 'gpt-6.1-sol)
   (customize-set-variable 'gptel-backend
 			  (gptel-make-openai-oauth "OpenAI"
 			    :stream t
-			    :models '(gpt-6-astra
-				      gpt-5.6-sol))))
+			    :models '(gpt-6.1-sol
+				      gpt-6-astra))))
 
 (provide 'my-chat)
 ;;; my-chat.el ends here
