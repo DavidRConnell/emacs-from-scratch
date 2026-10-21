@@ -69,11 +69,8 @@ Prevents `flymake-proselint' from showing errors in note files."
 			       (cape-capf-super #'cape-dabbrev
 						#'ispell-completion-at-point))))))
 
-(straight-use-package
- '(sdcv-mode :type git :host github :repo "gucong/emacs-sdcv"))
-
-(autoload 'sdcv-search "sdcv" nil t)
-(autoload 'sdcv-search-input "sdcv" nil t)
+(autoload 'quick-sdcv-search-at-point "quick-sdcv" nil t)
+(autoload 'quick-sdcv-search-input "quick-sdcv" nil t)
 (autoload 'wiki-summary "wiki-summary" nil t)
 (autoload 'wordnut-search "wordnut" nil t)
 
@@ -82,15 +79,16 @@ Prevents `flymake-proselint' from showing errors in note files."
 
 (general-def
   :keymaps 'my-dictionary-map
-  "d" 'sdcv-search-input
+  "d" 'quick-sdcv-search-input
   "k" 'wiki-summary
   "w" 'wordnut-search)
 
-(with-eval-after-load 'sdcv
+(with-eval-after-load 'quick-sdcv
   (general-nmap
-    :keymaps 'sdcv-mode-map
+    :keymaps 'quick-sdcv-mode-map
+    [return] 'quick-sdcv-search-at-point
     "q" 'evil-delete-buffer
-    "C-SPC" 'sdcv-toggle-entry))
+    "C-SPC" 'outline-toggle-children))
 
 (with-eval-after-load 'wordnut
   (general-nmap

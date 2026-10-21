@@ -356,7 +356,7 @@
   (defun my-avy-action-define (pt)
     (save-excursion
       (goto-char pt)
-      (sdcv-search (thing-at-point 'word)))
+      (quick-sdcv-search-input (thing-at-point 'word)))
     (select-window
      (cdr (ring-ref avy-ring 0)))
     t)
