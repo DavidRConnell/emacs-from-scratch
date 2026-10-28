@@ -113,11 +113,11 @@
 
   (defun my-org-roam-citation-finder ()
     "Return the citation keys for the currently visited org-roam reference note."
-    (when-let (property (and (eq major-mode 'org-mode)
-			     (car (org-property-values "ROAM_REFS"))))
-      (if (string-match org-element-citation-key-re property)
-	  (let ((key (match-string 1 property)))
-	    (cons 'citar-key key)))))
+    (when-let* ((property
+		 (and (eq major-mode 'org-mode)
+		      (car (org-property-values "ROAM_REFS")))))
+      (when (string-match org-element-citation-key-re property)
+	(cons 'citar-key (match-string 1 property)))))
 
   (with-eval-after-load 'embark
     (require 'citar-embark)

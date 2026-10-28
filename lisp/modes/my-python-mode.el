@@ -168,10 +168,10 @@ calling window."
       name)))
 
 (defun my-python-method-p (node)
-  (when-let ((class-node
-	      (treesit-parent-until node (lambda (item)
-					   (string= (treesit-node-type item)
-						    "class_definition")))))
+  (when-let* ((class-node
+	       (treesit-parent-until node (lambda (item)
+					    (string= (treesit-node-type item)
+						     "class_definition")))))
     (treesit-node-text (treesit-node-child-by-field-name class-node "name"))))
 
 (defun my-python-method-name (node)
