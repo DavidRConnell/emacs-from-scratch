@@ -146,9 +146,9 @@
    (gnuplot . t)))
 
 (with-eval-after-load 'evil
-  (customize-set-variable 'evil-org-retain-visual-state-on-shift t)
-  (customize-set-variable 'evil-org-special-o/O '(table-row))
-  (customize-set-variable 'evil-org-use-additional-insert t)
+  (setq evil-org-retain-visual-state-on-shift t)
+  (setq evil-org-special-o/O '(table-row))
+  (setq evil-org-use-additional-insert t)
 
   (require 'evil-org)
   (require 'org-tweaks)
@@ -182,15 +182,15 @@
   :keymaps 'org-mode-map
   "c" 'org-pomodoro)
 
+(setq org-export-with-sub-superscripts '{})
+(setq org-export-in-background nil)
+(setq org-odt-preferred-output-format "odt")
+
 (autoload 'org-export-dispatch "ox" nil t)
 (with-eval-after-load 'ox
   (require 'ox-pandoc)
   (require 'ox-latex)
   (require 'ox-html)
-
-  (customize-set-variable 'org-export-with-sub-superscripts '{})
-  (customize-set-variable 'org-export-in-background nil)
-  (customize-set-variable 'org-odt-preferred-output-format "odt")
 
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines))
