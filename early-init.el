@@ -77,7 +77,8 @@
 
 ;; Vertical window divider
 (setq window-divider-default-right-width 24
-      window-divider-default-places 'right-only)
+      window-divider-default-bottom-width 1
+      window-divider-default-places t)
 (window-divider-mode 1)
 
 (setq package-enable-at-startup nil)
