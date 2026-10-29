@@ -32,6 +32,7 @@
 (require 'my-keybindings)
 (require 'my-ui)
 
+(add-to-list 'auto-mode-alist '("\\.R\\'" . ess-r-mode))
 (autoload 'ess-r-mode "ess-r-mode")
 
 ;; In case I ever use another ess mode.
