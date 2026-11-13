@@ -412,13 +412,13 @@
 (setq hl-todo-highlight-punctuation ":")
 (setq hl-todo-keyword-faces
       '(("TODO"       nano-face-header-default bold)
-	("FIXME"      modus-themes-intense-red bold)
+	("FIXME"      font-lock-negation-char-face bold)
 	("HACK"       font-lock-constant-face bold)
-	("REVIEW"     modus-themes-fg-red bold)
+	("REVIEW"     font-lock-negation-char-face bold)
 	("NOTE"       success bold)
-	("WARNING"    modus-themes-fg-red bold)
+	("WARNING"    font-lock-regexp-grouping-backslash bold)
 	("DEPRECATED" font-lock-doc-face bold)
-	("TEMP"       modus-themes-prominent-warning bold)))
+	("TEMP"       font-lock-warning-face bold)))
 
 (setq my-todo-keywords (mapcar (lambda (x) (car x)) hl-todo-keyword-faces))
 
